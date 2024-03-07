@@ -1,0 +1,159 @@
+﻿<Page
+    x:Class="Ferdin_TB_Hub.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Ferdin_TB_Hub"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    >
+
+    <Page.Resources>
+            <Style x:Key="AccentButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonRevealStyle}">
+                <!-- Additional properties for your button style -->
+                <Setter Property="Background" Value="ForestGreen"/>
+                <Setter Property="CornerRadius" Value="10"/>
+                <!-- Other setters for properties like Foreground, BorderBrush, etc. -->
+            </Style>
+        </Page.Resources>
+
+
+
+
+        <Page.Background>
+            <ThemeResource ResourceKey="SystemControlAcrylicWindowMediumHighBrush"/>
+        </Page.Background>
+
+        <Grid>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="400" />
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <RelativePanel Grid.Column="0" Background="DeepSkyBlue">
+
+
+                <TextBlock Text="FERDIN" FontSize="100" 
+                       MaxHeight="200" 
+                       RelativePanel.AlignBottomWithPanel="True" 
+                       RelativePanel.AlignVerticalCenterWithPanel="True"/>
+
+            </RelativePanel>
+            <ScrollViewer Grid.Column="1"
+                      FontFamily="Selawik"
+                      Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}" 
+                      Foreground="DeepSkyBlue" ViewChanged="ScrollViewer_ViewChanged">
+
+
+                <StackPanel>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+
+
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0"
+                               FontSize="35"
+                               Text="WELCOME USER!"
+                               Margin="50"                              
+                               FontWeight="Bold"/>
+                        <TextBlock Grid.Row="1"
+                                Text="username or email"
+                                FontSize="25"
+                                Margin="50,0,0,0"/>
+                        <TextBox Grid.Row="2"                           
+                                FontSize="25"
+                             Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}"
+                               Margin="50,0,50,0"
+                             BorderThickness="0,0,0,3"
+                              CornerRadius="5"
+                             BorderBrush="SkyBlue"
+                            />
+                        <TextBlock Grid.Row="3"
+                                 Text="password"
+                                 FontSize="25"
+                                Margin="50,0,0,0"/>
+
+                        <PasswordBox Grid.Row="4"
+                                 Name="RevealPassMode"
+                                 AutomationProperties.Name="Sample password box"
+                                 PasswordRevealMode="Hidden"                                 
+                                 FontSize="25"
+                                 Margin="50,0,50,20"
+                                 BorderThickness="0,0,0,3"
+                                 Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}"
+                                 CornerRadius="5"
+                                BorderBrush="SkyBlue"
+                               />
+
+                        <Button Grid.Row="5"
+                            Click="GoToHomePage"
+                            Style="{StaticResource AccentButtonStyle}"
+                            Margin="50,0,0,0"
+                            Content="Login"
+                            FontSize="21"
+                            Foreground="White"
+                            Background="Purple"
+                            CornerRadius="5"
+                            Padding="15,5,15,5"                        
+                            />
+
+                        <CheckBox Name="RevealPassCheck"
+                               Grid.Row="5"
+                              Content="Show Password" 
+                              Margin="183,0,0,5" 
+                              IsChecked="False"
+                              Checked="RevealModeCheckbox_Changed"
+                              Unchecked="RevealModeCheckbox_Changed" VerticalAlignment="Bottom"
+                              
+                              />
+
+                        <RadioButton Grid.Row="6" 
+                                 Margin="50,30,0,0"
+                                 Content="BUYER"/>
+
+                        <RadioButton Grid.Row="6" 
+                        Margin="183,30,0,0"
+                        Content="SELLER"/>
+
+                        <TextBlock Grid.Row="9"
+                               Text="New User?" Margin="51,23,-55,387"
+                               FontSize="25"/>
+
+                        <HyperlinkButton Grid.Row="9" 
+                                     Click="GoToCreateAccount"
+                                     Content="Create Account Here" 
+                                     Margin="51,53,0,0" 
+                                     FontSize="15"
+                                     VerticalAlignment="Top"/>
+
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+
+        <FlipView x:Name="MainPage_FlipView" Grid.Column="2" MaxWidth="700" Height="670"/>
+
+
+
+
+
+
+    </Grid>
+
+
+
+
+
+    </Page>
+

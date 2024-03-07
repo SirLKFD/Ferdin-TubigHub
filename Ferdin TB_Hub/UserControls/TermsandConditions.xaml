@@ -1,0 +1,53 @@
+﻿<UserControl
+    x:Class="Ferdin_TB_Hub.UserControls.TermsandConditions"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Ferdin_TB_Hub.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="1500"
+    d:DesignWidth="1000">
+
+    <Grid>
+
+        <ScrollViewer
+FontFamily="Selawik"
+Foreground="DeepSkyBlue" Margin="0,0,-298,0">
+
+            <StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+
+
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+         FontSize="23"
+         Text="TERMS AND CONDITIONS"
+         Margin="50"                              
+         FontWeight="Bold"/>
+
+
+                    <ScrollViewer Grid.Row="2" Margin="0,0,66,0">
+                        <RichTextBlock x:Name="TermsAndConditions" Grid.Row="2" Margin="60,0,51,-120" Grid.RowSpan="4" Height="1316" Width="606">
+                           
+                        </RichTextBlock>
+
+                    </ScrollViewer>
+
+
+                </Grid>
+
+
+            </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
+</UserControl>
