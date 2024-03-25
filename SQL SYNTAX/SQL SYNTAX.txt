@@ -1,0 +1,36 @@
+// INSERTING DATA TO ROW
+
+INSERT INTO buyer
+/*VALUES(1, "lordkentdinampo@gmail.com", "lkfd2002", "Dinampo", "Lord Kent", "Fernandez", "12345ABCD", 09167070600, "LABANGON", "CEBU CITY", "GCASH");*/
+
+VALUES(2, "johnlaurence@gmail.com", "sison1234", "Sison", "John Laurnce", "G", "A54321", 0916701234, "MINGLA", "CEBU CITY", "GCASH");
+
+      
+SELECT * FROM buyer
+
+//UPDATING DATA TO A SPECIFIC MEMBER
+
+UPDATE buyer
+(IF CHAR) SET firstname = "Lord Kent"
+WHERE id = 1;
+
+(IF INT) SET phonenumber = 12345
+WHERE ID = 1;
+
+
+SELECT * FROM buyer;
+
+//DELETE
+
+(DELETING ENTIRE TABLE) WARNING!!! 
+DELETE FROM buyer
+
+(DELETING SPECIFIC ROW)
+DELETE FROM buyer 
+WHERE id = 2;
+
+SELECT * FROM buyer;
+
+// PRIMARY KEY (FOR NOT DUPLICATION OF ID)
+
+ALTER TABLE buyer MODIFY COLUMN id INT PRIMARY KEY;

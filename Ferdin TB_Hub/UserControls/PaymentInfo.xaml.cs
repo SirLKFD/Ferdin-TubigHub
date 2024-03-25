@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ferdin_TB_Hub.Classes;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -71,23 +72,13 @@ namespace Ferdin_TB_Hub.UserControls
         private void gcash_NUMERIC(object sender, KeyRoutedEventArgs e)
         {
             // Check if the pressed key is a numeric key (0-9) or a control key
-            bool isNumeric = (e.Key >= VirtualKey.Number0 && e.Key <= VirtualKey.Number9) ||
-                             (e.Key >= VirtualKey.NumberPad0 && e.Key <= VirtualKey.NumberPad9) ||
-                             e.Key == VirtualKey.Back || e.Key == VirtualKey.Delete || e.Key == VirtualKey.Left || e.Key == VirtualKey.Right;
-
-            // Set e.Handled to true if the pressed key is not numeric or a control key
-            e.Handled = !isNumeric;
+            Buttons.HandleNumericInput(e);
         }
 
         private void card_NUMERIC(object sender, KeyRoutedEventArgs e)
         {
             // Check if the pressed key is a numeric key (0-9) or a control key
-            bool isNumeric = (e.Key >= VirtualKey.Number0 && e.Key <= VirtualKey.Number9) ||
-                             (e.Key >= VirtualKey.NumberPad0 && e.Key <= VirtualKey.NumberPad9) ||
-                             e.Key == VirtualKey.Back || e.Key == VirtualKey.Delete || e.Key == VirtualKey.Left || e.Key == VirtualKey.Right;
-
-            // Set e.Handled to true if the pressed key is not numeric or a control key
-            e.Handled = !isNumeric;
+            Buttons.HandleNumericInput(e);
         }
 
     }

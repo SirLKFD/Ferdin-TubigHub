@@ -31,6 +31,7 @@
                 <ColumnDefinition Width="400" />
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            
             <RelativePanel Grid.Column="0" Background="DeepSkyBlue">
 
 
@@ -40,6 +41,7 @@
                        RelativePanel.AlignVerticalCenterWithPanel="True"/>
 
             </RelativePanel>
+            
             <ScrollViewer Grid.Column="1"
                       FontFamily="Selawik"
                       Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}" 
@@ -72,7 +74,8 @@
                                 Text="username or email"
                                 FontSize="25"
                                 Margin="50,0,0,0"/>
-                        <TextBox Grid.Row="2"                           
+                        <TextBox Grid.Row="2"
+                                x:Name="tbxUsernameorEmail"
                                 FontSize="25"
                              Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}"
                                Margin="50,0,50,0"
@@ -86,7 +89,7 @@
                                 Margin="50,0,0,0"/>
 
                         <PasswordBox Grid.Row="4"
-                                 Name="RevealPassMode"
+                                 x:Name="RevealPassMode"
                                  AutomationProperties.Name="Sample password box"
                                  PasswordRevealMode="Hidden"                                 
                                  FontSize="25"
@@ -98,6 +101,7 @@
                                />
 
                         <Button Grid.Row="5"
+                            Name="LoginButton"
                             Click="GoToHomePage"
                             Style="{StaticResource AccentButtonStyle}"
                             Margin="50,0,0,0"
@@ -119,11 +123,13 @@
                               
                               />
 
-                        <RadioButton Grid.Row="6" 
+                        <RadioButton Name="rbnBuyer"
+                            Grid.Row="6" 
                                  Margin="50,30,0,0"
                                  Content="BUYER"/>
 
                         <RadioButton Grid.Row="6" 
+                        Name="rbnSeller"
                         Margin="183,30,0,0"
                         Content="SELLER"/>
 

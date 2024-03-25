@@ -25,9 +25,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="400" />
-            <ColumnDefinition Width="400" />
             <ColumnDefinition Width="700" />
-            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <RelativePanel Grid.Column="0" Background="DeepSkyBlue"/>
         <ScrollViewer Grid.Column="1"
@@ -103,13 +101,28 @@
                           CornerRadius="5"
                          BorderBrush="SkyBlue"/>
 
-
                     <TextBlock Grid.Row="3"
+        Text="Username"
+        FontSize="25"
+        Margin="50,0,0,0"/>
+
+
+                    <TextBox Grid.Row="4"
+         x:Name="tbxUsername"
+        FontSize="25"
+    Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}"
+       Margin="50,0,50,0"
+     BorderThickness="0,0,0,3"
+      CornerRadius="5"
+     BorderBrush="SkyBlue"/>
+
+
+                    <TextBlock Grid.Row="5"
                              Text="Email"
                              FontSize="25"
                             Margin="50,0,0,0"/>
 
-                    <TextBox Grid.Row="4"
+                    <TextBox Grid.Row="6"
                          x:Name="tbxEmail"
                          FontSize="25"
                       Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}"
@@ -119,12 +132,12 @@
                     BorderBrush="SkyBlue"/>
 
 
-                    <TextBlock Grid.Row="5"
+                    <TextBlock Grid.Row="7"
                             Text="Last Name"
                             FontSize="25"
                             Margin="50,0,0,0"/>
 
-                    <TextBox Grid.Row="6"
+                    <TextBox Grid.Row="8"
                          x:Name="tbxLastName"
                          FontSize="25"
                         Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}"
@@ -134,11 +147,12 @@
                         BorderBrush="SkyBlue"/>
 
 
-                    <TextBlock Grid.Row="7"
+                    <TextBlock Grid.Row="9"
                             Text="First Name"
                              FontSize="25"
                             Margin="50,0,0,0"/>
-                    <TextBox Grid.Row="8"
+
+                    <TextBox Grid.Row="10"
                         x:Name="tbxFirstName"     
                         FontSize="25"
                           Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}"
@@ -147,12 +161,12 @@
                         CornerRadius="5"
                          BorderBrush="SkyBlue"/>
 
-                    <TextBlock Grid.Row="9"
+                    <TextBlock Grid.Row="11"
                       Text="Middle Name"
                      FontSize="25"
                     Margin="50,0,0,0"/>
 
-                    <TextBox Grid.Row="10"
+                    <TextBox Grid.Row="12"
                      x:Name="tbxMiddleName"     
                      FontSize="25"
                        Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}"
@@ -162,12 +176,12 @@
                                          BorderBrush="SkyBlue"/>
 
 
-                    <TextBlock Grid.Row="11"
+                    <TextBlock Grid.Row="13"
                           Text="Password"
                           FontSize="25"
                           Margin="50,0,0,0"/>
 
-                    <PasswordBox Grid.Row="12"
+                    <PasswordBox Grid.Row="14"
                              x:Name="RevealPassMode"
                              AutomationProperties.Name="Sample password box"
                              PasswordRevealMode="Hidden"                                 
@@ -176,23 +190,25 @@
                              BorderThickness="0,0,0,3"
                               Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}"
                              CornerRadius="5"
-                                               BorderBrush="SkyBlue"/>
+                             BorderBrush="SkyBlue"/>
 
 
                     <CheckBox x:Name="RevealPassCheck"
-                    Grid.Row="12"
+                    Grid.Row="14"
                      Margin="362,5,0,0" 
                      IsChecked="False"
                      Checked="RevealModeCheckbox_Changed"
                      Unchecked="RevealModeCheckbox_Changed" VerticalAlignment="Top" Width="74"/>
 
-                    <TextBlock Grid.Row="13"
+                    <TextBlock Grid.Row="16"
                     Text="Phone Number"
                      FontSize="25"
                      Margin="50,0,0,0"/>
 
-                    <TextBox Grid.Row="14"
-                      x:Name="tbxPhoneNumber"     
+                    <TextBox Grid.Row="17"
+                      x:Name="tbxPhoneNumber"  
+                      PreviewKeyDown='Phone_Numeric'
+                      MaxLength="11"
                         FontSize="25"
                           Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}"
                         Margin="50,0,50,0"
@@ -201,12 +217,12 @@
                                             BorderBrush="SkyBlue"/>
 
 
-                    <TextBlock Grid.Row="15"
+                    <TextBlock Grid.Row="18"
                     Text="Address line 1"
                      FontSize="25"
                     Margin="50,0,0,0"/>
 
-                    <TextBox Grid.Row="16"
+                    <TextBox Grid.Row="19"
                      x:Name="tbxAddressLine1"     
                      FontSize="25"
                      Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}"
@@ -216,12 +232,12 @@
                                     BorderBrush="SkyBlue"/>
 
 
-                    <TextBlock Grid.Row="17"
+                    <TextBlock Grid.Row="20"
                     Text="Address line 2"
                     FontSize="25"
                     Margin="50,0,0,0"/>
 
-                    <TextBox Grid.Row="18"
+                    <TextBox Grid.Row="21"
                     x:Name="tbxAddressLine2"     
                     FontSize="25"
                       Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}"
@@ -241,65 +257,43 @@
 
         <ScrollViewer Grid.Column="2"
        FontFamily="Selawik"
-       Foreground="DeepSkyBlue">
-
-            <StackPanel>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-
-                </Grid>
-                <Custom:PaymentInfo Grid.Row="0"/>
+       Foreground="DeepSkyBlue" Margin="0,0,10,328">
 
 
-            </StackPanel>
+                <StackPanel>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                    </Grid>
+                    <Custom:TermsandConditions Width="785" Height="674"/>
+
+                </StackPanel>
 
 
-        </ScrollViewer>
-
-        <ScrollViewer HorizontalScrollMode="Enabled" Grid.Column="3"
-   FontFamily="Selawik"
-   Foreground="DeepSkyBlue">
-
-            <StackPanel>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-
-                </Grid>
-                <Custom:TermsandConditions Width="785" Height="674" Margin="-25,60,0,0"/>
-
-
-            </StackPanel>
-
+         
 
         </ScrollViewer>
 
-        <Custom:PaymentInfo Margin="0,0,0,209" Grid.Column="2"/>
-        <RadioButton Grid.Column="3" Content="I Accept" Margin="271,759,0,0" VerticalAlignment="Top"/>
-        <Button Grid.Column="3"
-      Style="{StaticResource AccentButtonStyle}"
-      Margin="258,796,0,0"
-      Content="Proceed"
-      FontSize="21"
-      Foreground="White"
-      Background="Purple"
-      CornerRadius="5"
-      Padding="15,5,15,5" VerticalAlignment="Top"                        
-      />
+        <RadioButton x:Name="acceptRadioButton" Grid.Column="2" Content="I Accept" Margin="269,724,0,0" VerticalAlignment="Top"/>
 
-
-
+        <Button Grid.Column="2"
+                Style="{StaticResource AccentButtonStyle}"
+                Margin="260,767,0,0"
+                Content="Proceed"
+                FontSize="21"
+                Foreground="White"
+                Background="Purple"
+                CornerRadius="5"
+                Padding="15,5,15,5"
+                VerticalAlignment="Top"
+                Click="Proceed_Click"
+                IsEnabled="{Binding IsChecked, ElementName=acceptRadioButton}"
+            />
 
     </Grid>
-
 </Page>
-

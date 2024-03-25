@@ -7,14 +7,14 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="2c62fd2f-9e5c-4c0b-9789-aefe03a0db36"
+    Name="Ferdin"
     Publisher="CN=LKFD"
     Version="0.1.1.0" />
 
   <mp:PhoneIdentity PhoneProductId="2c62fd2f-9e5c-4c0b-9789-aefe03a0db36" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Ferdin_TB_Hub</DisplayName>
+    <DisplayName>Ferdin</DisplayName>
     <PublisherDisplayName>LKFD</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>

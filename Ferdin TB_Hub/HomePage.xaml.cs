@@ -24,6 +24,7 @@ namespace Ferdin_TB_Hub
     /// </summary>
     public sealed partial class HomePage : Page
     {
+        private List<Page> pageInstances = new List<Page>();
         public HomePage()
         {
             this.InitializeComponent();
@@ -31,7 +32,7 @@ namespace Ferdin_TB_Hub
 
         private void NavigationView_Loaded(object sender, RoutedEventArgs e)
         {
-            contentFrame.Navigate(typeof(Locate));
+            contentFrame.Navigate(typeof(Home));
         }
 
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -42,10 +43,50 @@ namespace Ferdin_TB_Hub
             {
                 case "Locate":
                     contentFrame.Navigate(typeof(Locate));
-                    break;          
+                    break;
+                case "Account":
+                    contentFrame.Navigate(typeof(AccountBuyer));
+                    break;
+                case "Home":
+                    contentFrame.Navigate(typeof(Home));
+                    break;
+                case "Browse":
+                    contentFrame.Navigate(typeof(BrowseWater));
+                    break;
+                case "Cart":
+                    contentFrame.Navigate(typeof(Cart));
+                    break;
 
             }
         }
+        private void GoingBack(NavigationView sender, NavigationViewBackRequestedEventArgs args)
+        {
+            if (pageInstances.Count > 1)
+            {
+                // Navigate to the previous instance of the page
+                Frame.Navigate(pageInstances[pageInstances.Count - 2].GetType());
+            }
+            else
+            {
+                // Navigate to a different page or handle as needed when there's only one instance
+                Frame.Navigate(typeof(HomePage));
+            }
+        }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            // Add the current instance of the page to the collection
+            pageInstances.Add(this);
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+
+            // Remove the current instance of the page from the collection
+            pageInstances.Remove(this);
+        }
     }
 }

@@ -62,7 +62,7 @@
                    
            Visibility="Collapsed"/>
 
-                        <TextBox x:Name="tbxBuyerGcash" Grid.Row="4" PreviewKeyDown="gcash_NUMERIC"
+         <TextBox x:Name="tbxBuyerGcash" Grid.Row="4" PreviewKeyDown="gcash_NUMERIC"
          FontSize="25"
          Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}"
          Margin="50,0,50,0"

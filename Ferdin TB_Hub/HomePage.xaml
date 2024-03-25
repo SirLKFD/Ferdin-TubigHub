@@ -20,20 +20,18 @@
 
     <Grid>
 
-
-
-
         <NavigationView IsBackEnabled="True" 
                         IsSettingsVisible="False"  
                         Loaded="NavigationView_Loaded"
-                        SelectionChanged="NavigationView_SelectionChanged">
+                        SelectionChanged="NavigationView_SelectionChanged" BackRequested="GoingBack">
 
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="Account" Tag="Account" Icon="Contact" />
                 <NavigationViewItem Icon="Home" Tag="Home" Content="Home"/>
-                <NavigationViewItem Icon="Shop" Tag="Cart" Content="Cart"/>
                 <NavigationViewItem Content="Browse Water" Tag="Browse" Icon="Library" />
+                <NavigationViewItem Icon="Shop" Tag="Cart" Content="Cart"/>
                 <NavigationViewItem Content="Locate Stores" Tag="Locate" Icon="Map" />
+                <NavigationViewItem Content="Account" Tag="Account" Icon="Contact" />
+
 
             </NavigationView.MenuItems>
 

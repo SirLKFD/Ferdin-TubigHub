@@ -1,4 +1,5 @@
-﻿using Ferdin_TB_Hub.UserControls;
+﻿using Ferdin_TB_Hub.Classes;
+using Ferdin_TB_Hub.UserControls;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -26,18 +28,12 @@ namespace Ferdin_TB_Hub.NewAccount
         public CreateBuyer()
         {
             this.InitializeComponent();
+           
         }
 
         private void RevealModeCheckbox_Changed(object sender, RoutedEventArgs e)
         {
-            if (RevealPassCheck.IsChecked == true)
-            {
-                RevealPassMode.PasswordRevealMode = PasswordRevealMode.Visible;
-            }
-            else
-            {
-                RevealPassMode.PasswordRevealMode = PasswordRevealMode.Hidden;
-            }
+            Buttons.TogglePasswordReveal(RevealPassMode, RevealPassCheck);
         }
 
         private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)
@@ -45,6 +41,67 @@ namespace Ferdin_TB_Hub.NewAccount
 
         }
 
-        
+        private void Proceed_Click(object sender, RoutedEventArgs e)
+        {
+            // Retrieve user inputs from the textboxes
+            string email = tbxEmail.Text;
+            string username = tbxUsername.Text;
+            string lastName = tbxLastName.Text;
+            string firstName = tbxFirstName.Text;
+            string middleName = tbxMiddleName.Text;
+            string password = RevealPassMode.Password; // Get password from PasswordBox
+            string phoneNumber = tbxPhoneNumber.Text;
+            string addressLine1 = tbxAddressLine1.Text;
+            string addressLine2 = tbxAddressLine2.Text;
+
+            // Check if any of the textboxes are empty or null
+            if (string.IsNullOrWhiteSpace(email) ||
+                string.IsNullOrWhiteSpace(username) ||
+                string.IsNullOrWhiteSpace(lastName) ||
+                string.IsNullOrWhiteSpace(firstName) ||
+                string.IsNullOrWhiteSpace(password) ||
+                string.IsNullOrWhiteSpace(phoneNumber) ||
+                string.IsNullOrWhiteSpace(addressLine1) ||
+                string.IsNullOrWhiteSpace(addressLine2))
+            {
+                // Show an error message indicating that all fields are required
+                Buttons.ShowMessage("All fields are required. Please fill in all the fields.");
+                return; // Exit the method without proceeding further
+            }
+
+            // Check if the username already exists
+            if (Database.IsBuyerAlreadyExists(username, email))
+            {
+                // Show an error message indicating that the username is already taken
+                Buttons.ShowMessage("Username or email already exists. Please choose another one.");
+                return; // Exit the method without proceeding further
+            }
+
+            // Call the method to add the buyer to the database
+            Database.AddBuyer(email, username, lastName, firstName, middleName, password, phoneNumber, addressLine1, addressLine2);
+
+            // Retrieve the list of buyers
+            List<Database.BuyerDetails> buyers = Database.GetBuyerRecords();
+
+            // Check if the newly added buyer is present in the list
+            bool isAdded = buyers.Any(buyer => buyer.Email == email);
+            if (isAdded)
+            {
+                // The buyer has been successfully added
+                Buttons.ShowMessage("Buyer details added successfully!");
+            }
+            else
+            {
+                // There was an issue adding the buyer
+                Buttons.ShowMessage("Failed to add buyer, check your fields, and please try again.");
+            }
+        }
+
+
+
+        private void Phone_Numeric(object sender, KeyRoutedEventArgs e)
+        {
+            Buttons.HandleNumericInput(e);
+        }
     }
 }

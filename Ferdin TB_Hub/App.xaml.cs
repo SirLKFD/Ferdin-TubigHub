@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ferdin_TB_Hub.Classes;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -30,6 +31,8 @@ namespace Ferdin_TB_Hub
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            Database.InitializeDB_BUYERACCOUNTS();
+            Database.InitializeDB_SELLERACCOUNTS();
         }
 
         /// <summary>

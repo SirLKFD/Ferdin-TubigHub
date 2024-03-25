@@ -19,14 +19,11 @@
     </Page.Resources>
 
 
-
-
     <Grid>
 
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="400" />
             <ColumnDefinition Width="400" />
             <ColumnDefinition Width="Auto" />
 
@@ -196,7 +193,8 @@
                         Margin="50,0,50,0"
                          BorderThickness="0,0,0,3"
                          CornerRadius="5"
-                         BorderBrush="SkyBlue"/>
+                         MaxLength="11"
+                         BorderBrush="SkyBlue" PreviewKeyDown="Phone_Numeric"/>
 
                     <TextBlock Grid.Row="15"
                     Text="Address line 1"
@@ -276,6 +274,7 @@
                     </Grid.RowDefinitions>
 
                 </Grid>
+                
                 <Custom:TermsandConditions Width="785" Height="674" Margin="-25,60,0,0"/>
 
 
@@ -287,22 +286,21 @@
 
         </ScrollViewer>
 
-        <Custom:PaymentInfo Margin="0,0,0,209" Grid.Column="2"/>
-        <RadioButton Grid.Column="3" Content="I Accept" Margin="271,759,0,0" VerticalAlignment="Top"/>
+        <RadioButton x:Name="acceptRadioButton" Grid.Column="3" Content="I Accept" Margin="271,759,0,0" VerticalAlignment="Top"/>
+
         <Button Grid.Column="3"
-      Style="{StaticResource AccentButtonStyle}"
-      Margin="258,796,0,0"
-      Content="Proceed"
-      FontSize="21"
-      Foreground="White"
-      Background="Purple"
-      CornerRadius="5"
-      Padding="15,5,15,5" VerticalAlignment="Top"                        
-      />
-
-
-
+                Style="{StaticResource AccentButtonStyle}"
+                Margin="258,796,0,0"
+                Content="Proceed"
+                FontSize="21"
+                Foreground="White"
+                Background="Purple"
+                CornerRadius="5"
+                Padding="15,5,15,5"
+                VerticalAlignment="Top"
+                Click="Proceed_Click"
+                IsEnabled="{Binding IsChecked, ElementName=acceptRadioButton}"
+            />
 
     </Grid>
-
 </Page>

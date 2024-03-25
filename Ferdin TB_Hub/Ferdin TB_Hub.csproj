@@ -25,7 +25,8 @@
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
+    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+    <AppxPackageDir>C:\Users\LKFD\Desktop\TEST\</AppxPackageDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -135,11 +136,13 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Buttons.cs" />
+    <Compile Include="Classes\Database.cs" />
     <Compile Include="HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="HomePage_NavigationView\Account.xaml.cs">
-      <DependentUpon>Account.xaml</DependentUpon>
+    <Compile Include="HomePage_NavigationView\AccountBuyer.xaml.cs">
+      <DependentUpon>AccountBuyer.xaml</DependentUpon>
     </Compile>
     <Compile Include="HomePage_NavigationView\BrowseWater.xaml.cs">
       <DependentUpon>BrowseWater.xaml</DependentUpon>
@@ -166,8 +169,23 @@
       <DependentUpon>CreateSeller.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Seller\AddProduct.xaml.cs">
+      <DependentUpon>AddProduct.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Seller\SellerAccount.xaml.cs">
+      <DependentUpon>SellerAccount.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\BuyerBoughtItems.xaml.cs">
+      <DependentUpon>BuyerBoughtItems.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\PaymentInfo.xaml.cs">
       <DependentUpon>PaymentInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Reviews.xaml.cs">
+      <DependentUpon>Reviews.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SellerProducts.xaml.cs">
+      <DependentUpon>SellerProducts.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\TermsandConditions.xaml.cs">
       <DependentUpon>TermsandConditions.xaml</DependentUpon>
@@ -184,6 +202,7 @@
     <Content Include="Assets\BadgeLogo.scale-150.png" />
     <Content Include="Assets\BadgeLogo.scale-200.png" />
     <Content Include="Assets\BadgeLogo.scale-400.png" />
+    <Content Include="Assets\Default_UserIcon.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
     <Content Include="Assets\LargeTile.scale-150.png" />
@@ -229,6 +248,9 @@
     <Content Include="Assets\Wide310x150Logo.scale-125.png" />
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <Content Include="Default UserIcon.png" />
+    <Content Include="Icons\Default UserIcon.png" />
+    <Content Include="Icons\Default_UserIcon.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -239,6 +261,9 @@
     <Content Include="TermsAndConditions.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="MainPagePhotos\WaterSample1.jpg" />
+    <Content Include="MainPagePhotos\WaterSample2.jpg" />
+    <Content Include="MainPagePhotos\WaterSample3.jpg" />
     <Content Include="WaterSample1.jpg" />
     <Content Include="WaterSample2.jpg" />
     <Content Include="WaterSample3.jpg" />
@@ -252,7 +277,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="HomePage_NavigationView\Account.xaml">
+    <Page Include="HomePage_NavigationView\AccountBuyer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -288,7 +313,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Seller\AddProduct.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Seller\SellerAccount.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\BuyerBoughtItems.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\PaymentInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Reviews.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\SellerProducts.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -298,12 +343,42 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite">
+      <Version>8.0.3</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.14</Version>
     </PackageReference>
+    <PackageReference Include="System.Data.Odbc">
+      <Version>8.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Data.OleDb">
+      <Version>8.0.0</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Classes\" />
+    <Folder Include="BuyerAccountPage\" />
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="Microsoft.VCLibs, Version=14.0">
+      <Name>Visual C++ 2015-2019 Runtime for Universal Windows Platform Apps</Name>
+    </SDKReference>
+    <SDKReference Include="Microsoft.VCLibs.120, Version=14.0">
+      <Name>Microsoft Visual C++ 2013 Runtime Package for Windows Universal</Name>
+    </SDKReference>
+    <SDKReference Include="Microsoft.VCLibs.Desktop, Version=14.0">
+      <Name>Visual C++ 2015-2019 UWP Desktop Runtime for native apps</Name>
+    </SDKReference>
+    <SDKReference Include="Microsoft.VCLibs.Desktop.110, Version=14.0">
+      <Name>Visual C++ 2012 UWP Desktop Runtime for native apps</Name>
+    </SDKReference>
+    <SDKReference Include="Microsoft.VCLibs.Desktop.120, Version=14.0">
+      <Name>Visual C++ 2013 UWP Desktop Runtime for native apps</Name>
+    </SDKReference>
+    <SDKReference Include="SQLite.UWP.2015, Version=3.38.0">
+      <Name>SQLite for Universal Windows Platform</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
