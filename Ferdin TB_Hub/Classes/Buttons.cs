@@ -45,5 +45,19 @@ namespace Ferdin_TB_Hub.Classes
             e.Handled = !isNumeric;
         }
 
+        // MESSAGE BOX VERSION 2
+
+        public static async void ShowPrompt(string message)
+        {
+            ContentDialog promptDialog = new ContentDialog
+            {
+                Title = "Attention",
+                Content = message,
+                PrimaryButtonText = "OK"
+            };
+
+            await promptDialog.ShowAsync();
+        }
+
     }
 }

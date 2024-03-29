@@ -9,20 +9,30 @@ using System.IO;
 using Microsoft.Data.Sqlite;
 using System.Security.Cryptography.X509Certificates;
 using Windows.UI.Xaml;
+using System.Net;
 
 
 namespace Ferdin_TB_Hub.Classes
 {
     public class Database
     {
+
+        // THIS IS FROM THE DATABASE.CS
+
         public Database() 
         {
             InitializeDB_BUYERACCOUNTS();
             InitializeDB_SELLERACCOUNTS();
+            InitializeDB_PRODUCTDETAILS();
+            InitializeDB_PRODUCTRECEIPT();
+            InitializeDB_STOREADDRESS_AVAILABILITY();
+            InitializeDB_CANCELDETAILS();
         }
         public class BuyerDetails
         {
             public int Id { get; set; }
+
+            public int buyerId { get; set; }    
             public string Email { get; set; }
             public string Username { get; set; }
             public string LastName { get; set; }
@@ -37,6 +47,8 @@ namespace Ferdin_TB_Hub.Classes
         public class SellerDetails
         {
             public int Id { get; set; }
+
+            public int sellerId { get; set; }
             public string BusinessName { get; set; }
             public string Email { get; set; }
             public string Username { get; set; }
@@ -49,17 +61,78 @@ namespace Ferdin_TB_Hub.Classes
             public string AddressLine2 { get; set; }
         }
 
-        public class WaterProductDetails
+
+        // THIS IS FROM THE DATABASE.CS
+
+        public class ProductDetails
         {
             public int Id { get; set; }
 
-        }
+            public int ProductId { get; set; }
+            public string ProductName { get; set; }
+            public string ProductCategory { get; set; }
+            public double ProductPrice { get; set; }
+            public string ProductDescription { get; set; }
+            public int ProductQuantity { get; set; }
+            public byte[] ProductPicture { get; set; } 
 
-        public class BuyerBoughtProductsDetails
+        }
+        public class ProductReceipt
         {
             public int Id { get; set; }
 
+            public int ReceiptId { get; set; }
+            public int OrderNumber { get; set; }
+            public string ProductName { get; set; }
+
+            public string ProductCategory { get; set; }
+
+            public double ProductPrice { get; set; }
+
+            public int ProductQuantity { get; set; }
+
+            public string AddressLine1 { get; set; }
+            public string AddressLine2 { get; set; }
+            public DateTime DatePurchased { get; set; }
+
         }
+
+        public class StoreAddress_Availability
+        {
+            public int Id { get; set; }
+
+            public int StoreId { get; set; }
+            public string AddressLine1 { get; set; }
+            public string AddressLine2 { get; set; }
+            public string ProductName { get; set; }
+            public int ProductQuantity { get; set; }
+
+        }
+
+        public class CancelledDetails
+        {
+            public int Id { get; set; }
+
+            public int CancelledId { get; set; }
+            public int OrderNumber { get; set; }
+
+            public string ProductName { get; set; }
+
+            public string ProductCategory { get; set; }
+
+            public double ProductPrice { get; set; }
+
+            public int ProductQuantity { get; set; }
+
+            public string AddressLine1 { get; set; }
+            public string AddressLine2 { get; set; }
+
+            public DateTime DateCancelled { get; set; }
+
+            public string CancelReason { get; set; }
+
+        }
+
 
         /// <summary>
         /// BUYER
@@ -536,6 +609,260 @@ namespace Ferdin_TB_Hub.Classes
                 cmdDeleteRecord.Parameters.AddWithValue("@Email", usernameOrEmail);
 
                 cmdDeleteRecord.ExecuteReader();
+                con.Close();
+            }
+        }
+
+
+        /// <summary>
+        /// PRODUCT DETAILS
+        /// </summary>
+
+        //FROM THE DATABASE.CS
+
+        //Initializing for Product Details Database
+        public async static void InitializeDB_PRODUCTDETAILS()
+        {
+            await ApplicationData.Current.LocalFolder.CreateFileAsync("MyDatabase.db", CreationCollisionOption.OpenIfExists);
+            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
+
+            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            {
+                con.Open();
+                string initCMD = @"CREATE TABLE IF NOT EXISTS ProductDetails (
+                            Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                            ProductName TEXT NOT NULL,
+                            ProductCategory TEXT,
+                            ProductPrice REAL,
+                            ProductDescription TEXT,
+                            ProductQuantity INTEGER,
+                            ProductPicture BLOB
+                          )";
+
+                SqliteCommand CMDcreateTable = new SqliteCommand(initCMD, con);
+                CMDcreateTable.ExecuteReader();
+                con.Close();
+            }
+        }
+
+
+        // Adding Product to the Database
+
+        public static void AddProduct(string productname, string productcategory,  double productprice, string productdescription, int productquantity, byte[] productpicture)
+        {
+            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
+
+
+            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            {
+                con.Open();
+                string insertCMD = @"INSERT INTO ProductDetails (ProductName, ProductCategory, ProductPrice, ProductDescription, ProductQuantity, ProductPicture) 
+                            VALUES (@ProductName, @ProductCategory, @ProductPrice, @ProductDescription, @ProductQuantity, @ProductPicture)";
+
+                SqliteCommand cmdInsertRecord = new SqliteCommand(insertCMD, con);
+                cmdInsertRecord.Parameters.AddWithValue("@ProductName", productname);
+                cmdInsertRecord.Parameters.AddWithValue("@ProductCategory", productcategory);
+                cmdInsertRecord.Parameters.AddWithValue("@ProductPrice", productprice);
+                cmdInsertRecord.Parameters.AddWithValue("@ProductDescription", productdescription);
+                cmdInsertRecord.Parameters.AddWithValue("@ProductQuantity", productquantity);
+                cmdInsertRecord.Parameters.AddWithValue("@ProductPicture", productpicture);
+
+
+                cmdInsertRecord.ExecuteReader();
+                con.Close();
+            }
+        }
+
+        // Query to Retreive Seller's product details
+        public static List<ProductDetails> GetProductDetails()
+        {
+            List<ProductDetails> productList = new List<ProductDetails>();
+
+            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
+
+            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            {
+                con.Open();
+                string selectCMD = "SELECT * FROM ProductDetails";
+
+                SqliteCommand cmdSelectRecords = new SqliteCommand(selectCMD, con);
+                SqliteDataReader reader = cmdSelectRecords.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    ProductDetails product = new ProductDetails();
+                    product.Id = reader.GetInt32(0);
+                    product.ProductName = reader.GetString(1);
+                    product.ProductCategory = reader.IsDBNull(2) ? null : reader.GetString(2);
+                    product.ProductPrice = reader.GetDouble(3);
+                    product.ProductDescription = reader.GetString(4);
+                    product.ProductQuantity = reader.GetInt32(5);
+                    product.ProductPicture = reader.IsDBNull(6) ? null : GetByteArrayFromBlob(reader, 6); // Retrieve image data as byte array
+
+
+                    productList.Add(product);
+                }
+
+                reader.Close();
+                con.Close();
+            }
+
+            return productList;
+        }
+
+        // Update Product Details Method
+        public static void UpdateProductDetailsFromDatabase(int id, string productname, string productcategory, double productprice, string productdescription, int productquantity, byte[] productpicture)
+        {
+            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
+
+            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            {
+                con.Open();
+                string updateCMD = @"UPDATE ProductDetails SET ProductName = @ProductName, ProductCategory = @ProductCategory, ProductPrice = @ProductPrice, ProductDescription = @ProductDescription, 
+                            ProductQuantity = @ProductQuantity, ProductPicture = @ProductPicture
+                            WHERE Id = @Id";
+
+                SqliteCommand cmdUpdateRecord = new SqliteCommand(updateCMD, con);
+                cmdUpdateRecord.Parameters.AddWithValue("@Id", id);
+                cmdUpdateRecord.Parameters.AddWithValue("@ProductName", productname);
+                cmdUpdateRecord.Parameters.AddWithValue("@ProductCategory", productcategory);
+                cmdUpdateRecord.Parameters.AddWithValue("@ProductPrice", productprice);
+                cmdUpdateRecord.Parameters.AddWithValue("@ProductDescription", productdescription);
+                cmdUpdateRecord.Parameters.AddWithValue("@ProductQuantity", productquantity);
+                cmdUpdateRecord.Parameters.AddWithValue("@ProductPicture", productpicture);
+
+
+                cmdUpdateRecord.ExecuteReader();
+                con.Close();
+            }
+        }
+
+        // Method to delete a product details from the database
+        public static void DeleteProductDetailsFromDatabase(string productname)
+        {
+            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
+
+            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            {
+                con.Open();
+                string deleteCMD = "DELETE FROM ProductDetails WHERE ProductName = @ProductName";
+
+                SqliteCommand cmdDeleteRecord = new SqliteCommand(deleteCMD, con);
+                cmdDeleteRecord.Parameters.AddWithValue("@ProductName", productname);
+
+                cmdDeleteRecord.ExecuteReader();
+                con.Close();
+            }
+        }
+
+
+
+
+
+
+        //Convert Image to byte array binary
+        private static byte[] GetByteArrayFromBlob(SqliteDataReader reader, int columnIndex)
+        {
+            byte[] buffer = new byte[reader.GetBytes(columnIndex, 0, null, 0, int.MaxValue)];
+            reader.GetBytes(columnIndex, 0, buffer, 0, buffer.Length);
+            return buffer;
+        }
+
+        
+
+
+
+
+
+        /// <summary>
+        /// PRODUCT RECEIPT
+        /// </summary>
+
+        //Initializing for Product Receipt Database
+
+        public async static void InitializeDB_PRODUCTRECEIPT()
+        {
+            await ApplicationData.Current.LocalFolder.CreateFileAsync("MyDatabase.db", CreationCollisionOption.OpenIfExists);
+            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
+
+            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            {
+                con.Open();
+                string initCMD = @"CREATE TABLE IF NOT EXISTS ProductReceipts (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        OrderNumber INTEGER NOT NULL,
+                        ProductName TEXT NOT NULL,                  
+                        ProductCategory TEXT NOT NULL,
+                        ProductPrice REAL NOT NULL,
+                        ProductQuantity INTEGER NOT NULL,
+                        AddressLine1 TEXT NOT NULL,
+                        AddressLine2 TEXT NOT NULL,
+                        DatePurchased DATE NOT NULL
+                      )";
+
+                SqliteCommand CMDcreateTable = new SqliteCommand(initCMD, con);
+                CMDcreateTable.ExecuteReader();
+                con.Close();
+            }
+        }
+
+
+        /// <summary>
+        /// STORE ADDRESS AVAILABILITY
+        /// </summary>
+
+        //Initializing for Store Address Availability Database
+        public async static void InitializeDB_STOREADDRESS_AVAILABILITY()
+        {
+            await ApplicationData.Current.LocalFolder.CreateFileAsync("MyDatabase.db", CreationCollisionOption.OpenIfExists);
+            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
+
+            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            {
+                con.Open();
+                string initCMD = @"CREATE TABLE IF NOT EXISTS StoreAddressAvailability (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        AddressLine1 TEXT NOT NULL,
+                        AddressLine2 TEXT NOT NULL,
+                        ProductName TEXT NOT NULL,
+                        ProductQuantity INTEGER NOT NULL
+                      )";
+
+                SqliteCommand CMDcreateTable = new SqliteCommand(initCMD, con);
+                CMDcreateTable.ExecuteReader();
+                con.Close();
+            }
+        }
+
+
+        /// <summary>
+        /// CANCEL DETAILS
+        /// </summary>
+
+        //Initializing for Cancel Details Database
+        public async static void InitializeDB_CANCELDETAILS()
+        {
+            await ApplicationData.Current.LocalFolder.CreateFileAsync("MyDatabase.db", CreationCollisionOption.OpenIfExists);
+            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
+
+            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            {
+                con.Open();
+                string initCMD = @"CREATE TABLE IF NOT EXISTS CancelledDetails (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        OrderNumber INTEGER NOT NULL,
+                        ProductName TEXT NOT NULL,
+                        ProductCategory TEXT NOT NULL,
+                        ProductPrice REAL NOT NULL,
+                        ProductQuantity INTEGER NOT NULL,
+                        AddressLine1 TEXT NOT NULL,
+                        AddressLine2 TEXT NOT NULL,
+                        DateCancelled DATE NOT NULL,
+                        CancelReason TEXT NOT NULL
+                      )";
+
+                SqliteCommand CMDcreateTable = new SqliteCommand(initCMD, con);
+                CMDcreateTable.ExecuteReader();
                 con.Close();
             }
         }

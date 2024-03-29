@@ -75,7 +75,7 @@ namespace Ferdin_TB_Hub
                     BuyerDetails buyer = Database.GetBuyerByUsernameOrEmail(usernameOrEmail);
                     if (buyer != null)
                     {
-                        Frame.Navigate(typeof(AccountBuyer), buyer, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+                        Frame.Navigate(typeof(HomePage), buyer, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
                     }
                     else
                     {

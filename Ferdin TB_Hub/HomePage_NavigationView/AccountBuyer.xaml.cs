@@ -1,6 +1,10 @@
-﻿using Ferdin_TB_Hub.Classes;
+﻿using Ferdin_TB_Hub.BuyerAccountPage;
+using Ferdin_TB_Hub.Classes;
+using Ferdin_TB_Hub.Seller;
+using Ferdin_TB_Hub.UserControls;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -22,11 +26,32 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class AccountBuyer : Page
+    public sealed partial class AccountBuyer : Page, INotifyPropertyChanged
     {
+        private BuyerDetails _buyer;
+        public BuyerDetails Buyer
+        {
+            get { return _buyer; }
+            set
+            {
+                if (_buyer != value)
+                {
+                    _buyer = value;
+                    OnPropertyChanged(nameof(Buyer));
+                }
+            }
+        }
         public AccountBuyer()
         {
             this.InitializeComponent();
+            this.DataContext = this; // Set the DataContext of the page to itself
+
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void Logout_Click(object sender, RoutedEventArgs e)
@@ -47,20 +72,10 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             // Check if the parameter passed during navigation is a BuyerDetails object
             if (e.Parameter != null && e.Parameter is BuyerDetails)
             {
-                // Cast the parameter to BuyerDetails
-                BuyerDetails buyer = e.Parameter as BuyerDetails;
-
-                // Populate the text boxes with buyer information
-                tbxUsername.Text = buyer.Username;
-                tbxFirstName.Text = buyer.FirstName;
-                tbxMiddleName.Text = buyer.MiddleName;
-                tbxLastName.Text = buyer.LastName;
-                tbxPhoneNumber.Text = buyer.PhoneNumber;
-                tbxAddressLine1.Text = buyer.AddressLine1;
-                tbxAddressLine2.Text = buyer.AddressLine2;
-                tbxEmail.Text = buyer.Email;
-                tbxPassword.Text = buyer.Password;
-                tbxID.Text = buyer.Id.ToString();
+                // Cast the parameter to BuyerDetails and assign it to the Seller property
+                Buyer = e.Parameter as BuyerDetails;
+                // Notify the UI that the Buyer property has changed
+                OnPropertyChanged(nameof(Buyer));
             }
         }
 
@@ -141,6 +156,36 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             else
             {
                 // User chose not to update, do nothing or provide feedback
+            }
+        }
+
+        private void NavigationView_Loaded(object sender, RoutedEventArgs e)
+        {
+            contentFrame.Navigate(typeof(BoughtProducts));
+        }
+
+        private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        {
+            NavigationViewItem item = args.SelectedItem as NavigationViewItem;
+
+            switch (item.Tag.ToString())
+            {
+                case "BoughtPage":
+                    contentFrame.Navigate(typeof(BoughtProducts));
+                    break;
+
+                case "ReceivePage":
+                    contentFrame.Navigate(typeof(ToReceive));
+                    break;
+
+                case "CompletePage":
+                    contentFrame.Navigate(typeof(BuyerComplete));
+                    break;
+
+                case "BuyerCancelledPage":
+                    contentFrame.Navigate(typeof(BuyerCancelled));
+                    break;
+
             }
         }
     }

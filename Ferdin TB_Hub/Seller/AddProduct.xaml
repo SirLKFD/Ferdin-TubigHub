@@ -9,6 +9,43 @@
     Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
 
     <Grid>
+        <TextBlock HorizontalAlignment="Left" Margin="60,33,0,0" TextWrapping="Wrap" Text="Add Product" VerticalAlignment="Top" FontSize="25" FontWeight="Bold"/>
+        <TextBlock HorizontalAlignment="Left" Margin="60,95,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" FontSize="20"/>
+        <TextBlock HorizontalAlignment="Left" Margin="60,163,0,0" TextWrapping="Wrap" Text="Category" VerticalAlignment="Top" FontSize="20"/>
+        <TextBlock HorizontalAlignment="Left" Margin="60,228,0,0" TextWrapping="Wrap" Text="Price" VerticalAlignment="Top" FontSize="20"/>
+        <TextBlock HorizontalAlignment="Left" Margin="60,378,0,0" TextWrapping="Wrap" Text="Description" VerticalAlignment="Top" FontSize="20"/>
+        <TextBlock HorizontalAlignment="Left" Margin="60,551,0,0" TextWrapping="Wrap" Text="Quantity" VerticalAlignment="Top" FontSize="20"/>
+        <TextBlock HorizontalAlignment="Left" Margin="202,820,0,0" TextWrapping="Wrap" Text="Supported file types: JPEG, PNG" VerticalAlignment="Top" FontSize="20" FontStyle="Italic"/>
+
+
+
+        <TextBox x:Name="tbxProductName" HorizontalAlignment="Left" Margin="212,89,0,0" TextWrapping="Wrap" FontSize="20" VerticalAlignment="Top" Width="344"/>
+        <TextBox x:Name="tbxProductPrice" HorizontalAlignment="Left" Margin="212,222,0,0" TextWrapping="Wrap" FontSize="20" VerticalAlignment="Top" Width="172"/>
+
+        <ComboBox x:Name="cbxProductCategory" FontSize="25" Margin="212,154,0,0" Width="312">
+            <ComboBoxItem Content="Electrolyte Water"/>
+            <ComboBoxItem Content="Mineral Water"/>
+            <ComboBoxItem Content="Distilled Water"/>
+            <ComboBoxItem Content="Spring Water"/>
+            <ComboBoxItem Content="Purified Water"/>
+            <ComboBoxItem Content="Alkaline Water"/>
+            <ComboBoxItem Content="Carbonated Water"/>
+            <ComboBoxItem Content="Flavored Water"/>
+            <ComboBoxItem Content="High Sodium Water"/>
+
+        </ComboBox>
+
+        <TextBox x:Name="tbxProductDescription" HorizontalAlignment="Left" Margin="212,298,0,0" TextWrapping="Wrap" FontSize="20" VerticalAlignment="Top" Width="562" Height="215"/>
+        <TextBox x:Name="tbxProductQuantity" HorizontalAlignment="Left" Margin="212,544,0,0" TextWrapping="Wrap" FontSize="20" VerticalAlignment="Top" Width="77"/>
+
+        <Button x:Name="InsertPicture" Click="InsertPicture_Click" CornerRadius="5" Foreground="White" Background="Purple" Content="Insert Picture" FontSize="20" Margin="60,693,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="SubmitProduct" CornerRadius="5" Foreground="White" Background="Purple" Content="Submit Product" FontSize="20" Margin="250,897,0,0" VerticalAlignment="Top" Click="SubmitProduct_Click"/>
+
+        <Border BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Left" Height="183" Margin="253,626,0,0" VerticalAlignment="Top" Width="230">
+            <Image x:Name="ProductImage" HorizontalAlignment="Center" Height="182" VerticalAlignment="Center" Width="229" Stretch="Fill"/>
+        </Border>
+
+
 
     </Grid>
 </Page>

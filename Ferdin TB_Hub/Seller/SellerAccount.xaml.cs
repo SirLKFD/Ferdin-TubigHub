@@ -1,6 +1,8 @@
 ﻿using Ferdin_TB_Hub.Classes;
+using Ferdin_TB_Hub.NewAccount;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -22,14 +24,35 @@ namespace Ferdin_TB_Hub.Seller
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class SellerAccount : Page
+    public sealed partial class SellerAccount : Page, INotifyPropertyChanged
     {
+        private SellerDetails _seller;
+        public SellerDetails Seller
+        {
+            get { return _seller; }
+            set
+            {
+                if (_seller != value)
+                {
+                    _seller = value;
+                    OnPropertyChanged(nameof(Seller));
+                }
+            }
+        }
 
         public SellerAccount()
         {
             this.InitializeComponent();
+            this.DataContext = this; // Set the DataContext of the page to itself
 
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -38,21 +61,10 @@ namespace Ferdin_TB_Hub.Seller
             // Check if the parameter passed during navigation is a SellerDetails object
             if (e.Parameter != null && e.Parameter is SellerDetails)
             {
-                // Cast the parameter to SellerDetails
-                SellerDetails seller = e.Parameter as SellerDetails;
-
-                // Populate the text boxes with seller information
-                tbxStore.Text = seller.BusinessName;
-                tbxUsername.Text = seller.Username;
-                tbxFirstName.Text = seller.FirstName;
-                tbxMiddleName.Text = seller.MiddleName;
-                tbxLastName.Text = seller.LastName;
-                tbxPhoneNumber.Text = seller.PhoneNumber;
-                tbxAddressLine1.Text = seller.AddressLine1;
-                tbxAddressLine2.Text = seller.AddressLine2;
-                tbxEmail.Text = seller.Email;
-                tbxPassword.Text = seller.Password;
-                tbxID.Text = seller.Id.ToString();
+                // Cast the parameter to SellerDetails and assign it to the Seller property
+                Seller = e.Parameter as SellerDetails;
+                // Notify the UI that the Seller property has changed
+                OnPropertyChanged(nameof(Seller));
             }
         }
 
@@ -166,6 +178,59 @@ namespace Ferdin_TB_Hub.Seller
             }
         }
 
+        private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        {
+            NavigationViewItem item = args.SelectedItem as NavigationViewItem;
 
+            switch (item.Tag.ToString())
+            {
+                case "ProductPage":
+                    contentFrame.Navigate(typeof(YourWaterProducts));
+                    break;
+
+                case "AddPage":
+                    contentFrame.Navigate(typeof(AddProduct));
+                    break;
+
+                case "ShipPage":
+                    contentFrame.Navigate(typeof(ToShip));
+                    break;
+
+                case "SellerCompletePage":
+                    contentFrame.Navigate(typeof(SellerComplete));
+                    break;
+
+                case "SellerCancelledPage":
+                    contentFrame.Navigate(typeof(SellerCancelled));
+                    break;
+
+            }
+        }
+
+        private void NavigationView_Loaded(object sender, RoutedEventArgs e)
+        {
+            contentFrame.Navigate(typeof(YourWaterProducts));
+        }
+
+        private void ToggledModifyAccount(object sender, RoutedEventArgs e)
+        {
+            bool isToggleOn = (sender as ToggleSwitch).IsOn;
+
+            // Enable or disable TextBoxes based on toggle state
+            tbxStore.IsEnabled = isToggleOn;
+            tbxUsername.IsEnabled = isToggleOn;
+            tbxFirstName.IsEnabled = isToggleOn;
+            tbxMiddleName.IsEnabled = isToggleOn;
+            tbxLastName.IsEnabled = isToggleOn;
+            tbxPhoneNumber.IsEnabled = isToggleOn;
+            tbxAddressLine1.IsEnabled = isToggleOn;
+            tbxAddressLine2.IsEnabled = isToggleOn;
+            tbxEmail.IsEnabled = isToggleOn;
+            tbxPassword.IsEnabled = isToggleOn;
+
+            // Enable or disable buttons based on toggle state
+            btnUpdateSellerInfo.IsEnabled = isToggleOn;
+            btnDeleteSellerAccount.IsEnabled = isToggleOn;
+        }
     }
 }

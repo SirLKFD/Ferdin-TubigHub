@@ -1,0 +1,94 @@
+﻿<Page
+    x:Class="Ferdin_TB_Hub.Seller.YourWaterProducts"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Ferdin_TB_Hub.Seller"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:local1="using:Ferdin_TB_Hub.Classes"
+    mc:Ignorable="d"
+    Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
+
+    <Page.Resources>
+        <local1:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter"/>
+    </Page.Resources>
+
+
+    <Grid>
+
+
+        <Grid.ColumnDefinitions>
+
+            <ColumnDefinition Width="500"/>
+            <ColumnDefinition Width="100"/>
+
+        </Grid.ColumnDefinitions>
+
+        <TextBlock FontSize="25" HorizontalAlignment="Left" Margin="47,44,0,0" TextWrapping="Wrap" Text="Your Products" VerticalAlignment="Top" FontWeight="Bold"/>
+
+        <AutoSuggestBox Grid.Column="0" HorizontalAlignment="Left" Margin="226,45,0,0" Width="241" TextChanged="AutoSuggestBox_TextChanged" QueryIcon="Find" PlaceholderText="Search your products here"/>
+
+        <ListView x:Name="ListProducts" Grid.Column="0" Margin="0,114,0,0" SelectionChanged="ListProducts_SelectionChanged">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding ProductPicture, Converter={StaticResource ByteArrayToImageSourceConverter}}" Width="100" Height="100" Margin="0,0,10,0"/>
+                        <StackPanel>
+                            <TextBlock Text="{Binding ProductName}" FontSize="20" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding ProductCategory}" FontSize="16"/>
+                            <TextBlock Text="{Binding ProductPrice}" FontSize="16"/>
+                            <TextBlock Text="{Binding ProductQuantity}" FontSize="16"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+
+
+        <Grid Grid.Column="1" Margin="0,0,-900,0">
+            <TextBlock FontSize="25" HorizontalAlignment="Left" Margin="47,44,0,0" TextWrapping="Wrap" Text="Product Details" VerticalAlignment="Top" FontWeight="Bold"/>
+            <TextBlock HorizontalAlignment="Left" Margin="88,112,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" FontSize="20"/>
+            <TextBlock HorizontalAlignment="Left" Margin="88,174,0,0" TextWrapping="Wrap" Text="Category" VerticalAlignment="Top" FontSize="20"/>
+            <TextBlock HorizontalAlignment="Left" Margin="88,247,0,0" TextWrapping="Wrap" Text="Price" VerticalAlignment="Top" FontSize="20"/>
+            <TextBlock HorizontalAlignment="Left" Margin="88,416,0,0" TextWrapping="Wrap" Text="Description" VerticalAlignment="Top" FontSize="20"/>
+            <TextBlock HorizontalAlignment="Left" Margin="88,602,0,0" TextWrapping="Wrap" Text="Quantity" VerticalAlignment="Top" FontSize="20"/>
+            <TextBlock HorizontalAlignment="Left" Margin="202,869,0,0" TextWrapping="Wrap" Text="Supported file types: JPEG, PNG" VerticalAlignment="Top" FontSize="20" FontStyle="Italic"/>
+
+            <TextBox x:Name="tbxProductName" HorizontalAlignment="Left" Margin="212,105,0,0" TextWrapping="Wrap" FontSize="20" VerticalAlignment="Top" Width="344"/>
+            <TextBox  x:Name="tbxProductPrice" HorizontalAlignment="Left" Margin="212,241,0,0" TextWrapping="Wrap" FontSize="20" VerticalAlignment="Top" Width="172"/>
+
+            <ComboBox x:Name="cbxProductCategory" FontSize="25" Margin="212,173,0,0" Width="312">
+                <ComboBoxItem Content="Electrolyte Water"/>
+                <ComboBoxItem Content="Mineral Water"/>
+                <ComboBoxItem Content="Distilled Water"/>
+                <ComboBoxItem Content="Spring Water"/>
+                <ComboBoxItem Content="Purified Water"/>
+                <ComboBoxItem Content="Alkaline Water"/>
+                <ComboBoxItem Content="Carbonated Water"/>
+                <ComboBoxItem Content="Flavored Water"/>
+                <ComboBoxItem Content="High Sodium Water"/>
+
+            </ComboBox>
+
+            <TextBox x:Name="tbxProductDescription" HorizontalAlignment="Left" Margin="212,322,0,0" TextWrapping="Wrap" FontSize="20" VerticalAlignment="Top" Width="562" Height="215"/>
+            <TextBox x:Name="tbxProductQuantity" HorizontalAlignment="Left" Margin="212,595,0,0" TextWrapping="Wrap" FontSize="20" VerticalAlignment="Top" Width="77"/>
+
+            <Button x:Name="ChangePicture" Click="ChangePicture_Click" CornerRadius="5" Foreground="White" Background="Purple" Content="Change Picture" FontSize="20" Margin="63,736,0,0" VerticalAlignment="Top"/>
+            <Button x:Name="UpdateProduct" CornerRadius="5" Foreground="White" Background="Purple" Content="Update Product" FontSize="20" VerticalAlignment="Top" Click="UpdateProduct_Click" Margin="607,664,0,0"/>
+            <Button x:Name="DeleteProduct" CornerRadius="5" Foreground="White" Background="Purple" Content="Delete Product" FontSize="20" VerticalAlignment="Top" Click="DeleteProduct_Click" Margin="614,777,0,0"/>
+
+            <Border BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Left" Height="183" Margin="251,664,0,0" VerticalAlignment="Top" Width="230">
+
+                <Image x:Name="ProductImage" HorizontalAlignment="Center" Height="183" VerticalAlignment="Center" Width="230" Stretch="Fill" RenderTransformOrigin="0.59,0.527"/>
+
+            </Border>
+
+
+
+        </Grid>
+
+
+
+    </Grid>
+</Page>

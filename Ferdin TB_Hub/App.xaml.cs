@@ -33,6 +33,10 @@ namespace Ferdin_TB_Hub
             this.Suspending += OnSuspending;
             Database.InitializeDB_BUYERACCOUNTS();
             Database.InitializeDB_SELLERACCOUNTS();
+            Database.InitializeDB_PRODUCTDETAILS();
+            Database.InitializeDB_PRODUCTRECEIPT();
+            Database.InitializeDB_STOREADDRESS_AVAILABILITY();
+            Database.InitializeDB_CANCELDETAILS();
         }
 
         /// <summary>

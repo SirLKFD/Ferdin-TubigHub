@@ -1,4 +1,5 @@
-﻿using Ferdin_TB_Hub.HomePage_NavigationView;
+﻿using Ferdin_TB_Hub.Classes;
+using Ferdin_TB_Hub.HomePage_NavigationView;
 using Ferdin_TB_Hub.NewAccount;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using static Ferdin_TB_Hub.Classes.Database;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -25,6 +27,13 @@ namespace Ferdin_TB_Hub
     public sealed partial class HomePage : Page
     {
         private List<Page> pageInstances = new List<Page>();
+
+        //PASSING DATABASE
+        private BuyerDetails _buyer;
+        private ProductDetails _productdetails;
+        private StoreAddress_Availability _storeAddressAvailability;
+
+
         public HomePage()
         {
             this.InitializeComponent();
@@ -41,11 +50,12 @@ namespace Ferdin_TB_Hub
 
             switch (item.Tag.ToString())
             {
-                case "Locate":
+                case "Locate":                  
                     contentFrame.Navigate(typeof(Locate));
                     break;
                 case "Account":
-                    contentFrame.Navigate(typeof(AccountBuyer));
+                    //THE BUYER INFO WILL BE PASSED TO THE ACCOUNT BUYER
+                    contentFrame.Navigate(typeof(AccountBuyer), _buyer);
                     break;
                 case "Home":
                     contentFrame.Navigate(typeof(Home));
@@ -77,8 +87,14 @@ namespace Ferdin_TB_Hub
         {
             base.OnNavigatedTo(e);
 
+            if (e.Parameter != null && e.Parameter is BuyerDetails)
+            {
+                _buyer = e.Parameter as BuyerDetails;
+            }
+
             // Add the current instance of the page to the collection
             pageInstances.Add(this);
+
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

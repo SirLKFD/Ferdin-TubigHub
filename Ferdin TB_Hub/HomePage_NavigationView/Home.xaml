@@ -6,9 +6,28 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
 
     <Grid>
+
+        <ListView x:Name="myListView" Margin="380,100,445,300">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding Image}" Width="50" Height="50"/>
+                        <TextBlock Text="{Binding Title}" Margin="10,0,0,0"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Image x:Name="SourceImage"
+       HorizontalAlignment="Left" VerticalAlignment="Top"
+       Width="200" Height="200"
+       Stretch="Fill"
+       Source="/Assets/Default_UserIcon.png"
+       PointerPressed="SourceImage_PointerPressed"/>
+
 
     </Grid>
 </Page>

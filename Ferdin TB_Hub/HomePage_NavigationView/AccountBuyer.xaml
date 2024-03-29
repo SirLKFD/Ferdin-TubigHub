@@ -57,18 +57,16 @@
 
 
 
-                    <TextBox  x:Name="tbxUsername" HorizontalAlignment="Left" Margin="119,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="317"/>
-                    <TextBox  x:Name="tbxFirstName" HorizontalAlignment="Left" Margin="119,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="317"/>
-                    <TextBox  x:Name="tbxMiddleName" HorizontalAlignment="Left" Margin="153,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="283"/>
-                    <TextBox  x:Name="tbxLastName" HorizontalAlignment="Left" Margin="119,164,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="317"/>
-                    <TextBox  x:Name="tbxPhoneNumber" HorizontalAlignment="Left" Margin="153,215,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="282"/>
-                    <TextBox  x:Name="tbxAddressLine1" HorizontalAlignment="Left" Margin="153,268,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="283" Height="33"/>
-                    <TextBox  x:Name="tbxAddressLine2" HorizontalAlignment="Left" Margin="153,320,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="283" Height="33"/>
-                    <TextBox  x:Name="tbxEmail" HorizontalAlignment="Left" Margin="71,370,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="364"/>
-                    <TextBox  x:Name="tbxPassword" HorizontalAlignment="Left" Margin="106,420,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="329"/>
-                    <TextBox  x:Name="tbxID" HorizontalAlignment="Left" Margin="51,663,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="64" IsReadOnly="True" IsEnabled="False"/>
-
-
+                    <TextBox  x:Name="tbxUsername" Text="{Binding Buyer.Username, Mode=TwoWay}" HorizontalAlignment="Left" Margin="119,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="317"/>
+                    <TextBox  x:Name="tbxFirstName" Text="{Binding Buyer.FirstName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="119,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="317"/>
+                    <TextBox  x:Name="tbxMiddleName" Text="{Binding Buyer.MiddleName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="153,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="283"/>
+                    <TextBox  x:Name="tbxLastName" Text="{Binding Buyer.LastName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="119,164,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="317"/>
+                    <TextBox  x:Name="tbxPhoneNumber" Text="{Binding Buyer.PhoneNumber, Mode=TwoWay}" HorizontalAlignment="Left" Margin="153,215,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="282"/>
+                    <TextBox  x:Name="tbxAddressLine1" Text="{Binding Buyer.AddressLine1, Mode=TwoWay}" HorizontalAlignment="Left" Margin="153,268,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="283" Height="33"/>
+                    <TextBox  x:Name="tbxAddressLine2" Text="{Binding Buyer.AddressLine2, Mode=TwoWay}" HorizontalAlignment="Left" Margin="153,320,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="283" Height="33"/>
+                    <TextBox  x:Name="tbxEmail" Text="{Binding Buyer.Email, Mode=TwoWay}" HorizontalAlignment="Left" Margin="71,370,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="364"/>
+                    <TextBox  x:Name="tbxPassword" Text="{Binding Buyer.Password, Mode=TwoWay}" HorizontalAlignment="Left" Margin="106,420,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="329"/>
+                    <TextBox  x:Name="tbxID" Text="{Binding Buyer.Id, Mode=TwoWay}" HorizontalAlignment="Left" Margin="51,663,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="64" IsReadOnly="True" IsEnabled="False"/>
 
 
 
@@ -113,15 +111,23 @@
 
         <Grid Grid.Column="1">
 
-            <NavigationView x:Name="AccountBar" PaneDisplayMode="Top" IsSettingsVisible="False" IsBackButtonVisible="Collapsed">
+            <NavigationView x:Name="AccountBar" 
+                             PaneDisplayMode="Top" 
+                            IsSettingsVisible="False" 
+                            Loaded="NavigationView_Loaded"
+                            SelectionChanged="NavigationView_SelectionChanged"
+                            IsBackButtonVisible="Collapsed">
 
                 <NavigationView.MenuItems>
-                    <NavigationViewItem  Content="Your Bought Water Products" Tag="Bought" />
+                    <NavigationViewItem  Content="Your Bought Water Products" Tag="BoughtPage" />
                     <NavigationViewItem  Content="To Receive" Tag="ReceivePage" />
                     <NavigationViewItem  Content="Complete" Tag="CompletePage" />
-                    <NavigationViewItem  Content="Cancelled | Return | Refund" Tag="CancelledPage" />
+                    <NavigationViewItem  Content="Cancelled | Return | Refund" Tag="BuyerCancelledPage" />
 
                 </NavigationView.MenuItems>
+                
+                <Frame x:Name="contentFrame"/>
+
 
 
             </NavigationView>

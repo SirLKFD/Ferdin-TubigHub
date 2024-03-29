@@ -136,7 +136,23 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BuyerAccountPage\BoughtProducts.xaml.cs">
+      <DependentUpon>BoughtProducts.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BuyerAccountPage\BuyerCancelled.xaml.cs">
+      <DependentUpon>BuyerCancelled.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BuyerAccountPage\BuyerComplete.xaml.cs">
+      <DependentUpon>BuyerComplete.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BuyerAccountPage\ToReceive.xaml.cs">
+      <DependentUpon>ToReceive.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Checkout\Checkout.xaml.cs">
+      <DependentUpon>Checkout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Classes\Buttons.cs" />
+    <Compile Include="Classes\ByteArrayToImageSourceConverter.cs" />
     <Compile Include="Classes\Database.cs" />
     <Compile Include="HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
@@ -156,6 +172,9 @@
     <Compile Include="HomePage_NavigationView\Locate.xaml.cs">
       <DependentUpon>Locate.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ItemDetail\ItemDetailPage.xaml.cs">
+      <DependentUpon>ItemDetailPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -174,6 +193,18 @@
     </Compile>
     <Compile Include="Seller\SellerAccount.xaml.cs">
       <DependentUpon>SellerAccount.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Seller\SellerCancelled.xaml.cs">
+      <DependentUpon>SellerCancelled.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Seller\SellerComplete.xaml.cs">
+      <DependentUpon>SellerComplete.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Seller\ToShip.xaml.cs">
+      <DependentUpon>ToShip.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Seller\YourWaterProducts.xaml.cs">
+      <DependentUpon>YourWaterProducts.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\BuyerBoughtItems.xaml.cs">
       <DependentUpon>BuyerBoughtItems.xaml</DependentUpon>
@@ -273,6 +304,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="BuyerAccountPage\BoughtProducts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BuyerAccountPage\BuyerCancelled.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BuyerAccountPage\BuyerComplete.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BuyerAccountPage\ToReceive.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Checkout\Checkout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="HomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -297,6 +348,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ItemDetail\ItemDetailPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -318,6 +373,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Seller\SellerAccount.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Seller\SellerCancelled.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Seller\SellerComplete.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Seller\ToShip.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Seller\YourWaterProducts.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -357,7 +428,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BuyerAccountPage\" />
     <Folder Include="Interfaces\" />
   </ItemGroup>
   <ItemGroup>
