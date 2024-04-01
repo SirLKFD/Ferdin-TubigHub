@@ -46,49 +46,50 @@
 
 
 
-        <Grid Grid.Column="1" Margin="0,0,-900,0">
-            <TextBlock FontSize="25" HorizontalAlignment="Left" Margin="47,44,0,0" TextWrapping="Wrap" Text="Product Details" VerticalAlignment="Top" FontWeight="Bold"/>
-            <TextBlock HorizontalAlignment="Left" Margin="88,112,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" FontSize="20"/>
-            <TextBlock HorizontalAlignment="Left" Margin="88,174,0,0" TextWrapping="Wrap" Text="Category" VerticalAlignment="Top" FontSize="20"/>
-            <TextBlock HorizontalAlignment="Left" Margin="88,247,0,0" TextWrapping="Wrap" Text="Price" VerticalAlignment="Top" FontSize="20"/>
-            <TextBlock HorizontalAlignment="Left" Margin="88,416,0,0" TextWrapping="Wrap" Text="Description" VerticalAlignment="Top" FontSize="20"/>
-            <TextBlock HorizontalAlignment="Left" Margin="88,602,0,0" TextWrapping="Wrap" Text="Quantity" VerticalAlignment="Top" FontSize="20"/>
-            <TextBlock HorizontalAlignment="Left" Margin="202,869,0,0" TextWrapping="Wrap" Text="Supported file types: JPEG, PNG" VerticalAlignment="Top" FontSize="20" FontStyle="Italic"/>
+        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="0,0,-778,0">
+            <Grid>
+                <Grid Margin="0,0,-900,0">
+                    <TextBlock FontSize="25" HorizontalAlignment="Left" Margin="47,44,0,0" TextWrapping="Wrap" Text="Product Details" VerticalAlignment="Top" FontWeight="Bold"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="68,102,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" FontSize="20"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="68,167,0,0" TextWrapping="Wrap" Text="Category" VerticalAlignment="Top" FontSize="20"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="68,241,0,0" TextWrapping="Wrap" Text="Price" VerticalAlignment="Top" FontSize="20"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="68,389,0,0" TextWrapping="Wrap" Text="Description" VerticalAlignment="Top" FontSize="20"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="72,557,0,0" TextWrapping="Wrap" Text="Quantity" VerticalAlignment="Top" FontSize="20"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="246,801,0,0" TextWrapping="Wrap" Text="Supported file types: JPEG, PNG" VerticalAlignment="Top" FontStyle="Italic"/>
 
-            <TextBox x:Name="tbxProductName" HorizontalAlignment="Left" Margin="212,105,0,0" TextWrapping="Wrap" FontSize="20" VerticalAlignment="Top" Width="344"/>
-            <TextBox  x:Name="tbxProductPrice" HorizontalAlignment="Left" Margin="212,241,0,0" TextWrapping="Wrap" FontSize="20" VerticalAlignment="Top" Width="172"/>
+                    <TextBox x:Name="tbxProductName" HorizontalAlignment="Left" Margin="212,108,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="344"/>
+                    <TextBox x:Name="tbxProductPrice" HorizontalAlignment="Left" Margin="212,241,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="172"/>
 
-            <ComboBox x:Name="cbxProductCategory" FontSize="25" Margin="212,173,0,0" Width="312">
-                <ComboBoxItem Content="Electrolyte Water"/>
-                <ComboBoxItem Content="Mineral Water"/>
-                <ComboBoxItem Content="Distilled Water"/>
-                <ComboBoxItem Content="Spring Water"/>
-                <ComboBoxItem Content="Purified Water"/>
-                <ComboBoxItem Content="Alkaline Water"/>
-                <ComboBoxItem Content="Carbonated Water"/>
-                <ComboBoxItem Content="Flavored Water"/>
-                <ComboBoxItem Content="High Sodium Water"/>
+                    <ComboBox x:Name="cbxProductCategory" Margin="212,173,0,0" Width="312">
+                        <ComboBoxItem Content="Electrolyte Water"/>
+                        <ComboBoxItem Content="Mineral Water"/>
+                        <ComboBoxItem Content="Distilled Water"/>
+                        <ComboBoxItem Content="Spring Water"/>
+                        <ComboBoxItem Content="Purified Water"/>
+                        <ComboBoxItem Content="Alkaline Water"/>
+                        <ComboBoxItem Content="Carbonated Water"/>
+                        <ComboBoxItem Content="Flavored Water"/>
+                        <ComboBoxItem Content="High Sodium Water"/>
 
-            </ComboBox>
+                    </ComboBox>
 
-            <TextBox x:Name="tbxProductDescription" HorizontalAlignment="Left" Margin="212,322,0,0" TextWrapping="Wrap" FontSize="20" VerticalAlignment="Top" Width="562" Height="215"/>
-            <TextBox x:Name="tbxProductQuantity" HorizontalAlignment="Left" Margin="212,595,0,0" TextWrapping="Wrap" FontSize="20" VerticalAlignment="Top" Width="77"/>
+                    <TextBox x:Name="tbxProductDescription" HorizontalAlignment="Left" Margin="212,303,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="344" Height="215"/>
+                    <TextBox x:Name="tbxProductQuantity" HorizontalAlignment="Left" Margin="212,554,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77"/>
 
-            <Button x:Name="ChangePicture" Click="ChangePicture_Click" CornerRadius="5" Foreground="White" Background="Purple" Content="Change Picture" FontSize="20" Margin="63,736,0,0" VerticalAlignment="Top"/>
-            <Button x:Name="UpdateProduct" CornerRadius="5" Foreground="White" Background="Purple" Content="Update Product" FontSize="20" VerticalAlignment="Top" Click="UpdateProduct_Click" Margin="607,664,0,0"/>
-            <Button x:Name="DeleteProduct" CornerRadius="5" Foreground="White" Background="Purple" Content="Delete Product" FontSize="20" VerticalAlignment="Top" Click="DeleteProduct_Click" Margin="614,777,0,0"/>
+                    <Button x:Name="ChangePicture" Click="ChangePicture_Click" CornerRadius="5" Foreground="White" Background="Purple" Content="Change Picture" Margin="68,708,0,0" VerticalAlignment="Top"/>
+                    <Button x:Name="UpdateProduct" CornerRadius="5" Foreground="White" Background="Purple" Content="Update Product" VerticalAlignment="Top" Click="UpdateProduct_Click" Margin="469,610,0,0"/>
+                    <Button x:Name="DeleteProduct" CornerRadius="5" Foreground="White" Background="Purple" Content="Delete Product"  VerticalAlignment="Top" Click="DeleteProduct_Click" Margin="468,760,0,0"/>
 
-            <Border BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Left" Height="183" Margin="251,664,0,0" VerticalAlignment="Top" Width="230">
+                    <Border BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Left" Height="183" Margin="212,610,0,0" VerticalAlignment="Top" Width="230">
 
-                <Image x:Name="ProductImage" HorizontalAlignment="Center" Height="183" VerticalAlignment="Center" Width="230" Stretch="Fill" RenderTransformOrigin="0.59,0.527"/>
+                        <Image x:Name="ProductImage" HorizontalAlignment="Center" Height="184" VerticalAlignment="Center" Width="230" Stretch="Fill" RenderTransformOrigin="0.59,0.527"/>
 
-            </Border>
-
-
-
-        </Grid>
+                    </Border>
 
 
 
+                </Grid>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>

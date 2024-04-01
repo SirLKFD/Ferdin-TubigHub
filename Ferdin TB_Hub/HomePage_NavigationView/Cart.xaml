@@ -6,9 +6,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
 
     <Grid>
+
+        <TextBlock HorizontalAlignment="Left" Margin="59,56,0,0" TextWrapping="Wrap"  FontSize="35" Text="Your Cart" VerticalAlignment="Top" Height="48" Width="451" FontWeight="Bold"/>
+        <AutoSuggestBox QueryIcon="Find" PlaceholderText="Search Cart" HorizontalAlignment="Left" Margin="254,63,0,0" Width="272"/>
+
+        <ListView Margin="59,146,70,204"/>
+        
+        <Button x:Name="btnCheckout" Content="Checkout" Margin="1302,838,0,0" FontSize="20" VerticalAlignment="Top" Height="45" Width="128"/>
 
     </Grid>
 </Page>

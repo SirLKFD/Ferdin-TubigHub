@@ -19,91 +19,93 @@
 
 
         <Grid Grid.Column="0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
 
 
-            <Grid>
+                <Grid>
 
 
-                <Grid.RowDefinitions>
+                    <Grid.RowDefinitions>
 
-                    <RowDefinition/>
+                        <RowDefinition/>
 
-                </Grid.RowDefinitions>
-
-
-                <!-- UserLogo -->
-                <Grid Grid.Row="0" >
-
-                    <TextBlock FontSize="40" HorizontalAlignment="Center" Margin="0,42,0,0" TextWrapping="Wrap" Text="Account" VerticalAlignment="Top"/>
-                    <Image Source="/Icons/Default_UserIcon.png" x:Name="DefaultUserIcon" HorizontalAlignment="Center" Height="100" Margin="0,110,0,0" VerticalAlignment="Top" Width="100" Stretch="Fill"/>
+                    </Grid.RowDefinitions>
 
 
-                </Grid>
+                    <!-- UserLogo -->
+                    <Grid Grid.Row="0" >
 
-                <!-- BuyerUserInfo -->
-
-                <Grid Grid.Row="0" Margin="23,261,-23,39">
-
-                    <TextBlock x:Name="Username" FontSize="20" Text="Username" HorizontalAlignment="Left" Margin="11,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
-                    <TextBlock x:Name="FirstName" FontSize="20" Text="First Name" HorizontalAlignment="Left" Margin="11,62,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.802,0.592"/>
-                    <TextBlock x:Name="MiddleName" FontSize="20" Text="Middle Name" HorizontalAlignment="Left" Margin="11,111,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.802,0.592"/>
-                    <TextBlock x:Name="LastName" FontSize="20" Text="Last Name" HorizontalAlignment="Left" Margin="11,166,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.802,0.592"/>
-                    <TextBlock x:Name="PhoneNumber" FontSize="20" Text="Phone Number" HorizontalAlignment="Left" Margin="11,218,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.854,1.11"/>
-                    <TextBlock x:Name="AddressLine1" FontSize="20" Text="Address Line 1" HorizontalAlignment="Left" Margin="13,268,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.854,1.11"/>
-                    <TextBlock x:Name="AddressLine2" FontSize="20" Text="Address Line 2" HorizontalAlignment="Left" Margin="13,323,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.854,1.11"/>
-                    <TextBlock x:Name="Email" FontSize="20" Text="Email" HorizontalAlignment="Left" Margin="11,373,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.854,1.11"/>
-                    <TextBlock x:Name="Password" FontSize="20" Text="Password" HorizontalAlignment="Left" Margin="11,423,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.854,1.11"/>
-                    <TextBlock x:Name="ID" FontSize="20" Text="ID" HorizontalAlignment="Left" Margin="16,666,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.854,1.11"/>
+                        <TextBlock FontSize="40" HorizontalAlignment="Center" Margin="0,42,0,0" TextWrapping="Wrap" Text="Account" VerticalAlignment="Top"/>
+                        <Image Source="/Icons/Default_UserIcon.png" x:Name="DefaultUserIcon" HorizontalAlignment="Center" Height="100" Margin="0,110,0,0" VerticalAlignment="Top" Width="100" Stretch="Fill"/>
+                        <ToggleSwitch Toggled="ToggleSwitch_Toggled" Header="Modify Account" Margin="30,195,0,0" VerticalAlignment="Top"/>
 
 
+                    </Grid>
 
-                    <TextBox  x:Name="tbxUsername" Text="{Binding Buyer.Username, Mode=TwoWay}" HorizontalAlignment="Left" Margin="119,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="317"/>
-                    <TextBox  x:Name="tbxFirstName" Text="{Binding Buyer.FirstName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="119,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="317"/>
-                    <TextBox  x:Name="tbxMiddleName" Text="{Binding Buyer.MiddleName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="153,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="283"/>
-                    <TextBox  x:Name="tbxLastName" Text="{Binding Buyer.LastName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="119,164,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="317"/>
-                    <TextBox  x:Name="tbxPhoneNumber" Text="{Binding Buyer.PhoneNumber, Mode=TwoWay}" HorizontalAlignment="Left" Margin="153,215,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="282"/>
-                    <TextBox  x:Name="tbxAddressLine1" Text="{Binding Buyer.AddressLine1, Mode=TwoWay}" HorizontalAlignment="Left" Margin="153,268,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="283" Height="33"/>
-                    <TextBox  x:Name="tbxAddressLine2" Text="{Binding Buyer.AddressLine2, Mode=TwoWay}" HorizontalAlignment="Left" Margin="153,320,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="283" Height="33"/>
-                    <TextBox  x:Name="tbxEmail" Text="{Binding Buyer.Email, Mode=TwoWay}" HorizontalAlignment="Left" Margin="71,370,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="364"/>
-                    <TextBox  x:Name="tbxPassword" Text="{Binding Buyer.Password, Mode=TwoWay}" HorizontalAlignment="Left" Margin="106,420,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="329"/>
-                    <TextBox  x:Name="tbxID" Text="{Binding Buyer.Id, Mode=TwoWay}" HorizontalAlignment="Left" Margin="51,663,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="64" IsReadOnly="True" IsEnabled="False"/>
+                    <!-- BuyerUserInfo -->
+
+                    <Grid Grid.Row="0" Margin="23,261,-23,39">
+
+                        <TextBlock x:Name="Username" FontSize="20" Text="Username" HorizontalAlignment="Left" Margin="11,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                        <TextBlock x:Name="FirstName" FontSize="20" Text="First Name" HorizontalAlignment="Left" Margin="11,62,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.802,0.592"/>
+                        <TextBlock x:Name="MiddleName" FontSize="20" Text="Middle Name" HorizontalAlignment="Left" Margin="11,111,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.802,0.592"/>
+                        <TextBlock x:Name="LastName" FontSize="20" Text="Last Name" HorizontalAlignment="Left" Margin="11,166,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.802,0.592"/>
+                        <TextBlock x:Name="PhoneNumber" FontSize="20" Text="Phone Number" HorizontalAlignment="Left" Margin="11,218,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.854,1.11"/>
+                        <TextBlock x:Name="AddressLine1" FontSize="20" Text="Address Line 1" HorizontalAlignment="Left" Margin="13,268,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.854,1.11"/>
+                        <TextBlock x:Name="AddressLine2" FontSize="20" Text="Address Line 2" HorizontalAlignment="Left" Margin="13,323,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.854,1.11"/>
+                        <TextBlock x:Name="Email" FontSize="20" Text="Email" HorizontalAlignment="Left" Margin="11,373,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.854,1.11"/>
+                        <TextBlock x:Name="Password" FontSize="20" Text="Password" HorizontalAlignment="Left" Margin="11,423,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.854,1.11"/>
+                        <TextBlock x:Name="ID" FontSize="20" Text="ID" HorizontalAlignment="Left" Margin="25,644,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.854,1.11"/>
 
 
 
-                    <Button Grid.Row="0"
+                        <TextBox  x:Name="tbxUsername" Text="{Binding Buyer.Username, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239"/>
+                        <TextBox  x:Name="tbxFirstName" Text="{Binding Buyer.FirstName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239"/>
+                        <TextBox  x:Name="tbxMiddleName" Text="{Binding Buyer.MiddleName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,111,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239"/>
+                        <TextBox  x:Name="tbxLastName" Text="{Binding Buyer.LastName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239"/>
+                        <TextBox  x:Name="tbxPhoneNumber" Text="{Binding Buyer.PhoneNumber, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,213,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="239"/>
+                        <TextBox  x:Name="tbxAddressLine1" Text="{Binding Buyer.AddressLine1, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,268,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239" Height="33"/>
+                        <TextBox  x:Name="tbxAddressLine2" Text="{Binding Buyer.AddressLine2, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,320,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239" Height="33"/>
+                        <TextBox  x:Name="tbxEmail" Text="{Binding Buyer.Email, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,370,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="239"/>
+                        <PasswordBox x:Name="tbxPassword" Password="{Binding Buyer.Password, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,423,0,0" VerticalAlignment="Top" Width="239"/>
+                        <TextBox  x:Name="tbxID" Text="{Binding Buyer.BUYER_ID, Mode=TwoWay}" HorizontalAlignment="Left" Margin="58,644,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="46" IsReadOnly="True" IsEnabled="False"/>
+
+
+
+                        <Button Grid.Row="0"
+                            x:Name="btnUpdateBuyerInfo"
                         Style="{StaticResource AccentButtonStyle}"
                         Content="Update Info"
-                        FontSize="21"
+                        FontSize="15"
                         Foreground="White"
                         Background="Purple"
                         CornerRadius="5"
-                        Padding="15,5,15,5" VerticalAlignment="Top" Margin="16,536,0,0" Click="UpdateBuyerInfo_Click"/>
-                    <Button x:Name="Logout"
+                        Padding="15,5,15,5" VerticalAlignment="Top" Margin="0,496,0,0" Click="UpdateBuyerInfo_Click" Width="114" HorizontalAlignment="Center"/>
+                        <Button x:Name="Logout"
                         Grid.Row="0"
                         Style="{StaticResource AccentButtonStyle}"
                         Content="Log Out"
-                        FontSize="21"
+                        FontSize="15"
                         Foreground="White"
                         Background="Purple"
                         CornerRadius="5"
-                        Padding="15,5,15,5" VerticalAlignment="Top" Margin="326,536,0,0" Click="Logout_Click"/>
-                    <CheckBox Name="RevealPassCheck"
-                        Content="Show Password" 
-                        Margin="311,469,0,0" 
-                        VerticalAlignment="Top"/>
-                    <Button Grid.Row="0"
+                        Padding="15,5,15,5" VerticalAlignment="Top" Margin="0,546,0,0" Click="Logout_Click" HorizontalAlignment="Center"/>
+
+                        <Button Grid.Row="0"
+                        x:Name="btnDeleteBuyerAccount"
                         Style="{StaticResource AccentButtonStyle}"
                         Content="Delete Account"
-                        FontSize="21"
+                        FontSize="15"
                         Foreground="White"
                         Background="Purple"
                         CornerRadius="5"
-                        Padding="15,5,15,5" VerticalAlignment="Top" Margin="259,647,0,0" Click="DeleteBuyerAccount_Click"/>
+                        Padding="15,5,15,5" VerticalAlignment="Top" Margin="128,641,0,0" Click="DeleteBuyerAccount_Click"/>
 
+
+                    </Grid>
 
                 </Grid>
-
-            </Grid>
+            </ScrollViewer>
 
 
         </Grid>
@@ -125,7 +127,7 @@
                     <NavigationViewItem  Content="Cancelled | Return | Refund" Tag="BuyerCancelledPage" />
 
                 </NavigationView.MenuItems>
-                
+
                 <Frame x:Name="contentFrame"/>
 
 

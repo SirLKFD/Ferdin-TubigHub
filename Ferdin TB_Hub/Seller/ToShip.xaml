@@ -6,9 +6,19 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
 
     <Grid>
+      
+
+        <TextBlock HorizontalAlignment="Left" Margin="59,56,0,0" TextWrapping="Wrap" FontSize="25" Text="To Ship" VerticalAlignment="Top" Height="48" Width="451" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <AutoSuggestBox QueryIcon="Find" PlaceholderText="Find to ship products" HorizontalAlignment="Left" Margin="175,57,0,0" Width="272" Grid.ColumnSpan="2"/>
+
+
+        <ListView Margin="59,139,691,66" Grid.ColumnSpan="2"/>
+
+
+        <Button x:Name="btnConfirm" FontSize="20" Content="Confirm" Margin="884,894,0,0" VerticalAlignment="Top" Width="119" Grid.Column="1"/>
 
     </Grid>
 </Page>

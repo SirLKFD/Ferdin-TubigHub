@@ -15,14 +15,14 @@ using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace Ferdin_TB_Hub.Checkout
+namespace Ferdin_TB_Hub
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class Checkout : Page
+    public sealed partial class Receipt : Page
     {
-        public Checkout()
+        public Receipt()
         {
             this.InitializeComponent();
         }

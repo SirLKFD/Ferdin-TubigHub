@@ -27,15 +27,18 @@ namespace Ferdin_TB_Hub.Seller
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
+    /// 
+
     public sealed partial class YourWaterProducts : Page
     {
         private StorageFile selectedFile;
+        private int currentSellerID;
         public YourWaterProducts()
         {
             this.InitializeComponent();
             PopulateProductList();
         }
-
+     
         private void PopulateProductList()
         {
 
@@ -113,7 +116,7 @@ namespace Ferdin_TB_Hub.Seller
                 }
 
                 // Update the product details in the database
-                Database.UpdateProductDetailsFromDatabase(selectedProduct.Id, selectedProduct.ProductName, selectedProduct.ProductCategory,
+                Database.UpdateProductDetailsFromDatabase(selectedProduct.PRODUCTDETAILS_ID, selectedProduct.ProductName, selectedProduct.ProductCategory,
                     selectedProduct.ProductPrice, selectedProduct.ProductDescription, selectedProduct.ProductQuantity, selectedProduct.ProductPicture);
 
                 // Refresh the product list
@@ -194,6 +197,7 @@ namespace Ferdin_TB_Hub.Seller
                 SetProductImage(selectedProduct.ProductPicture);
             }
         }
+
 
         private async void SetProductImage(byte[] imageBytes)
         {

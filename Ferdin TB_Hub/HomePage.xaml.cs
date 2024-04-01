@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using static Ferdin_TB_Hub.Classes.Database;
 
@@ -71,16 +72,15 @@ namespace Ferdin_TB_Hub
         }
         private void GoingBack(NavigationView sender, NavigationViewBackRequestedEventArgs args)
         {
-            if (pageInstances.Count > 1)
+           // Create a logic that will go back to the previous page when the back button is clicked
+            if (contentFrame.CanGoBack)
             {
-                // Navigate to the previous instance of the page
-                Frame.Navigate(pageInstances[pageInstances.Count - 2].GetType());
+                // Fix the code below
+
+                contentFrame.GoBack();
             }
-            else
-            {
-                // Navigate to a different page or handle as needed when there's only one instance
-                Frame.Navigate(typeof(HomePage));
-            }
+          
+           
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

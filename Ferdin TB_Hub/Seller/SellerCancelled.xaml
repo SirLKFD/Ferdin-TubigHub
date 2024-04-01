@@ -6,9 +6,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
 
     <Grid>
+
+        <TextBlock HorizontalAlignment="Left" Margin="59,56,0,0" TextWrapping="Wrap" FontSize="25" Text="Cancelled Orders" VerticalAlignment="Top" Height="48" Width="451" FontWeight="Bold"/>
+        <AutoSuggestBox QueryIcon="Find" PlaceholderText="Find cancelled orders" HorizontalAlignment="Left" Margin="299,57,0,0" Width="272"/>
+
+
+        <ListView Margin="59,139,691,66"/>
+
+    
 
     </Grid>
 </Page>

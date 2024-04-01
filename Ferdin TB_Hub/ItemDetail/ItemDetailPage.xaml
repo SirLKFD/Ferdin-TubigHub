@@ -5,15 +5,18 @@
     xmlns:local="using:Ferdin_TB_Hub.ItemDetail"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local1="using:Ferdin_TB_Hub.Classes"
     mc:Ignorable="d"
     Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
 
+    <Page.Resources>
+        <local1:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter"/>
+    </Page.Resources>
+
     <Grid>
 
-        <Image x:Name="DestinationImage"
-       Width="400" Height="400"
-       Stretch="Fill"
-        Source="/Assets/Default_UserIcon.png" />
+        <Image x:Name="DestinationImage" Source="{Binding ProductPicture, Converter={StaticResource ByteArrayToImageSourceConverter}}" Margin="30,46,1167,653"/>
+
 
     </Grid>
 </Page>

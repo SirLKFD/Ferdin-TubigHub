@@ -6,9 +6,25 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
 
     <Grid>
+
+
+        <TextBlock HorizontalAlignment="Left" Margin="59,56,0,0" TextWrapping="Wrap" FontSize="25" Text="Order History" VerticalAlignment="Top" Height="48" Width="451" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <AutoSuggestBox QueryIcon="Find" PlaceholderText="Find your orders" HorizontalAlignment="Left" Margin="250,56,0,0" Width="272"/>
+
+        <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="579,29,0,0" TextWrapping="Wrap" Text="Total Purchases: " VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="579,73,0,0" TextWrapping="Wrap" Text="Most Purchased Category: " VerticalAlignment="Top"/>
+
+
+        <TextBox x:Name="tbxTotalSales" HorizontalAlignment="Left" Margin="750,26,0,0" TextWrapping="Wrap" Text="Total Purchases Placeholder" VerticalAlignment="Top" Width="260"/>
+        <TextBox x:Name="tbxBestSelling" HorizontalAlignment="Left" Margin="825,72,0,0" TextWrapping="Wrap" Text="Most Purchased Category Placeholder" VerticalAlignment="Top" Width="268"/>
+
+
+        <ListView Margin="59,139,110,66"/>
+
+
 
     </Grid>
 </Page>

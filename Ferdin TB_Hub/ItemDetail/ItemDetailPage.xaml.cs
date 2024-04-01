@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using static Ferdin_TB_Hub.Classes.Database;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -28,28 +29,7 @@ namespace Ferdin_TB_Hub.ItemDetail
             this.InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
+      
 
-            ConnectedAnimation animation =
-                ConnectedAnimationService.GetForCurrentView().GetAnimation("forwardAnimation");
-            if (animation != null)
-            {
-                animation.TryStart(DestinationImage);
-            }
-        }
-
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-        {
-            if (e.NavigationMode == NavigationMode.Back)
-            {
-                ConnectedAnimation animation =
-                    ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("backAnimation", DestinationImage);
-
-                // Use the recommended configuration for back animation.
-                animation.Configuration = new DirectConnectedAnimationConfiguration();
-            }
-        }
     }
 }

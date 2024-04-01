@@ -5,10 +5,38 @@
     xmlns:local="using:Ferdin_TB_Hub.HomePage_NavigationView"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local1="using:Ferdin_TB_Hub.Classes"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
+
+    <Page.Resources>
+        <local1:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter"/>
+    </Page.Resources>
 
     <Grid>
+
+        <TextBlock HorizontalAlignment="Left" Margin="59,50,0,0" TextWrapping="Wrap" FontSize="35" Text="Browse Water by Category" VerticalAlignment="Top" Height="48" Width="451" FontWeight="Bold"/>
+        <AutoSuggestBox TextChanged="AutoSuggestBox_TextChanged" QueryIcon="Find" PlaceholderText="Search Water Products" HorizontalAlignment="Left" Margin="538,65,0,0" Width="272"/>
+
+
+        <ListView  x:Name="BrowseProducts" Grid.Column="0" Margin="0,137,0,0">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding ProductPicture, Converter={StaticResource ByteArrayToImageSourceConverter}}" Width="100" Height="100" Margin="0,0,10,0"/>
+                        <StackPanel>
+                            <TextBlock Text="{Binding ProductName}" FontSize="20" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding ProductCategory}" FontSize="16"/>
+                            <TextBlock Text="{Binding ProductPrice}" FontSize="16"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+
+
 
     </Grid>
 </Page>

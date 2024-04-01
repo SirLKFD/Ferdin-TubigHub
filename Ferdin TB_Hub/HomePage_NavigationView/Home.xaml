@@ -5,28 +5,41 @@
     xmlns:local="using:Ferdin_TB_Hub.HomePage_NavigationView"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local1="using:Ferdin_TB_Hub.Classes"
     mc:Ignorable="d"
     Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
 
+    <Page.Resources>
+        <local1:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter"/>
+    </Page.Resources>
+
     <Grid>
 
-        <ListView x:Name="myListView" Margin="380,100,445,300">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="{Binding Image}" Width="50" Height="50"/>
-                        <TextBlock Text="{Binding Title}" Margin="10,0,0,0"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <TextBlock HorizontalAlignment="Left" Margin="59,44,0,0" TextWrapping="Wrap" FontSize="35" Text="Ferdin TubigHub" VerticalAlignment="Top" Height="48" Width="360" FontWeight="Bold"/>
+        <TextBlock HorizontalAlignment="Left" Margin="706,50,0,0" TextWrapping="Wrap" FontSize="20" Text="Price Slider" VerticalAlignment="Top" Height="38" Width="360"/>
+        <AutoSuggestBox TextChanged="AutoSuggestBox_TextChanged" QueryIcon="Find" PlaceholderText="Search Water Products" HorizontalAlignment="Left" Margin="364,51,0,0" Width="272"/>
+        <Slider  TickPlacement="Outside" SnapsTo="StepValues" TickFrequency="1"  StepFrequency="0.01" x:Name="PriceSlider" ValueChanged="Slider_ValueChanged" HorizontalAlignment="Left"  Margin="819,47,0,0" VerticalAlignment="Top" Width="369" />
 
-        <Image x:Name="SourceImage"
-       HorizontalAlignment="Left" VerticalAlignment="Top"
-       Width="200" Height="200"
-       Stretch="Fill"
-       Source="/Assets/Default_UserIcon.png"
-       PointerPressed="SourceImage_PointerPressed"/>
+        <GridView x:Name="ViewProducts" Margin="53,132,43,71">
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Gray" CornerRadius="5" BorderThickness="1" Margin="5">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Image x:Name="SourceImage" Source="{Binding ProductPicture, Converter={StaticResource ByteArrayToImageSourceConverter}}" Width="100" Height="100" Margin="0,0,10,0"/>
+                            <StackPanel Grid.Row="1" Margin="10,10,10,10">
+                                <TextBlock Text="{Binding ProductName}" FontSize="20" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding ProductPrice}" FontSize="16"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
 
 
     </Grid>

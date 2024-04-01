@@ -21,6 +21,7 @@ using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using System.Threading.Tasks;
 using Windows.Storage.Provider;
+using Microsoft.Data.Sqlite;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -32,6 +33,7 @@ namespace Ferdin_TB_Hub.Seller
     public sealed partial class AddProduct : Page
     {
         private StorageFile selectedFile;
+        private int currentSellerID;
 
         private ProductDetails _productdetails;
         public AddProduct()
@@ -142,9 +144,10 @@ namespace Ferdin_TB_Hub.Seller
                 string productDescription = tbxProductDescription.Text;
 
                 byte[] productPicture = await ConvertImageToByteArray(selectedFile);
-              
+
 
                 // Call AddProduct with SellerId
+
                 Database.AddProduct(productName, productCategory, productPrice, productDescription, productQuantity, productPicture);
 
                 // Clear the textboxes
@@ -165,7 +168,6 @@ namespace Ferdin_TB_Hub.Seller
                 return;
             }
         }
-
 
 
 

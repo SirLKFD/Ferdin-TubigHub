@@ -6,9 +6,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
 
     <Grid>
+
+        <TextBlock HorizontalAlignment="Left" Margin="59,56,0,0" TextWrapping="Wrap" FontSize="25" Text="To Receive" VerticalAlignment="Top" Height="48" Width="451" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <AutoSuggestBox QueryIcon="Find" PlaceholderText="Find your to receive orders" HorizontalAlignment="Left" Margin="214,57,0,0" Width="272"/>
+
+        <ListView Margin="59,139,110,66"/>
 
     </Grid>
 </Page>

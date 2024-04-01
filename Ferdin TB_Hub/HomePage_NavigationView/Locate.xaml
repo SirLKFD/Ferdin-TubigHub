@@ -10,8 +10,13 @@
     Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
 
     <Grid>
-        
-        
+
+        <TextBlock HorizontalAlignment="Left" Margin="59,56,0,0" TextWrapping="Wrap" FontSize="35" Text="Stores" VerticalAlignment="Top" Height="48" Width="451" FontWeight="Bold"/>
+        <AutoSuggestBox QueryIcon="Find" PlaceholderText="Search Stores" HorizontalAlignment="Left" Margin="186,67,0,0" Width="272"/>
+
+        <ListView Margin="59,134,750,63"/>
+        <ListView Margin="839,56,111,63"/>
+
 
 
     </Grid>

@@ -54,17 +54,39 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void Logout_Click(object sender, RoutedEventArgs e)
-        {
-            if (AccountBar != null)
-            {
-                AccountBar.IsPaneVisible = false;
-            }
 
-            // Navigate directly to MainPage without adding to back stack
-            Frame rootFrame = Window.Current.Content as Frame;
-            rootFrame.Navigate(typeof(MainPage));
+        private async void Logout_Click(object sender, RoutedEventArgs e)
+        {
+            // Create a confirmation dialog
+            ContentDialog confirmDialog = new ContentDialog
+            {
+                Title = "Logout",
+                Content = "Are you sure you want to logout?",
+                PrimaryButtonText = "Yes",
+                CloseButtonText = "No"
+            };
+
+            // Show the confirmation dialog and wait for user response
+            ContentDialogResult result = await confirmDialog.ShowAsync();
+
+            // Process the user's response
+            if (result == ContentDialogResult.Primary)
+            {
+                if (AccountBar != null)
+                {
+                    AccountBar.IsPaneVisible = false;
+                }
+
+                // Navigate directly to MainPage without adding to back stack
+                Frame rootFrame = Window.Current.Content as Frame;
+                rootFrame.Navigate(typeof(MainPage));
+            }
+            else
+            {
+                // User chose not to logout, do nothing or provide feedback
+            }
         }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -108,7 +130,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             // Check if any textbox is empty
             if (string.IsNullOrWhiteSpace(tbxUsername.Text) || string.IsNullOrWhiteSpace(tbxLastName.Text) ||
                 string.IsNullOrWhiteSpace(tbxFirstName.Text) || string.IsNullOrWhiteSpace(tbxMiddleName.Text) ||
-                string.IsNullOrWhiteSpace(tbxPassword.Text) || string.IsNullOrWhiteSpace(tbxPhoneNumber.Text) ||
+                string.IsNullOrWhiteSpace(tbxPassword.Password) || string.IsNullOrWhiteSpace(tbxPhoneNumber.Text) ||
                 string.IsNullOrWhiteSpace(tbxAddressLine1.Text) || string.IsNullOrWhiteSpace(tbxAddressLine2.Text))
             {
                 // Display error message
@@ -122,14 +144,14 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             string lastName = tbxLastName.Text;
             string firstName = tbxFirstName.Text;
             string middleName = tbxMiddleName.Text;
-            string password = tbxPassword.Text;
+            string password = tbxPassword.Password;
             string phoneNumber = tbxPhoneNumber.Text;
             string addressLine1 = tbxAddressLine1.Text;
             string addressLine2 = tbxAddressLine2.Text;
 
             // Retrieve the buyer's Id from the text box
-            int id;
-            if (!int.TryParse(tbxID.Text, out id))
+            int buyer_id;
+            if (!int.TryParse(tbxID.Text, out buyer_id))
             {
                 // Handle invalid input (e.g., display an error message)
                 return;
@@ -151,7 +173,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             if (result == ContentDialogResult.Primary)
             {
                 // Call the method to update buyer info in the database using Id
-                Database.UpdateBuyerInfoFromDatabase(id, email, username, lastName, firstName, middleName, password, phoneNumber, addressLine1, addressLine2);
+                Database.UpdateBuyerInfoFromDatabase(buyer_id, email, username, lastName, firstName, middleName, password, phoneNumber, addressLine1, addressLine2);
             }
             else
             {
@@ -161,7 +183,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
 
         private void NavigationView_Loaded(object sender, RoutedEventArgs e)
         {
-            contentFrame.Navigate(typeof(BoughtProducts));
+            contentFrame.Navigate(typeof(ToReceive));
         }
 
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -169,11 +191,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             NavigationViewItem item = args.SelectedItem as NavigationViewItem;
 
             switch (item.Tag.ToString())
-            {
-                case "BoughtPage":
-                    contentFrame.Navigate(typeof(BoughtProducts));
-                    break;
-
+            {         
                 case "ReceivePage":
                     contentFrame.Navigate(typeof(ToReceive));
                     break;
@@ -188,6 +206,30 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
 
             }
         }
+
+        private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            bool isToggleOn = (sender as ToggleSwitch).IsOn;
+
+            // Enable or disable TextBoxes based on toggle state
+            tbxUsername.IsEnabled = isToggleOn;
+            tbxFirstName.IsEnabled = isToggleOn;
+            tbxMiddleName.IsEnabled = isToggleOn;
+            tbxLastName.IsEnabled = isToggleOn;
+            tbxPhoneNumber.IsEnabled = isToggleOn;
+            tbxAddressLine1.IsEnabled = isToggleOn;
+            tbxAddressLine2.IsEnabled = isToggleOn;
+            tbxEmail.IsEnabled = isToggleOn;
+            tbxPassword.IsEnabled = isToggleOn;
+
+            tbxPassword.PasswordRevealMode = isToggleOn ? PasswordRevealMode.Visible : PasswordRevealMode.Hidden;
+
+            // Enable or disable buttons based on toggle state
+            btnUpdateBuyerInfo.IsEnabled = isToggleOn;
+            btnDeleteBuyerAccount.IsEnabled = isToggleOn;
+        }
+
+      
     }
     
 }

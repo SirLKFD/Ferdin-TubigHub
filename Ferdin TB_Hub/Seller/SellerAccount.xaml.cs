@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using static Ferdin_TB_Hub.Classes.Database;
 
@@ -27,6 +28,7 @@ namespace Ferdin_TB_Hub.Seller
     public sealed partial class SellerAccount : Page, INotifyPropertyChanged
     {
         private SellerDetails _seller;
+
         public SellerDetails Seller
         {
             get { return _seller; }
@@ -86,6 +88,7 @@ namespace Ferdin_TB_Hub.Seller
             if (result == ContentDialogResult.Primary)
             {
                 // Navigate back to the MainPage to logout
+                _seller = null;
                 Frame.Navigate(typeof(MainPage));
             }
             else
@@ -100,7 +103,7 @@ namespace Ferdin_TB_Hub.Seller
             if (string.IsNullOrWhiteSpace(tbxStore.Text) || string.IsNullOrWhiteSpace(tbxEmail.Text) ||
                 string.IsNullOrWhiteSpace(tbxUsername.Text) || string.IsNullOrWhiteSpace(tbxLastName.Text) ||
                 string.IsNullOrWhiteSpace(tbxFirstName.Text) || string.IsNullOrWhiteSpace(tbxMiddleName.Text) ||
-                string.IsNullOrWhiteSpace(tbxPassword.Text) || string.IsNullOrWhiteSpace(tbxPhoneNumber.Text) ||
+                string.IsNullOrWhiteSpace(tbxPassword.Password) || string.IsNullOrWhiteSpace(tbxPhoneNumber.Text) ||
                 string.IsNullOrWhiteSpace(tbxAddressLine1.Text) || string.IsNullOrWhiteSpace(tbxAddressLine2.Text))
             {
                 // Display error message
@@ -115,14 +118,14 @@ namespace Ferdin_TB_Hub.Seller
             string lastName = tbxLastName.Text;
             string firstName = tbxFirstName.Text;
             string middleName = tbxMiddleName.Text;
-            string password = tbxPassword.Text;
+            string password = tbxPassword.Password;
             string phoneNumber = tbxPhoneNumber.Text;
             string addressLine1 = tbxAddressLine1.Text;
             string addressLine2 = tbxAddressLine2.Text;
 
             // Retrieve the seller's Id from the text box
-            int id;
-            if (!int.TryParse(tbxID.Text, out id))
+            int seller_id;
+            if (!int.TryParse(tbxID.Text, out seller_id))
             {
                 // Handle invalid input (e.g., display an error message)
                 return;
@@ -144,7 +147,7 @@ namespace Ferdin_TB_Hub.Seller
             if (result == ContentDialogResult.Primary)
             {
                 // Call the method to update seller info in the database using Id
-                Database.UpdateSellerInfoFromDatabase(id, businessName, email, username, lastName, firstName, middleName, password, phoneNumber, addressLine1, addressLine2);
+                Database.UpdateSellerInfoFromDatabase(seller_id, businessName, email, username, lastName, firstName, middleName, password, phoneNumber, addressLine1, addressLine2);
             }
             else
             {
@@ -207,6 +210,8 @@ namespace Ferdin_TB_Hub.Seller
             }
         }
 
+
+
         private void NavigationView_Loaded(object sender, RoutedEventArgs e)
         {
             contentFrame.Navigate(typeof(YourWaterProducts));
@@ -227,6 +232,9 @@ namespace Ferdin_TB_Hub.Seller
             tbxAddressLine2.IsEnabled = isToggleOn;
             tbxEmail.IsEnabled = isToggleOn;
             tbxPassword.IsEnabled = isToggleOn;
+
+            tbxPassword.PasswordRevealMode = isToggleOn ? PasswordRevealMode.Visible : PasswordRevealMode.Hidden;
+
 
             // Enable or disable buttons based on toggle state
             btnUpdateSellerInfo.IsEnabled = isToggleOn;

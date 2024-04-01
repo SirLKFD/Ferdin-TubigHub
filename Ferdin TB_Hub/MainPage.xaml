@@ -9,73 +9,69 @@
     >
 
     <Page.Resources>
-            <Style x:Key="AccentButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonRevealStyle}">
-                <!-- Additional properties for your button style -->
-                <Setter Property="Background" Value="ForestGreen"/>
-                <Setter Property="CornerRadius" Value="10"/>
-                <!-- Other setters for properties like Foreground, BorderBrush, etc. -->
-            </Style>
-        </Page.Resources>
+        <Style x:Key="AccentButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonRevealStyle}">
+            <!-- Additional properties for your button style -->
+            <Setter Property="Background" Value="ForestGreen"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <!-- Other setters for properties like Foreground, BorderBrush, etc. -->
+        </Style>
+    </Page.Resources>
 
 
+    <Page.Background>
+        <ThemeResource ResourceKey="SystemControlAcrylicWindowMediumHighBrush"/>
+    </Page.Background>
+
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <RelativePanel Grid.Column="0" Background="DeepSkyBlue">
 
 
-        <Page.Background>
-            <ThemeResource ResourceKey="SystemControlAcrylicWindowMediumHighBrush"/>
-        </Page.Background>
-
-        <Grid>
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="400" />
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            
-            <RelativePanel Grid.Column="0" Background="DeepSkyBlue">
-
-
-                <TextBlock Text="FERDIN" FontSize="100" 
+            <TextBlock Text="FERDIN" FontSize="100" 
                        MaxHeight="200" 
                        RelativePanel.AlignBottomWithPanel="True" 
                        RelativePanel.AlignVerticalCenterWithPanel="True"/>
 
-            </RelativePanel>
-            
-            <ScrollViewer Grid.Column="1"
+        </RelativePanel>
+
+        <ScrollViewer Grid.Column="1"
                       FontFamily="Selawik"
                       Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}" 
                       Foreground="DeepSkyBlue" ViewChanged="ScrollViewer_ViewChanged">
 
 
-                <StackPanel>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
+            <StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
 
 
-                        </Grid.RowDefinitions>
+                    </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="0"
-                               FontSize="35"
-                               Text="WELCOME USER!"
-                               Margin="50"                              
+                    <TextBlock Grid.Row="0"
+                               FontSize="30"
+                               Text="WELCOME KA-FERDIN!"
+                               Margin="40,50,-40,50"                              
                                FontWeight="Bold"/>
-                        <TextBlock Grid.Row="1"
-                                Text="username or email"
-                                FontSize="25"
-                                Margin="50,0,0,0"/>
-                        <TextBox Grid.Row="2"
+                   
+                    <TextBox Grid.Row="2"
                                 x:Name="tbxUsernameorEmail"
+                             PlaceholderText="username or email"
                                 FontSize="25"
                              Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}"
                                Margin="50,0,50,0"
@@ -83,14 +79,12 @@
                               CornerRadius="5"
                              BorderBrush="SkyBlue"
                             />
-                        <TextBlock Grid.Row="3"
-                                 Text="password"
-                                 FontSize="25"
-                                Margin="50,0,0,0"/>
+                
 
-                        <PasswordBox Grid.Row="4"
+                    <PasswordBox Grid.Row="4"
                                  x:Name="RevealPassMode"
                                  AutomationProperties.Name="Sample password box"
+                                 PlaceholderText="password"
                                  PasswordRevealMode="Hidden"                                 
                                  FontSize="25"
                                  Margin="50,0,50,20"
@@ -100,7 +94,7 @@
                                 BorderBrush="SkyBlue"
                                />
 
-                        <Button Grid.Row="5"
+                    <Button Grid.Row="5"
                             Name="LoginButton"
                             Click="GoToHomePage"
                             Style="{StaticResource AccentButtonStyle}"
@@ -113,7 +107,7 @@
                             Padding="15,5,15,5"                        
                             />
 
-                        <CheckBox Name="RevealPassCheck"
+                    <CheckBox Name="RevealPassCheck"
                                Grid.Row="5"
                               Content="Show Password" 
                               Margin="183,0,0,5" 
@@ -123,30 +117,43 @@
                               
                               />
 
-                        <RadioButton Name="rbnBuyer"
+                    <RadioButton Name="rbnBuyer"
                             Grid.Row="6" 
                                  Margin="50,30,0,0"
                                  Content="BUYER"/>
 
-                        <RadioButton Grid.Row="6" 
+                    <RadioButton Grid.Row="6" 
                         Name="rbnSeller"
                         Margin="183,30,0,0"
                         Content="SELLER"/>
 
-                        <TextBlock Grid.Row="9"
+                    <TextBlock Grid.Row="9"
                                Text="New User?" Margin="51,23,-55,387"
                                FontSize="25"/>
 
-                        <HyperlinkButton Grid.Row="9" 
+                    <HyperlinkButton Grid.Row="9" 
                                      Click="GoToCreateAccount"
                                      Content="Create Account Here" 
                                      Margin="51,53,0,0" 
                                      FontSize="15"
                                      VerticalAlignment="Top"/>
 
-                    </Grid>
-                </StackPanel>
-            </ScrollViewer>
+                    <TextBlock Grid.Row="9"
+                     FontSize="15"
+                      Foreground="OrangeRed"
+                     Text="PRE-ALPHA BUILD 0.0.5"
+                    Margin="18,170,82,-174"                              
+                    FontWeight="Bold"/>
+
+                    <TextBlock Grid.Row="9"
+                 FontSize="10"
+                Text="PROGRAM UNDER CONSTRUCTION!, EXPECT BUGS, GLITCHES, AND CRASHES!"
+                Margin="17,193,31,216" FontStyle="Italic"                              
+                />
+
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
 
         <FlipView x:Name="MainPage_FlipView" Grid.Column="2" MaxWidth="700" Height="670"/>
 
@@ -161,5 +168,5 @@
 
 
 
-    </Page>
+</Page>
 

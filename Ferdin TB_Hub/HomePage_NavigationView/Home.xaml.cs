@@ -1,4 +1,5 @@
-﻿using Ferdin_TB_Hub.ItemDetail;
+﻿using Ferdin_TB_Hub.Classes;
+using Ferdin_TB_Hub.ItemDetail;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,6 +16,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using static Ferdin_TB_Hub.Classes.Database;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -25,55 +27,67 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
     /// </summary>
     public sealed partial class Home : Page
     {
-        public ObservableCollection<Item> Items { get; set; }
-
-        public class Item
-        {
-            public string Title { get; set; }
-            public Uri Image { get; set; }
-        }
+        // Fetch all product details from the database
+        List<ProductDetails> allProductDetails = Database.GetProductDetails();
 
         public Home()
         {
             this.InitializeComponent();
-            Items = new ObservableCollection<Item>();
-            // Add sample data
-            Items.Add(new Item { Title = "Item 1", Image = new Uri("ms-appx:///Assets/Default_UserIcon.png") });
-            Items.Add(new Item { Title = "Item 2", Image = new Uri("ms-appx:///Assets/Default_UserIcon.png") });
-            Items.Add(new Item { Title = "Item 3", Image = new Uri("ms-appx:///Assets/Default_UserIcon.png") });
-            Items.Add(new Item { Title = "Item 4", Image = new Uri("ms-appx:///Assets/Default_UserIcon.png") });
-            Items.Add(new Item { Title = "Item 5", Image = new Uri("ms-appx:///Assets/Default_UserIcon.png") });
-
-            // Add more items as needed
-            myListView.ItemsSource = Items;
+            PopulateViewProducts();        
+            InitializePriceSlider();
         }
 
-        private void SourceImage_PointerPressed(object sender, PointerRoutedEventArgs e)
+
+        private void InitializePriceSlider()
         {
-            // Navigate to detail page.
-            // Suppress the default animation to avoid conflict with the connected animation.
-            Frame.Navigate(typeof(ItemDetailPage), null, new SuppressNavigationTransitionInfo());
+            double maxPrice = allProductDetails.Max(product => product.ProductPrice);
+            PriceSlider.Maximum = maxPrice;
+
+            // Set the slider's value to zero initially
+            PriceSlider.Value = 0;
+
+            // Display all products initially since the slider is at zero
+            ViewProducts.ItemsSource = allProductDetails;
         }
 
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+
+        private void PopulateViewProducts()
         {
-            ConnectedAnimationService.GetForCurrentView()
-                .PrepareToAnimate("forwardAnimation", SourceImage);
-            // You don't need to explicitly set the Configuration property because
-            // the recommended Gravity configuration is default.
-            // For custom animation, use:
-            // animation.Configuration = new BasicConnectedAnimationConfiguration();
+            ViewProducts.ItemsSource = allProductDetails;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            base.OnNavigatedTo(e);
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {     
+                // Filter the products based on user input
+                var filteredProducts = allProductDetails.Where(product =>
+                    product.ProductName.Contains(sender.Text, StringComparison.OrdinalIgnoreCase)
+                ).ToList();
 
-            ConnectedAnimation animation =
-                ConnectedAnimationService.GetForCurrentView().GetAnimation("backAnimation");
-            if (animation != null)
+                // Update the ListView with filtered items
+                ViewProducts.ItemsSource = filteredProducts;
+            }
+        }
+
+        private void Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            double sliderValue = Math.Round((sender as Slider).Value, 2); // Round to 2 decimal places
+
+            // If slider value is 0, show all products
+            if (sliderValue == 0)
             {
-                animation.TryStart(SourceImage);
+                ViewProducts.ItemsSource = allProductDetails;
+            }
+            else
+            {
+                // Filter the products to show only those with a price equal to or within 0.01 of the slider value
+                var filteredProducts = allProductDetails.Where(product =>
+                    Math.Abs(product.ProductPrice - sliderValue) <= 0.01
+                ).ToList();
+
+                // Update the GridView with filtered items
+                ViewProducts.ItemsSource = filteredProducts;
             }
         }
     }

@@ -29,8 +29,8 @@
             <NavigationView.MenuItems>
                 <NavigationViewItem Icon="Home" Tag="Home" Content="Home"/>
                 <NavigationViewItem Content="Browse Water" Tag="Browse" Icon="Library" />
-                <NavigationViewItem Icon="Shop" Tag="Cart" Content="Cart"/>
                 <NavigationViewItem Content="Locate Stores" Tag="Locate" Icon="Map" />
+                <NavigationViewItem Icon="Shop" Tag="Cart" Content="Cart"/>
                 <NavigationViewItem Content="Account" Tag="Account" Icon="Contact" />
 
 
