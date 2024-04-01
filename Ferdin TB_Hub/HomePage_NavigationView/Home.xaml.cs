@@ -40,8 +40,17 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
 
         private void InitializePriceSlider()
         {
-            double maxPrice = allProductDetails.Max(product => product.ProductPrice);
-            PriceSlider.Maximum = maxPrice;
+            if (allProductDetails.Any()) // Check if there are any elements in allProductDetails
+            {
+                double maxPrice = allProductDetails.Max(product => product.ProductPrice);
+                PriceSlider.Maximum = maxPrice;
+            }
+            else
+            {
+                // Handle the case where allProductDetails is empty
+                // For example, set a default maximum value for the slider
+                PriceSlider.Maximum = 100; // Set a default maximum value of 100
+            }
 
             // Set the slider's value to zero initially
             PriceSlider.Value = 0;
