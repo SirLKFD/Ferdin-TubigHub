@@ -89,11 +89,38 @@ namespace Ferdin_TB_Hub.Seller
                 // User confirmed the update
                 // Retrieve the selected product and update its details
                 ProductDetails selectedProduct = (ProductDetails)ListProducts.SelectedItem;
+
+                // Validate input
+                if (string.IsNullOrWhiteSpace(tbxProductName.Text) || string.IsNullOrWhiteSpace(tbxProductDescription.Text) ||
+                    string.IsNullOrWhiteSpace(tbxProductPrice.Text) || string.IsNullOrWhiteSpace(tbxProductQuantity.Text))
+                {
+                    // Invalid input, ask the user to re-input
+                    ShowMessageDialog("Please provide valid values for all fields.");
+                    return;
+                }
+
+                double price;
+                if (!double.TryParse(tbxProductPrice.Text, out price))
+                {
+                    // Invalid price input, ask the user to re-input
+                    ShowMessageDialog("Please provide a valid price.");
+                    return;
+                }
+
+                int quantity;
+                if (!int.TryParse(tbxProductQuantity.Text, out quantity))
+                {
+                    // Invalid quantity input, ask the user to re-input
+                    ShowMessageDialog("Please provide a valid quantity.");
+                    return;
+                }
+
+                // Update product details
                 selectedProduct.ProductName = tbxProductName.Text;
                 selectedProduct.ProductCategory = ((ComboBoxItem)cbxProductCategory.SelectedItem).Content.ToString();
-                selectedProduct.ProductPrice = double.Parse(tbxProductPrice.Text);
+                selectedProduct.ProductPrice = price;
                 selectedProduct.ProductDescription = tbxProductDescription.Text;
-                selectedProduct.ProductQuantity = int.Parse(tbxProductQuantity.Text);
+                selectedProduct.ProductQuantity = quantity;
 
                 // Update the product picture if a new picture is selected
                 if (selectedFile != null)
@@ -123,8 +150,28 @@ namespace Ferdin_TB_Hub.Seller
                 PopulateProductList();
             }
         }
+
+        private async void ShowMessageDialog(string message)
+        {
+            ContentDialog dialog = new ContentDialog
+            {
+                Title = "Error",
+                Content = message,
+                CloseButtonText = "OK"
+            };
+            await dialog.ShowAsync();
+        }
+
         private async void DeleteProduct_Click(object sender, RoutedEventArgs e)
         {
+            // Check if any product is selected for deletion
+            if (ListProducts.SelectedItem == null)
+            {
+                // If no product is selected, display an error dialog
+                ShowMessageDialog("Please select a product to delete.");
+                return;
+            }
+
             // Display a confirmation dialog before deleting the product
             ContentDialog confirmDialog = new ContentDialog
             {
