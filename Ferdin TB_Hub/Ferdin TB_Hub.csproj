@@ -154,9 +154,6 @@
     <Compile Include="HomePage_NavigationView\AccountBuyer.xaml.cs">
       <DependentUpon>AccountBuyer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="HomePage_NavigationView\BrowseWater.xaml.cs">
-      <DependentUpon>BrowseWater.xaml</DependentUpon>
-    </Compile>
     <Compile Include="HomePage_NavigationView\Cart.xaml.cs">
       <DependentUpon>Cart.xaml</DependentUpon>
     </Compile>
@@ -321,10 +318,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="HomePage_NavigationView\AccountBuyer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="HomePage_NavigationView\BrowseWater.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

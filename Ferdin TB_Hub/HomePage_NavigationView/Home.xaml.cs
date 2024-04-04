@@ -71,7 +71,9 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             {     
                 // Filter the products based on user input
                 var filteredProducts = allProductDetails.Where(product =>
-                    product.ProductName.Contains(sender.Text, StringComparison.OrdinalIgnoreCase)
+                    product.ProductName.Contains(sender.Text, StringComparison.OrdinalIgnoreCase)  ||                   
+                    product.ProductDescription.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase)
+
                 ).ToList();
 
                 // Update the ListView with filtered items
@@ -98,6 +100,38 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
                 // Update the GridView with filtered items
                 ViewProducts.ItemsSource = filteredProducts;
             }
+        }
+
+        private void cbxCategories_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Fetch all product details from the database
+            List<ProductDetails> allProductDetails = Database.GetProductDetails();
+
+            // Check if "All Products" is selected
+            if (cbxCategories.SelectedIndex == 0) // Assuming "All Products" is the first item in the ComboBox
+            {
+                // Display all products
+                ViewProducts.ItemsSource = allProductDetails;
+            }
+            else if (cbxCategories.SelectedItem != null)
+            {
+                // Filter the products based on the selected category
+                var selectedCategory = ((ComboBoxItem)cbxCategories.SelectedItem).Content.ToString();
+                var filteredProducts = allProductDetails.Where(product => product.ProductCategory == selectedCategory).ToList();
+
+                // Update the GridView with filtered items
+                ViewProducts.ItemsSource = filteredProducts;
+            }
+            else
+            {
+                // If no category is selected, display all products
+                ViewProducts.ItemsSource = allProductDetails;
+            }
+        }
+
+        private void AddToCart_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

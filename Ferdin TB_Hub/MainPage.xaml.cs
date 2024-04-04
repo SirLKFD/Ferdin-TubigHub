@@ -119,7 +119,7 @@ namespace Ferdin_TB_Hub
 
         private void GoToCreateAccount(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(CreateAccountPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromBottom });
+            Frame.Navigate(typeof(CreateAccountPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
         }
 
         private async void LoadMainPageImages()

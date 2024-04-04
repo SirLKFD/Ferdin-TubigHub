@@ -60,10 +60,7 @@ namespace Ferdin_TB_Hub
                     break;
                 case "Home":
                     contentFrame.Navigate(typeof(Home));
-                    break;
-                case "Browse":
-                    contentFrame.Navigate(typeof(BrowseWater));
-                    break;
+                    break;               
                 case "Cart":
                     contentFrame.Navigate(typeof(Cart));
                     break;

@@ -27,9 +27,8 @@
                         SelectionChanged="NavigationView_SelectionChanged" BackRequested="GoingBack">
 
             <NavigationView.MenuItems>
-                <NavigationViewItem Icon="Home" Tag="Home" Content="Home"/>
-                <NavigationViewItem Content="Browse Water" Tag="Browse" Icon="Library" />
-                <NavigationViewItem Content="Locate Stores" Tag="Locate" Icon="Map" />
+                <NavigationViewItem Icon="Home" Tag="Home" Content="Dashboard"/>
+                <NavigationViewItem Content="Locate Stores" Tag="Locate" Icon="Directions" />
                 <NavigationViewItem Icon="Shop" Tag="Cart" Content="Cart"/>
                 <NavigationViewItem Content="Account" Tag="Account" Icon="Contact" />
 
