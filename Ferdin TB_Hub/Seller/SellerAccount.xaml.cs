@@ -195,17 +195,13 @@ namespace Ferdin_TB_Hub.Seller
                     contentFrame.Navigate(typeof(AddProduct));
                     break;
 
-                case "ShipPage":
-                    contentFrame.Navigate(typeof(ToShip));
-                    break;
+       
 
                 case "SellerCompletePage":
                     contentFrame.Navigate(typeof(SellerComplete));
                     break;
 
-                case "SellerCancelledPage":
-                    contentFrame.Navigate(typeof(SellerCancelled));
-                    break;
+             
 
             }
         }

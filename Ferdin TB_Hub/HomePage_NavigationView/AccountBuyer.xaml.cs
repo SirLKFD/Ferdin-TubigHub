@@ -10,6 +10,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System.Profile;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -72,11 +73,6 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             // Process the user's response
             if (result == ContentDialogResult.Primary)
             {
-                if (AccountBar != null)
-                {
-                    AccountBar.IsPaneVisible = false;
-                }
-
                 // Navigate directly to MainPage without adding to back stack
                 Frame rootFrame = Window.Current.Content as Frame;
                 rootFrame.Navigate(typeof(MainPage));
@@ -98,6 +94,9 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
                 Buyer = e.Parameter as BuyerDetails;
                 // Notify the UI that the Buyer property has changed
                 OnPropertyChanged(nameof(Buyer));
+
+                // Pass the BuyerDetails object to the Cart page when navigating to it
+                Frame.Navigate(typeof(Cart), Buyer);
             }
         }
 
@@ -181,32 +180,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
         }
 
-        private void NavigationView_Loaded(object sender, RoutedEventArgs e)
-        {
-            contentFrame.Navigate(typeof(ToReceive));
-        }
-
-        private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
-        {
-            NavigationViewItem item = args.SelectedItem as NavigationViewItem;
-
-            switch (item.Tag.ToString())
-            {         
-                case "ReceivePage":
-                    contentFrame.Navigate(typeof(ToReceive));
-                    break;
-
-                case "CompletePage":
-                    contentFrame.Navigate(typeof(BuyerComplete));
-                    break;
-
-                case "BuyerCancelledPage":
-                    contentFrame.Navigate(typeof(BuyerCancelled));
-                    break;
-
-            }
-        }
-
+     
         private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
             bool isToggleOn = (sender as ToggleSwitch).IsOn;

@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Custom="using:Ferdin_TB_Hub.UserControls"
     x:Class="Ferdin_TB_Hub.NewAccount.CreateBuyer"
-    mc:Ignorable="d"
+    mc:Ignorable="d" FontFamily="Electronic Arts Text"
     Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
 
     <Page.Resources>
@@ -34,8 +34,7 @@
         <RelativePanel Grid.Column="2"/>
         <RelativePanel Grid.Column="3" Margin="50,0,0,0"/>
         <ScrollViewer HorizontalScrollMode="Enabled" Grid.Column="1"
-                  FontFamily="Selawik"
-                  Foreground="DeepSkyBlue">
+                  Foreground="{ThemeResource SystemAccentColor}">
 
             <StackPanel>
                 <Grid>
@@ -87,7 +86,7 @@
                     <TextBlock Grid.Row="0"
                            FontSize="25"
                            Text="CREATE BUYER ACCOUNT"
-                           Margin="50"                              
+                           Margin="38,50,36,50"                              
                            FontWeight="Bold" SelectionChanged="TextBlock_SelectionChanged"/>
 
                     <TextBlock Grid.Row="1"
@@ -229,7 +228,6 @@
         </ScrollViewer>
 
         <ScrollViewer Grid.Column="2" HorizontalScrollMode="Enabled"
-          FontFamily="Selawik"
           Foreground="DeepSkyBlue">
 
             <StackPanel Height="358">
@@ -260,47 +258,22 @@
 
 
 
-        <ScrollViewer HorizontalScrollMode="Enabled" Grid.Column="3"
-   FontFamily="Selawik"
-   Foreground="DeepSkyBlue">
-
-            <StackPanel>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-
-                </Grid>
-                
-                <Custom:TermsandConditions Width="785" Height="674" Margin="-25,60,0,0"/>
-
-
-
-
-
-            </StackPanel>
-
-
+        <ScrollViewer Grid.Column="2" Foreground="DeepSkyBlue" Margin="0,0,10,0">
+            <Grid>
+                <RadioButton x:Name="acceptRadioButton" Content="I Accept" Margin="0,726,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                <Button Style="{StaticResource AccentButtonStyle}"
+         Content="Proceed"
+         FontSize="21"
+         Foreground="White"
+         Background="{ThemeResource SystemAccentColor}"
+         CornerRadius="5"
+         Padding="15,5,15,5"
+         Click="Proceed_Click"
+         IsEnabled="{Binding IsChecked, ElementName=acceptRadioButton}" Margin="273,764,0,0" VerticalAlignment="Top"/>
+                <Custom:TermsandConditions HorizontalAlignment="Center" Margin="0,-12,0,0" VerticalAlignment="Top" Height="722" Width="690"/>
+            </Grid>
         </ScrollViewer>
 
-        <RadioButton x:Name="acceptRadioButton" Grid.Column="3" Content="I Accept" Margin="271,759,0,0" VerticalAlignment="Top"/>
-
-        <Button Grid.Column="3"
-                Style="{StaticResource AccentButtonStyle}"
-                Margin="258,796,0,0"
-                Content="Proceed"
-                FontSize="21"
-                Foreground="White"
-                Background="Purple"
-                CornerRadius="5"
-                Padding="15,5,15,5"
-                VerticalAlignment="Top"
-                Click="Proceed_Click"
-                IsEnabled="{Binding IsChecked, ElementName=acceptRadioButton}"
-            />
-
+        
     </Grid>
 </Page>

@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Custom="using:Ferdin_TB_Hub.UserControls"
     x:Class="Ferdin_TB_Hub.Seller.SellerAccount"
-    mc:Ignorable="d"
+    mc:Ignorable="d" FontFamily="Electronic Arts Text"
     Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
 
     <Page.Resources>
@@ -58,33 +58,34 @@
                         <TextBlock x:Name="MiddleName" FontSize="20" Text="Middle Name" HorizontalAlignment="Left" Margin="0,155,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.802,0.592"/>
                         <TextBlock x:Name="LastName" FontSize="20" Text="Last Name" HorizontalAlignment="Left" Margin="0,210,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.802,0.592"/>
                         <TextBlock x:Name="PhoneNumber" FontSize="20" Text="Phone Number" HorizontalAlignment="Left" Margin="0,262,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.854,1.11"/>
-                        <TextBlock x:Name="AddressLine1" FontSize="20" Text="Address Line 1" HorizontalAlignment="Left" Margin="2,312,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.854,1.11"/>
-                        <TextBlock x:Name="AddressLine2" FontSize="20" Text="Address Line 2" HorizontalAlignment="Left" Margin="5,368,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.854,1.11"/>
+                        <TextBlock x:Name="AddressLine1" FontSize="20" Text="Address Line 1" HorizontalAlignment="Left" Margin="2,315,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.854,1.11"/>
+                        <TextBlock x:Name="AddressLine2" FontSize="20" Text="Address Line 2" HorizontalAlignment="Left" Margin="4,371,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.854,1.11"/>
                         <TextBlock x:Name="Email" FontSize="20" Text="Email" HorizontalAlignment="Left" Margin="4,428,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.854,1.11"/>
                         <TextBlock x:Name="Password" FontSize="20" Text="Password" HorizontalAlignment="Left" Margin="4,478,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.854,1.11"/>
                         <TextBlock x:Name="ID" FontSize="20" Text="ID" HorizontalAlignment="Left" Margin="3,679,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.854,1.11"/>
 
 
-                        <TextBox x:Name="tbxStore" Text="{Binding Seller.BusinessName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="158,9,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="233"/>
-                        <TextBox x:Name="tbxUsername" Text="{Binding Seller.Username, Mode=TwoWay}" HorizontalAlignment="Left" Margin="158,57,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="233"/>
-                        <TextBox x:Name="tbxFirstName" Text="{Binding Seller.FirstName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="158,104,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="233"/>
-                        <TextBox x:Name="tbxMiddleName" Text="{Binding Seller.MiddleName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="157,153,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235"/>
-                        <TextBox x:Name="tbxLastName" Text="{Binding Seller.LastName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="157,208,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235"/>
-                        <TextBox x:Name="tbxPhoneNumber" Text="{Binding Seller.PhoneNumber, Mode=TwoWay}" HorizontalAlignment="Left" Margin="157,259,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="234"/>
-                        <TextBox x:Name="tbxAddressLine1" Text="{Binding Seller.AddressLine1, Mode=TwoWay}" HorizontalAlignment="Left" Margin="158,312,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="233" Height="33"/>
-                        <TextBox x:Name="tbxAddressLine2" Text="{Binding Seller.AddressLine2, Mode=TwoWay}" HorizontalAlignment="Left" Margin="158,368,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="233" Height="33"/>
-                        <TextBox x:Name="tbxEmail" Text="{Binding Seller.Email, Mode=TwoWay}" HorizontalAlignment="Left" Margin="159,422,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="232"/>
-                        <PasswordBox x:Name="tbxPassword" Password="{Binding Seller.Password, Mode=TwoWay}" HorizontalAlignment="Left" Margin="158,476,0,0" VerticalAlignment="Top" Width="233"/>
-                        <TextBox x:Name="tbxID" Text="{Binding Seller.SELLER_ID, Mode=TwoWay}" HorizontalAlignment="Left" Margin="36,677,0,0" VerticalAlignment="Top" Width="57" IsReadOnly="True" IsEnabled="False"/>
+                        <TextBox IsEnabled="False" x:Name="tbxStore" Text="{Binding Seller.BusinessName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="158,9,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="233"/>
+                        <TextBox  IsEnabled="False" x:Name="tbxUsername" Text="{Binding Seller.Username, Mode=TwoWay}" HorizontalAlignment="Left" Margin="158,57,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="233"/>
+                        <TextBox  IsEnabled="False" x:Name="tbxFirstName" Text="{Binding Seller.FirstName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="158,104,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="233"/>
+                        <TextBox  IsEnabled="False" x:Name="tbxMiddleName" Text="{Binding Seller.MiddleName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="158,155,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235"/>
+                        <TextBox  IsEnabled="False" x:Name="tbxLastName" Text="{Binding Seller.LastName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="157,208,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235"/>
+                        <TextBox  IsEnabled="False" x:Name="tbxPhoneNumber" Text="{Binding Seller.PhoneNumber, Mode=TwoWay}" HorizontalAlignment="Left" Margin="157,259,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="234"/>
+                        <TextBox  IsEnabled="False" x:Name="tbxAddressLine1" Text="{Binding Seller.AddressLine1, Mode=TwoWay}" HorizontalAlignment="Left" Margin="158,312,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="233" Height="33"/>
+                        <TextBox  IsEnabled="False" x:Name="tbxAddressLine2" Text="{Binding Seller.AddressLine2, Mode=TwoWay}" HorizontalAlignment="Left" Margin="158,368,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="233" Height="33"/>
+                        <TextBox  IsEnabled="False" x:Name="tbxEmail" Text="{Binding Seller.Email, Mode=TwoWay}" HorizontalAlignment="Left" Margin="159,422,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="232"/>
+                        <PasswordBox  IsEnabled="False" x:Name="tbxPassword" Password="{Binding Seller.Password, Mode=TwoWay}" HorizontalAlignment="Left" Margin="158,476,0,0" VerticalAlignment="Top" Width="233"/>
+                        <TextBox  x:Name="tbxID" Text="{Binding Seller.SELLER_ID, Mode=TwoWay}" HorizontalAlignment="Left" Margin="36,677,0,0" VerticalAlignment="Top" Width="57" IsReadOnly="True" IsEnabled="False"/>
 
 
                         <Button Grid.Row="0"
                         x:Name="btnDeleteSellerAccount"
                         Style="{StaticResource AccentButtonStyle}"
                         Content="Delete Account"
+                         IsEnabled="False"
                         FontSize="15"
                         Foreground="White"
-                        Background="Purple"
+                        Background="{ThemeResource SystemAccentColor}"
                         CornerRadius="5"
                         Padding="15,5,15,5" VerticalAlignment="Top" Margin="111,675,0,0" Click="DeleteSellerAccount_Click"/>
                         <Button x:Name="Logout"
@@ -93,16 +94,17 @@
                         Content="Logout"
                         FontSize="15"
                         Foreground="White"
-                        Background="Purple"
+                        Background="{ThemeResource SystemAccentColor}"
                         CornerRadius="5"
                         Padding="15,5,15,5" VerticalAlignment="Top" Margin="200,587,0,0" Click="Logout_Click"/>
                         <Button Grid.Row="0"
                         x:Name="btnUpdateSellerInfo"
                         Style="{StaticResource AccentButtonStyle}"
                         Content="Update Info"
+                        IsEnabled="False"
                         FontSize="15"
                         Foreground="White"
-                        Background="Purple"
+                        Background="{ThemeResource SystemAccentColor}"
                         CornerRadius="5"
                         Padding="15,5,15,5" VerticalAlignment="Top" Margin="184,536,0,0" Click="UpdateSellerInfo_Click"/>
 
@@ -128,11 +130,9 @@
                             IsBackButtonVisible="Collapsed">
 
                 <NavigationView.MenuItems>
-                    <NavigationViewItem x:Name="YourProduct"  Content="Your Water Products" Tag="ProductPage" />
-                    <NavigationViewItem x:Name="AddProduct" Content="Add Product" Tag="AddPage" />
-                    <NavigationViewItem x:Name="ToShip" Content="To Ship" Tag="ShipPage" />
-                    <NavigationViewItem x:Name="Complete" Content="Complete" Tag="SellerCompletePage" />
-                    <NavigationViewItem x:Name="Refund" Content="Cancelled | Return | Refund" Tag="SellerCancelledPage" />
+                    <NavigationViewItem x:Name="YourProduct" Icon="Filter"  Content="Your Water Products" Tag="ProductPage" />
+                    <NavigationViewItem x:Name="AddProduct" Icon="Add" Content="Add Product" Tag="AddPage" />
+                    <NavigationViewItem x:Name="Complete" Icon="OpenFile" Content="Sales Report of Orders" Tag="SellerCompletePage" />
 
                 </NavigationView.MenuItems>
                 <Frame x:Name="contentFrame"/>

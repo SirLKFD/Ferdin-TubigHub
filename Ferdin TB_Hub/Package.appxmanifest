@@ -4,7 +4,12 @@
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
-  IgnorableNamespaces="uap mp">
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+  xmlns:uap6="http://schemas.microsoft.com/appx/manifest/uap/windows10/6"
+  xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10"
+  xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4"
+  xmlns:uap2="http://schemas.microsoft.com/appx/manifest/uap/windows10/2"
+  IgnorableNamespaces="uap mp uap3 uap6 iot uap4 uap2">
 
   <Identity
     Name="Ferdin"
@@ -46,5 +51,41 @@
 
   <Capabilities>
     <Capability Name="internetClient" />
+    <Capability Name="allJoyn"/>
+    <uap3:Capability Name="backgroundMediaPlayback"/>
+    <uap:Capability Name="appointments"/>
+    <uap:Capability Name="blockedChatMessages"/>
+    <uap:Capability Name="chat"/>
+    <Capability Name="codeGeneration"/>
+    <uap:Capability Name="contacts"/>
+    <uap:Capability Name="enterpriseAuthentication"/>
+    <uap6:Capability Name="graphicsCapture"/>
+    <Capability Name="internetClientServer"/>
+    <iot:Capability Name="lowLevelDevices"/>
+    <uap:Capability Name="objects3D"/>
+    <uap:Capability Name="musicLibrary"/>
+    <uap4:Capability Name="offlineMapsManagement"/>
+    <uap:Capability Name="picturesLibrary"/>
+    <uap:Capability Name="phoneCall"/>
+    <uap2:Capability Name="phoneCallHistoryPublic"/>
+    <Capability Name="privateNetworkClientServer"/>
+    <uap3:Capability Name="remoteSystem"/>
+    <uap:Capability Name="removableStorage"/>
+    <uap:Capability Name="sharedUserCertificates"/>
+    <uap2:Capability Name="spatialPerception"/>
+    <iot:Capability Name="systemManagement"/>
+    <uap:Capability Name="userAccountInformation"/>
+    <uap4:Capability Name="userDataTasks"/>
+    <uap3:Capability Name="userNotificationListener"/>
+    <uap:Capability Name="videosLibrary"/>
+    <uap:Capability Name="voipCall"/>
+    <DeviceCapability Name="bluetooth"/>
+    <DeviceCapability Name="gazeInput"/>
+    <DeviceCapability Name="location"/>
+    <DeviceCapability Name="lowLevel"/>
+    <DeviceCapability Name="microphone"/>
+    <DeviceCapability Name="pointOfService"/>
+    <DeviceCapability Name="proximity"/>
+    <DeviceCapability Name="webcam"/>
   </Capabilities>
 </Package>

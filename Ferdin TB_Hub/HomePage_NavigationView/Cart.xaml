@@ -1,21 +1,132 @@
 ﻿<Page
-    x:Class="Ferdin_TB_Hub.HomePage_NavigationView.Cart"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Ferdin_TB_Hub.HomePage_NavigationView"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
+    xmlns:local1="using:Ferdin_TB_Hub.Classes"
+    xmlns:Custom="using:Microsoft.UI.Xaml.Controls"
+    x:Class="Ferdin_TB_Hub.HomePage_NavigationView.Cart"
+    mc:Ignorable="d" FontFamily="Electronic Arts Text"
+    >
+
+    <Page.Resources>
+        <local1:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter"/>
+    </Page.Resources>
+
+    <Page.Background>
+        <ThemeResource ResourceKey="SystemControlAcrylicWindowMediumHighBrush"/>
+    </Page.Background>
 
     <Grid>
 
-        <TextBlock HorizontalAlignment="Left" Margin="59,56,0,0" TextWrapping="Wrap"  FontSize="35" Text="Your Cart" VerticalAlignment="Top" Height="48" Width="451" FontWeight="Bold"/>
-        <AutoSuggestBox QueryIcon="Find" PlaceholderText="Search Cart" HorizontalAlignment="Left" Margin="254,63,0,0" Width="272"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="999.2"/>
+            <RowDefinition Height="600.8"/>
+            <RowDefinition Height="0*"/>
+        </Grid.RowDefinitions>
 
-        <ListView Margin="59,146,70,204"/>
-        
-        <Button x:Name="btnCheckout" Content="Checkout" Margin="1302,838,0,0" FontSize="20" VerticalAlignment="Top" Height="45" Width="128"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="500"/>
+            <ColumnDefinition Width="*"/>
+
+
+
+        </Grid.ColumnDefinitions>
+
+
+        <TextBlock  Grid.Row="0" HorizontalAlignment="Left" Margin="42,60,0,0" TextWrapping="Wrap"  FontSize="35" Text="Your Cart" VerticalAlignment="Top" Height="48" Width="451" FontWeight="Bold"/>
+        <AutoSuggestBox TextChanged="AutoSuggestBox_TextChanged" QueryIcon="Find" PlaceholderText="Search Cart" Height="32" Margin="235,66,25,0"/>
+
+
+
+        <ListView Grid.Row="0" x:Name="ListViewCart" Margin="42,143,42,40" >
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding ProductPicture, Converter={StaticResource ByteArrayToImageSourceConverter}}" Width="100" Height="100" Margin="0,0,10,0"/>
+                        <StackPanel>
+                            <TextBlock Text="{Binding ProductName}" FontSize="20" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding ProductPrice}" FontSize="16"/>
+                        </StackPanel>
+                        <Button Background="{ThemeResource SystemAccentColor}" CornerRadius="5" Content="Add to Cart" Click="RemoveButton_Click">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <SymbolIcon Symbol="Cancel"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+
+
+
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="40,126,0,0" TextWrapping="Wrap"  FontSize="25" Text="Order Summary" VerticalAlignment="Top" Height="48" Width="451" FontWeight="Bold"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="40,194,0,0" TextWrapping="Wrap"  FontSize="20" Text="Total Price" VerticalAlignment="Top" Height="48" Width="122" FontWeight="Bold"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="40,244,0,0" TextWrapping="Wrap"  FontSize="20" Text="Total Quantity" VerticalAlignment="Top" Height="48" Width="156" FontWeight="Bold"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="40,293,0,0" TextWrapping="Wrap"  FontSize="20" Text="VAT Tax" VerticalAlignment="Top" Height="48" Width="109" FontWeight="Bold"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="40,341,0,0" TextWrapping="Wrap"  FontSize="20" Text="Shipping Fee" VerticalAlignment="Top" Height="48" Width="150" FontWeight="Bold"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="40,436,0,0" TextWrapping="Wrap" Text="First Name" FontSize="20" FontWeight="Bold" VerticalAlignment="Top" Height="27" Width="102"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="40,499,0,0" TextWrapping="Wrap" Text="Middle Name" FontSize="20" FontWeight="Bold" VerticalAlignment="Top" Height="27" Width="127"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="40,564,0,0" TextWrapping="Wrap" Text="Last Name" FontSize="20" FontWeight="Bold" VerticalAlignment="Top" Height="27" Width="99"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="40,625,0,0" TextWrapping="Wrap" Text="Phone Number" FontSize="20" FontWeight="Bold" VerticalAlignment="Top" Height="27" Width="142"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="40,694,0,0" TextWrapping="Wrap" Text="Address Line 1" FontSize="20" FontWeight="Bold" VerticalAlignment="Top" Height="27" Width="134"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="40,768,0,0" TextWrapping="Wrap" Text="Address Line 2" FontSize="20" FontWeight="Bold" VerticalAlignment="Top" Height="27" Width="167"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="518,433,0,0" TextWrapping="Wrap" Text="Email" FontSize="20" FontWeight="Bold" VerticalAlignment="Top" Height="27" Width="63"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="518,497,0,0" TextWrapping="Wrap" Text="Payment" FontSize="20" FontWeight="Bold" VerticalAlignment="Top" RenderTransformOrigin="0.532,0.711" Height="27" Width="91"/>
+
+
+        <TextBlock Grid.Column="1" FontSize="20" x:Name="tbxPrice" HorizontalAlignment="Left" Margin="225,194,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="236" Height="33"/>
+        <TextBlock Grid.Column="1" FontSize="20" x:Name="tbxQuantity"  HorizontalAlignment="Left" Margin="225,244,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="236" Height="30"/>
+        <TextBlock Grid.Column="1" FontSize="20" x:Name="tbxTax"  HorizontalAlignment="Left" Margin="227,293,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="236" Height="29"/>
+        <TextBlock Grid.Column="1" FontSize="20" x:Name="tbxShippingFee"  HorizontalAlignment="Left" Margin="227,341,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="236" Height="29"/>
+
+
+
+        <TextBox Grid.Column="1" x:Name="tbxFirstName" HorizontalAlignment="Left"  Margin="225,430,0,0" TextWrapping="Wrap" Text="{Binding Buyer.FirstName, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="236" Height="32"/>
+        <TextBox Grid.Column="1" x:Name="tbxMiddleName" HorizontalAlignment="Left" Margin="225,559,0,0" TextWrapping="Wrap" Text="{Binding Buyer.MiddleName, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="236" Height="32"/>
+        <TextBox Grid.Column="1" x:Name="tbxLastName" HorizontalAlignment="Left" Margin="225,494,0,0" TextWrapping="Wrap" Text="{Binding Buyer.LastName, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="236" Height="32"/>
+        <TextBox Grid.Column="1" x:Name="tbxPhoneNumber" HorizontalAlignment="Left" Margin="225,622,0,0" TextWrapping="Wrap" Text="{Binding Buyer.PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="236" Height="32"/>
+        <TextBox Grid.Column="1" x:Name="tbxAddressLine1" HorizontalAlignment="Left" Margin="225,692,0,0" TextWrapping="Wrap" Text="{Binding Buyer.AddressLine1, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="236" Height="32"/>
+        <TextBox Grid.Column="1" x:Name="tbxAddressLine2" HorizontalAlignment="Left" Margin="225,765,0,0" TextWrapping="Wrap" Text="{Binding Buyer.AddressLine2, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="236" Height="32"/>
+        <TextBox Grid.Column="1" x:Name="tbxEmail" HorizontalAlignment="Left" Margin="648,430,0,0" TextWrapping="Wrap" Text="{Binding Buyer.Email, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="236" Height="32"/>
+
+
+
+        <ComboBox Grid.Column="1" x:Name="cbxBuyerPayment" FontSize="20"  BorderThickness="0,0,0,3" CornerRadius="5" BorderBrush="SkyBlue" Width="236" SelectionChanged="cbxBuyerPayment_SelectionChanged" Margin="649,494,0,0" Height="38">
+
+            <ComboBoxItem Content="GCash"/>
+            <ComboBoxItem Content="Credit/Debit Card"/>
+            <ComboBoxItem Content="Cash on Delivery"/>
+
+        </ComboBox>
+
+
+
+        <TextBlock Grid.Column="1" x:Name="lblGcash" Visibility="Collapsed"  HorizontalAlignment="Left" TextWrapping="Wrap" Text="Your GCash Number" FontSize="20" FontWeight="Bold" Margin="618,562,0,396" />
+        <TextBox Grid.Column="1" x:Name="tbxGcash" TextChanged="tbxGcash_TextChanged" Visibility="Collapsed" MaxLength="10" PreviewKeyDown="gcash_NUMERIC" HorizontalAlignment="Left"  Margin="576,620,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="274" Height="31"/>
+
+
+
+        <TextBlock Grid.Column="1" x:Name="lblCard" Visibility="Collapsed" HorizontalAlignment="Left" Margin="566,570,0,0" TextWrapping="Wrap" Text="Your Debit/Credit Cart Number" FontSize="20" FontWeight="Bold" VerticalAlignment="Top" RenderTransformOrigin="0.532,0.711" Height="44" Width="320"/>
+        <TextBox Grid.Column="1" x:Name="tbxCard" TextChanged="tbxCard_TextChanged" Visibility="Collapsed" MaxLength="16" PreviewKeyDown="card_NUMERIC" HorizontalAlignment="Left" Margin="566,620,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="302" Height="31"/>
+
+
+        <Button Grid.Column="1" x:Name="btnPay" Click="btnPay_Click" CornerRadius="5" Background="{ThemeResource SystemAccentColor}" Content="Pay" Margin="649,692,0,0" FontSize="20" VerticalAlignment="Top" Height="45" Width="129"/>
+
+
+
+
+
+
+
+
+
 
     </Grid>
 </Page>

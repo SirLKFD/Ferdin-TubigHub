@@ -27,12 +27,12 @@ namespace Ferdin_TB_Hub
     /// </summary>
     public sealed partial class HomePage : Page
     {
+
         private List<Page> pageInstances = new List<Page>();
 
         //PASSING DATABASE
         private BuyerDetails _buyer;
         private ProductDetails _productdetails;
-        private StoreAddress_Availability _storeAddressAvailability;
 
 
         public HomePage()
@@ -44,6 +44,8 @@ namespace Ferdin_TB_Hub
         {
             contentFrame.Navigate(typeof(Home));
         }
+
+
 
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
@@ -62,7 +64,7 @@ namespace Ferdin_TB_Hub
                     contentFrame.Navigate(typeof(Home));
                     break;               
                 case "Cart":
-                    contentFrame.Navigate(typeof(Cart));
+                    contentFrame.Navigate(typeof(Cart), _buyer);
                     break;
 
             }

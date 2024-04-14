@@ -6,21 +6,37 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local1="using:Ferdin_TB_Hub.Classes"
-    mc:Ignorable="d"
+    mc:Ignorable="d" FontFamily="Electronic Arts Text"
     Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
 
     <Page.Resources>
         <local1:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter"/>
     </Page.Resources>
 
+
     <Grid>
 
-        <TextBlock HorizontalAlignment="Left" Margin="59,44,0,0" TextWrapping="Wrap" FontSize="35" Text="Ferdin TubigHub" VerticalAlignment="Top" Height="48" Width="360" FontWeight="Bold"/>
-        <TextBlock HorizontalAlignment="Left" Margin="955,53,0,0" TextWrapping="Wrap" FontSize="20" Text="Price Slider" VerticalAlignment="Top" Height="38" Width="360"/>
-        <AutoSuggestBox TextChanged="AutoSuggestBox_TextChanged" QueryIcon="Find" PlaceholderText="Search Water Products" HorizontalAlignment="Left" Margin="364,51,0,0" Width="272"/>
-        <Slider  TickPlacement="Outside" SnapsTo="StepValues" TickFrequency="1"  StepFrequency="0.01" x:Name="PriceSlider" ValueChanged="Slider_ValueChanged" HorizontalAlignment="Left"  Margin="1068,50,0,0" VerticalAlignment="Top" Width="138" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="135.2"/>
+            <RowDefinition/>
 
-        <ComboBox x:Name="cbxCategories" SelectionChanged="cbxCategories_SelectionChanged" PlaceholderText="Browse by Category" Margin="657,51,0,0" Width="272">
+        </Grid.RowDefinitions>
+
+        <TextBlock  Grid.Row="0" HorizontalAlignment="Left" Margin="178,48,0,0" TextWrapping="Wrap"  FontSize="35" Text="Home" VerticalAlignment="Top" Height="48" Width="119" FontWeight="Bold"/>
+
+        <Image Grid.Row="0" Source ="/Icons/AppIcon.png"
+                 HorizontalAlignment="Left"
+              MinHeight="100"
+               MinWidth="400"
+               MaxHeight="100"
+               MaxWidth="400"
+             Margin="48,9,0,10" Width="118"/>
+
+        <TextBlock HorizontalAlignment="Left" Margin="961,58,0,0" TextWrapping="Wrap" FontSize="20" Text="Price Slider" VerticalAlignment="Top" Height="38" Width="360"/>
+        <AutoSuggestBox TextChanged="AutoSuggestBox_TextChanged" QueryIcon="Find" PlaceholderText="Search Water Products" HorizontalAlignment="Left" Margin="357,55,0,0" Width="272" Height="32"/>
+        <Slider  Grid.Row="0"  TickPlacement="Outside" SnapsTo="StepValues" TickFrequency="1"  StepFrequency="0.01" x:Name="PriceSlider" ValueChanged="Slider_ValueChanged" HorizontalAlignment="Left"  Margin="1079,55,0,0" VerticalAlignment="Top" Width="138" Height="33" />
+
+        <ComboBox x:Name="cbxCategories" SelectionChanged="cbxCategories_SelectionChanged" PlaceholderText="Sort by Category" Margin="659,27,0,0" Width="272" Height="32">
             <ComboBoxItem Content="All Products"/>
             <ComboBoxItem Content="Electrolyte Water"/>
             <ComboBoxItem Content="Mineral Water"/>
@@ -35,7 +51,14 @@
         </ComboBox>
 
 
-        <GridView x:Name="ViewProducts" Margin="53,132,43,71">
+        <ComboBox x:Name="cbxPrice" SelectionChanged="cbxPrice_SelectionChanged"  PlaceholderText="Sort by Price" Margin="659,72,0,0" Width="272" Height="32">
+            <ComboBoxItem Content="All"/>
+            <ComboBoxItem Content="Low to High"/>
+            <ComboBoxItem Content="High to Low"/>
+        </ComboBox>
+
+
+        <GridView  Grid.Row="1" x:Name="ViewProducts" Margin="48,35,48,51">
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <Border BorderBrush="Gray" CornerRadius="5" BorderThickness="1" Margin="5">
@@ -45,11 +68,13 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
-                            <Image x:Name="SourceImage" Source="{Binding ProductPicture, Converter={StaticResource ByteArrayToImageSourceConverter}}" Width="100" Height="100" Margin="0,0,10,0"/>
+                            <Image x:Name="SourceImage" Source="{Binding ProductPicture, Converter={StaticResource ByteArrayToImageSourceConverter}}" Width="150" Height="150" Margin="0,0,10,0"/>
                             <StackPanel Grid.Row="1" Margin="10,10,10,10">
-                                <TextBlock Text="{Binding ProductName}" FontSize="20" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding ProductName}" FontSize="20" FontWeight="Bold" TextDecorations="Underline"/>
+                                <TextBlock Text="{Binding ProductCategory}" FontSize="16" FontStyle="Italic"/>
                                 <TextBlock Text="{Binding ProductPrice}" FontSize="16"/>
-                                <Button Background="Purple" CornerRadius="5" Content="Add to Cart" Click="AddToCart_Click">
+                                <TextBlock Text="{Binding ProductQuantity}" FontSize="16"/>
+                                <Button x:Name="AddToCart" Background="{ThemeResource SystemAccentColor}" Loaded="AddToCart_Loaded" CornerRadius="5" Content="Add to Cart" Click="AddToCart_Click">
                                     <Button.ContentTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">

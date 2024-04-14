@@ -15,18 +15,10 @@
 
         <TextBlock HorizontalAlignment="Center" Margin="0,213,0,0" TextWrapping="Wrap" FontSize="20" Text="Here is your receipt" VerticalAlignment="Top" Height="48" Width="191"/>
         <TextBlock HorizontalAlignment="Center" Margin="0,245,0,0" TextWrapping="Wrap" FontSize="20" Text="Please screenshot this for your future reference" VerticalAlignment="Top" Height="48" Width="418" FontStyle="Italic"/>
-        
-        
-        <ListView Margin="443,310,444,79"/>
-       
-        
-        
-        
-        <Button Content="Done" FontSize="20" Margin="1084,881,0,0" VerticalAlignment="Top"/>
 
 
-
-
+        <ListView  x:Name="ListViewReceipt" Margin="443,310,444,79"/>
+        <Button x:Name="btnDone" Click="btnDone_Click" Content="Done" Margin="1072,889,0,0" VerticalAlignment="Top"/>
 
 
 

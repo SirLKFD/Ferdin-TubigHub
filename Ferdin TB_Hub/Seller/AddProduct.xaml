@@ -5,47 +5,50 @@
     xmlns:local="using:Ferdin_TB_Hub.Seller"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
+    mc:Ignorable="d" FontFamily="Electronic Arts Text"
     Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
 
-    <Grid>
-        <TextBlock HorizontalAlignment="Left" Margin="60,33,0,0" TextWrapping="Wrap" Text="Add Product" VerticalAlignment="Top" FontSize="25" FontWeight="Bold"/>
-        <TextBlock HorizontalAlignment="Left" Margin="40,95,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="40,149,0,0" TextWrapping="Wrap" Text="Category" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="40,207,0,0" TextWrapping="Wrap" Text="Price" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="40,358,0,0" TextWrapping="Wrap" Text="Description" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="40,528,0,0" TextWrapping="Wrap" Text="Quantity" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="168,773,0,0" TextWrapping="Wrap" Text="Supported file types: JPEG, PNG" VerticalAlignment="Top" FontStyle="Italic"/>
+    <ScrollViewer>
+
+        <Grid>
+            <TextBlock HorizontalAlignment="Left" Margin="60,33,0,0" TextWrapping="Wrap" Text="Add Product" VerticalAlignment="Top" FontSize="25" FontWeight="Bold"/>
+            <TextBlock HorizontalAlignment="Left" Margin="40,95,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Left" Margin="40,149,0,0" TextWrapping="Wrap" Text="Category" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Left" Margin="40,207,0,0" TextWrapping="Wrap" Text="Price" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Left" Margin="40,358,0,0" TextWrapping="Wrap" Text="Description" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Left" Margin="40,528,0,0" TextWrapping="Wrap" Text="Quantity" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Left" Margin="168,773,0,0" TextWrapping="Wrap" Text="Supported file types: JPEG, PNG" VerticalAlignment="Top" FontStyle="Italic"/>
 
 
 
-        <TextBox x:Name="tbxProductName" HorizontalAlignment="Left" Margin="149,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="344"/>
-        <TextBox x:Name="tbxProductPrice" HorizontalAlignment="Left" Margin="149,201,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172"/>
+            <TextBox x:Name="tbxProductName" HorizontalAlignment="Left" Margin="149,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="344"/>
+            <TextBox x:Name="tbxProductPrice" HorizontalAlignment="Left" Margin="149,201,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172"/>
 
-        <ComboBox x:Name="cbxProductCategory" Margin="149,143,0,0" Width="312">
-            <ComboBoxItem Content="Electrolyte Water"/>
-            <ComboBoxItem Content="Mineral Water"/>
-            <ComboBoxItem Content="Distilled Water"/>
-            <ComboBoxItem Content="Spring Water"/>
-            <ComboBoxItem Content="Purified Water"/>
-            <ComboBoxItem Content="Alkaline Water"/>
-            <ComboBoxItem Content="Carbonated Water"/>
-            <ComboBoxItem Content="Flavored Water"/>
-            <ComboBoxItem Content="High Sodium Water"/>
+            <ComboBox x:Name="cbxProductCategory" Margin="149,143,0,0" Width="312">
+                <ComboBoxItem Content="Electrolyte Water"/>
+                <ComboBoxItem Content="Mineral Water"/>
+                <ComboBoxItem Content="Distilled Water"/>
+                <ComboBoxItem Content="Spring Water"/>
+                <ComboBoxItem Content="Purified Water"/>
+                <ComboBoxItem Content="Alkaline Water"/>
+                <ComboBoxItem Content="Carbonated Water"/>
+                <ComboBoxItem Content="Flavored Water"/>
+                <ComboBoxItem Content="High Sodium Water"/>
 
-        </ComboBox>
+            </ComboBox>
 
-        <TextBox x:Name="tbxProductDescription" HorizontalAlignment="Left" Margin="149,269,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="562" Height="215"/>
-        <TextBox x:Name="tbxProductQuantity" HorizontalAlignment="Left" Margin="149,521,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77"/>
+            <TextBox x:Name="tbxProductDescription" HorizontalAlignment="Left" Margin="149,269,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="562" Height="215"/>
+            <TextBox x:Name="tbxProductQuantity" HorizontalAlignment="Left" Margin="149,521,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77"/>
 
-        <Button x:Name="InsertPicture" Click="InsertPicture_Click" CornerRadius="5" Foreground="White" Background="Purple" Content="Insert Picture" Margin="40,660,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="SubmitProduct" CornerRadius="5" Foreground="White" Background="Purple" Content="Submit Product" Margin="207,828,0,0" VerticalAlignment="Top" Click="SubmitProduct_Click"/>
+            <Button x:Name="InsertPicture" Click="InsertPicture_Click" CornerRadius="5" Foreground="White" Background="{ThemeResource SystemAccentColor}" Content="Insert Picture" Margin="40,660,0,0" VerticalAlignment="Top"/>
+            <Button x:Name="SubmitProduct" CornerRadius="5" Foreground="White" Background="{ThemeResource SystemAccentColor}" Content="Submit Product" Margin="207,828,0,0" VerticalAlignment="Top" Click="SubmitProduct_Click"/>
 
-        <Border BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Left" Height="183" Margin="168,585,0,0" VerticalAlignment="Top" Width="230">
-            <Image x:Name="ProductImage" HorizontalAlignment="Center" Height="183" VerticalAlignment="Center" Width="230" Stretch="Fill"/>
-        </Border>
+            <Border BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Left" Height="183" Margin="168,585,0,0" VerticalAlignment="Top" Width="230">
+                <Image x:Name="ProductImage" HorizontalAlignment="Center" Height="183" VerticalAlignment="Center" Width="230" Stretch="Fill"/>
+            </Border>
 
 
 
-    </Grid>
+        </Grid>
+    </ScrollViewer>
 </Page>

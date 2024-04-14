@@ -1,4 +1,5 @@
 ﻿using Ferdin_TB_Hub.Classes;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -34,9 +35,9 @@ namespace Ferdin_TB_Hub
             Database.InitializeDB_BUYERACCOUNTS();
             Database.InitializeDB_SELLERACCOUNTS();
             Database.InitializeDB_PRODUCTDETAILS();
+            Database.InitializeDB_SHOPADDRESS_AVAILABILITY();
             Database.InitializeDB_PRODUCTRECEIPT();
-            Database.InitializeDB_STOREADDRESS_AVAILABILITY();
-            Database.InitializeDB_CANCELDETAILS();
+            Database.InitializeDB_PRODUCTCART();
         }
 
         /// <summary>
@@ -47,6 +48,8 @@ namespace Ferdin_TB_Hub
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
+            // Set EPPlus license context
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active

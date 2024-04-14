@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -29,6 +30,8 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
     {
         // Fetch all product details from the database
         List<ProductDetails> allProductDetails = Database.GetProductDetails();
+
+
 
         public Home()
         {
@@ -129,9 +132,83 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
         }
 
+        // PASS THE SELECTED PRODUCT TO THE CART
         private void AddToCart_Click(object sender, RoutedEventArgs e)
         {
+            // Get the clicked button and its DataContext (which should be the ProductDetails object)
+            var button = sender as Button;
+            var product = button.DataContext as ProductDetails;
 
+            // Check if the product is not null
+            if (product != null)
+            {
+                // Call the method to pass the product to the cart with default quantity of 1
+                Database.PassProductToCart(product, quantity: 1);
+
+                RefreshGridView();
+
+                // Optionally, you can provide feedback to the user that the product has been added to the cart
+                // For example, display a message or update UI elements
+            }
         }
+
+        private void RefreshGridView()
+        {
+            // Get the data source for the GridView
+            List<ProductDetails> products = Database.GetProductDetails();
+
+            // Set the ItemsSource of the GridView to null to clear the previous data
+            ViewProducts.ItemsSource = null;
+
+            // Set the ItemsSource of the GridView to the updated list of products
+            ViewProducts.ItemsSource = products;
+        }
+
+        private void AddToCart_Loaded(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var product = button.DataContext as ProductDetails;
+
+            if (product != null)
+            {
+                // Check if the product quantity is zero or less, then disable the button
+                if (Database.GetProductQuantity(product.ProductName) <= 0)
+                {
+                    button.IsEnabled = false;
+                }
+            }
+        }
+
+        private void cbxPrice_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Get the selected sorting option from the ComboBox
+            ComboBoxItem selectedItem = (ComboBoxItem)cbxPrice.SelectedItem;
+            string sortingOption = selectedItem.Content.ToString();
+
+            // Fetch all product details from the database
+            List<ProductDetails> allProductDetails = Database.GetProductDetails();
+
+            switch (sortingOption)
+            {
+                case "Low to High":
+                    // Sort the products by price in ascending order
+                    allProductDetails = allProductDetails.OrderBy(product => product.ProductPrice).ToList();
+                    break;
+                case "High to Low":
+                    // Sort the products by price in descending order
+                    allProductDetails = allProductDetails.OrderByDescending(product => product.ProductPrice).ToList();
+                    break;
+                case "All":
+                    // Do nothing, display all products (already handled in InitializePriceSlider)
+                    break;
+                default:
+                    break;
+            }
+
+            // Update the GridView with the sorted items
+            ViewProducts.ItemsSource = allProductDetails;
+        }
+
+      
     }
 }

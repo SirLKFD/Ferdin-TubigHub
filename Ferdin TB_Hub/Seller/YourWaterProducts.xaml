@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:local1="using:Ferdin_TB_Hub.Classes"
-    mc:Ignorable="d"
+    mc:Ignorable="d" FontFamily="Electronic Arts Text"
     Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
 
     <Page.Resources>
@@ -24,9 +24,9 @@
 
         </Grid.ColumnDefinitions>
 
-        <TextBlock FontSize="25" HorizontalAlignment="Left" Margin="47,44,0,0" TextWrapping="Wrap" Text="Your Products" VerticalAlignment="Top" FontWeight="Bold"/>
+        <TextBlock FontSize="25" HorizontalAlignment="Left" Margin="33,44,0,0" TextWrapping="Wrap" Text="Your Products" VerticalAlignment="Top" FontWeight="Bold"/>
 
-        <AutoSuggestBox Grid.Column="0" HorizontalAlignment="Left" Margin="226,45,0,0" Width="241" TextChanged="AutoSuggestBox_TextChanged" QueryIcon="Find" PlaceholderText="Search your products here"/>
+        <AutoSuggestBox Grid.Column="0" HorizontalAlignment="Left" Margin="223,45,0,0"  Width="250" Height="32" TextChanged="AutoSuggestBox_TextChanged" QueryIcon="Find" PlaceholderText="Search your products here"/>
 
         <ListView x:Name="ListProducts" Grid.Column="0" Margin="0,114,0,0" SelectionChanged="ListProducts_SelectionChanged">
             <ListView.ItemTemplate>
@@ -36,8 +36,6 @@
                         <StackPanel>
                             <TextBlock Text="{Binding ProductName}" FontSize="20" FontWeight="Bold"/>
                             <TextBlock Text="{Binding ProductCategory}" FontSize="16"/>
-                            <TextBlock Text="{Binding ProductPrice}" FontSize="16"/>
-                            <TextBlock Text="{Binding ProductQuantity}" FontSize="16"/>
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>
@@ -55,10 +53,14 @@
                     <TextBlock HorizontalAlignment="Left" Margin="68,241,0,0" TextWrapping="Wrap" Text="Price" VerticalAlignment="Top" FontSize="20"/>
                     <TextBlock HorizontalAlignment="Left" Margin="68,389,0,0" TextWrapping="Wrap" Text="Description" VerticalAlignment="Top" FontSize="20"/>
                     <TextBlock HorizontalAlignment="Left" Margin="72,557,0,0" TextWrapping="Wrap" Text="Quantity" VerticalAlignment="Top" FontSize="20"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="246,801,0,0" TextWrapping="Wrap" Text="Supported file types: JPEG, PNG" VerticalAlignment="Top" FontStyle="Italic"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="235,799,0,0" TextWrapping="Wrap" Text="Supported file types: JPEG, PNG" VerticalAlignment="Top" FontStyle="Italic"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="68,865,0,0" TextWrapping="Wrap" Text="SKU: " VerticalAlignment="Top" FontStyle="Italic"/>
 
                     <TextBox x:Name="tbxProductName" HorizontalAlignment="Left" Margin="212,108,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="344"/>
                     <TextBox x:Name="tbxProductPrice" HorizontalAlignment="Left" Margin="212,241,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="172"/>
+                    <TextBlock x:Name="lblProductSKU" HorizontalAlignment="Left" Margin="111,865,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" FontStyle="Italic"/>
+
+
 
                     <ComboBox x:Name="cbxProductCategory" Margin="212,173,0,0" Width="312">
                         <ComboBoxItem Content="Electrolyte Water"/>

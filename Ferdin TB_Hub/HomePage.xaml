@@ -21,14 +21,14 @@
     <Grid>
 
         <NavigationView x:Name="navigationView"
-                        IsBackEnabled="True" 
-                        IsSettingsVisible="False"  
+                        IsBackEnabled="True"                           
+                        IsSettingsVisible="False"     
                         Loaded="NavigationView_Loaded"
                         SelectionChanged="NavigationView_SelectionChanged" BackRequested="GoingBack">
-
+           
+      
             <NavigationView.MenuItems>
-                <NavigationViewItem Icon="Home" Tag="Home" Content="Dashboard"/>
-                <NavigationViewItem Content="Locate Stores" Tag="Locate" Icon="Directions" />
+                <NavigationViewItem Icon="Home" Tag="Home" Content="Shop "/>
                 <NavigationViewItem Icon="Shop" Tag="Cart" Content="Cart"/>
                 <NavigationViewItem Content="Account" Tag="Account" Icon="Contact" />
 

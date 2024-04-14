@@ -26,5 +26,14 @@ namespace Ferdin_TB_Hub
         {
             this.InitializeComponent();
         }
+
+        private void btnDone_Click(object sender, RoutedEventArgs e)
+        {
+            // Go to home
+
+
+        }
+
+
     }
 }

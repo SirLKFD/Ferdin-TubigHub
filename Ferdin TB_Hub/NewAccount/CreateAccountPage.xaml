@@ -5,7 +5,7 @@
     xmlns:local="using:Ferdin_TB_Hub.NewAccount"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
+    mc:Ignorable="d" FontFamily="Electronic Arts Text"
     >
 
     <Page.Resources>
@@ -27,14 +27,16 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <RelativePanel Grid.Column="0" Background="DeepSkyBlue">
+        <RelativePanel Grid.Column="0" Background="PowderBlue">
 
-                <TextBlock Text="FERDIN" FontSize="100" 
-                MaxHeight="200" 
-                RelativePanel.AlignBottomWithPanel="True" 
-                RelativePanel.AlignVerticalCenterWithPanel="True"/>
+            <Image Source ="/Icons/Title3.png"
+          MaxHeight="200"
+          RelativePanel.AlignHorizontalCenterWithPanel="True"
+          RelativePanel.AlignVerticalCenterWithPanel="True"                
+          />
 
-            </RelativePanel>
+
+        </RelativePanel>
 
             <NavigationView Grid.Column="1" 
                         x:Name="NAV_CreateAccount" 

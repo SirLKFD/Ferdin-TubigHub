@@ -142,14 +142,15 @@ namespace Ferdin_TB_Hub.Seller
                     }
                 }
 
-                // Update the product details in the database
-                Database.UpdateProductDetailsFromDatabase(selectedProduct.PRODUCTDETAILS_ID, selectedProduct.ProductName, selectedProduct.ProductCategory,
+                // Update the product details in the database using ProductSKU
+                Database.UpdateProductDetailsFromDatabase(selectedProduct.ProductSKU, selectedProduct.ProductName, selectedProduct.ProductCategory,
                     selectedProduct.ProductPrice, selectedProduct.ProductDescription, selectedProduct.ProductQuantity, selectedProduct.ProductPicture);
 
                 // Refresh the product list
                 PopulateProductList();
             }
         }
+
 
         private async void ShowMessageDialog(string message)
         {
@@ -187,12 +188,13 @@ namespace Ferdin_TB_Hub.Seller
                 // User confirmed the deletion
                 // Retrieve the selected product and delete it from the database
                 ProductDetails selectedProduct = (ProductDetails)ListProducts.SelectedItem;
-                Database.DeleteProductDetailsFromDatabase(selectedProduct.ProductName);
+                Database.DeleteProductDetailsFromDatabase(selectedProduct.ProductSKU);
 
                 // Refresh the product list
                 PopulateProductList();
             }
         }
+
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
@@ -229,6 +231,7 @@ namespace Ferdin_TB_Hub.Seller
                 tbxProductPrice.Text = selectedProduct.ProductPrice.ToString();
                 tbxProductDescription.Text = selectedProduct.ProductDescription;
                 tbxProductQuantity.Text = selectedProduct.ProductQuantity.ToString();
+                lblProductSKU.Text = selectedProduct.ProductSKU.ToString();
 
                 // Select the category in the combobox
                 foreach (ComboBoxItem item in cbxProductCategory.Items)

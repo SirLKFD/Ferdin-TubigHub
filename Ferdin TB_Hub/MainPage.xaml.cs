@@ -92,29 +92,36 @@ namespace Ferdin_TB_Hub
 
             else if (rbnSeller.IsChecked == true)
             {
-                // Check if the seller exists in the database
-                if (Database.IsSellerExists(usernameOrEmail, password))
-                {
-                    // Retrieve seller information from the database
-                    SellerDetails seller = Database.GetSellerByUsernameOrEmail(usernameOrEmail);
-                    if (seller != null)
+                         
+                    // Check if the seller exists in the database
+                    if (Database.IsSellerExists(usernameOrEmail, password))
                     {
-                        // Navigate to SellerAccount page and pass seller information as parameter
-                        Frame.Navigate(typeof(SellerAccount), seller, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+                        // Retrieve seller information from the database
+                        SellerDetails seller = Database.GetSellerByUsernameOrEmail(usernameOrEmail);
+                        if (seller != null)
+                        {
+                            // Navigate to SellerAccount page and pass seller information as parameter
+                            Frame.Navigate(typeof(SellerAccount), seller, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+                        }
+                        else
+                        {
+                            // Seller not found in the database
+                            Buttons.ShowMessage("Seller doesn't exist, please try again, or create an account.");
+                        }
                     }
                     else
                     {
-                        // Seller not found in the database
+                        // Seller does not exist or invalid credentials, show an error message or handle it accordingly
                         Buttons.ShowMessage("Seller doesn't exist, please try again, or create an account.");
                     }
                 }
                 else
                 {
-                    // Seller does not exist or invalid credentials, show an error message or handle it accordingly
+                    // Seller not found in the database
                     Buttons.ShowMessage("Seller doesn't exist, please try again, or create an account.");
                 }
             }
-        }
+        
 
 
         private void GoToCreateAccount(object sender, RoutedEventArgs e)

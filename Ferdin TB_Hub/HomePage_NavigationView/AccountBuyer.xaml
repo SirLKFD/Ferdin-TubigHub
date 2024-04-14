@@ -5,7 +5,7 @@
     xmlns:local="using:Ferdin_TB_Hub.HomePage_NavigationView"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
+    mc:Ignorable="d" FontFamily="Electronic Arts Text"
     Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
 
     <Grid>
@@ -13,7 +13,7 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="500"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="1000"/>
 
         </Grid.ColumnDefinitions>
 
@@ -58,16 +58,15 @@
                         <TextBlock x:Name="ID" FontSize="20" Text="ID" HorizontalAlignment="Left" Margin="25,644,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.854,1.11"/>
 
 
-
-                        <TextBox  x:Name="tbxUsername" Text="{Binding Buyer.Username, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239"/>
-                        <TextBox  x:Name="tbxFirstName" Text="{Binding Buyer.FirstName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239"/>
-                        <TextBox  x:Name="tbxMiddleName" Text="{Binding Buyer.MiddleName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,111,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239"/>
-                        <TextBox  x:Name="tbxLastName" Text="{Binding Buyer.LastName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239"/>
-                        <TextBox  x:Name="tbxPhoneNumber" Text="{Binding Buyer.PhoneNumber, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,213,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="239"/>
-                        <TextBox  x:Name="tbxAddressLine1" Text="{Binding Buyer.AddressLine1, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,268,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239" Height="33"/>
-                        <TextBox  x:Name="tbxAddressLine2" Text="{Binding Buyer.AddressLine2, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,320,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239" Height="33"/>
-                        <TextBox  x:Name="tbxEmail" Text="{Binding Buyer.Email, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,370,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="239"/>
-                        <PasswordBox x:Name="tbxPassword" Password="{Binding Buyer.Password, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,423,0,0" VerticalAlignment="Top" Width="239"/>
+                        <TextBox IsEnabled="False"  x:Name="tbxUsername" Text="{Binding Buyer.Username, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239"/>
+                        <TextBox  IsEnabled="False" x:Name="tbxFirstName" Text="{Binding Buyer.FirstName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239"/>
+                        <TextBox  IsEnabled="False" x:Name="tbxMiddleName" Text="{Binding Buyer.MiddleName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,111,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239"/>
+                        <TextBox  IsEnabled="False"  x:Name="tbxLastName" Text="{Binding Buyer.LastName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239"/>
+                        <TextBox  IsEnabled="False"  x:Name="tbxPhoneNumber" Text="{Binding Buyer.PhoneNumber, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,213,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="239"/>
+                        <TextBox  IsEnabled="False" x:Name="tbxAddressLine1" Text="{Binding Buyer.AddressLine1, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,268,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239" Height="33"/>
+                        <TextBox  IsEnabled="False"  x:Name="tbxAddressLine2" Text="{Binding Buyer.AddressLine2, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,320,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239" Height="33"/>
+                        <TextBox  IsEnabled="False"  x:Name="tbxEmail" Text="{Binding Buyer.Email, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,370,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="239"/>
+                        <PasswordBox  IsEnabled="False" x:Name="tbxPassword" Password="{Binding Buyer.Password, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,423,0,0" VerticalAlignment="Top" Width="239"/>
                         <TextBox  x:Name="tbxID" Text="{Binding Buyer.BUYER_ID, Mode=TwoWay}" HorizontalAlignment="Left" Margin="58,644,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="46" IsReadOnly="True" IsEnabled="False"/>
 
 
@@ -75,10 +74,11 @@
                         <Button Grid.Row="0"
                             x:Name="btnUpdateBuyerInfo"
                         Style="{StaticResource AccentButtonStyle}"
+                                IsEnabled="False"
                         Content="Update Info"
                         FontSize="15"
                         Foreground="White"
-                        Background="Purple"
+                        Background="{ThemeResource SystemAccentColor}"
                         CornerRadius="5"
                         Padding="15,5,15,5" VerticalAlignment="Top" Margin="0,496,0,0" Click="UpdateBuyerInfo_Click" Width="114" HorizontalAlignment="Center"/>
                         <Button x:Name="Logout"
@@ -87,7 +87,7 @@
                         Content="Log Out"
                         FontSize="15"
                         Foreground="White"
-                        Background="Purple"
+                        Background="{ThemeResource SystemAccentColor}"
                         CornerRadius="5"
                         Padding="15,5,15,5" VerticalAlignment="Top" Margin="0,546,0,0" Click="Logout_Click" HorizontalAlignment="Center"/>
 
@@ -96,8 +96,10 @@
                         Style="{StaticResource AccentButtonStyle}"
                         Content="Delete Account"
                         FontSize="15"
+                        IsEnabled="False"
+
                         Foreground="White"
-                        Background="Purple"
+                        Background="{ThemeResource SystemAccentColor}"
                         CornerRadius="5"
                         Padding="15,5,15,5" VerticalAlignment="Top" Margin="128,641,0,0" Click="DeleteBuyerAccount_Click"/>
 
@@ -111,32 +113,52 @@
         </Grid>
 
 
-        <Grid Grid.Column="1">
-
-            <NavigationView x:Name="AccountBar" 
-                             PaneDisplayMode="Top" 
-                            IsSettingsVisible="False" 
-                            Loaded="NavigationView_Loaded"
-                            SelectionChanged="NavigationView_SelectionChanged"
-                            IsBackButtonVisible="Collapsed">
-
-                <NavigationView.MenuItems>
-                    <NavigationViewItem  Content="Your Bought Water Products" Tag="BoughtPage" />
-                    <NavigationViewItem  Content="To Receive" Tag="ReceivePage" />
-                    <NavigationViewItem  Content="Complete" Tag="CompletePage" />
-                    <NavigationViewItem  Content="Cancelled | Return | Refund" Tag="BuyerCancelledPage" />
-
-                </NavigationView.MenuItems>
-
-                <Frame x:Name="contentFrame"/>
 
 
+        <ScrollViewer Grid.Column="1" HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Auto" VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto">
+            <Grid Grid.Column="1">
 
-            </NavigationView>
+                <Image MaxHeight="500" MaxWidth="500" Source="/Icons/Title3.png"  HorizontalAlignment="Left"  Width="533" Margin="238,-9,0,868"/>
 
 
-        </Grid>
+                <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="249,259,0,0" TextWrapping="Wrap" Text="A Modern Windows App created by Lord Kent F. Dinampo" VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="249,290,0,0" TextWrapping="Wrap" Text="CPE262, H1" VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="249,321,0,0" TextWrapping="Wrap" Text="Object Oriented Programming 2" VerticalAlignment="Top"/>
 
 
+                <TextBlock HorizontalAlignment="Left" FontWeight="ExtraBold" FontSize="20" Margin="163,384,0,0" TextWrapping="Wrap" Text="Special thanks to:" VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="210,415,0,0" TextWrapping="Wrap" Text="Elwison Labrador Denampo - Software Test Engineer" VerticalAlignment="Top"/>
+
+
+                <TextBlock HorizontalAlignment="Left" FontWeight="ExtraBold" FontSize="20" Margin="163,456,0,0" TextWrapping="Wrap" Text="Database used:" VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="210,487,0,0" TextWrapping="Wrap" Text="SQLite - Database Library" VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="210,518,0,0" TextWrapping="Wrap" Text="DB Browser - DBM Viewer" VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="210,549,0,0" TextWrapping="Wrap" Text="DBeaver - ERD Maker" VerticalAlignment="Top"/>
+
+                <TextBlock HorizontalAlignment="Left" FontSize="20" FontWeight="ExtraBold" Margin="170,590,0,0" TextWrapping="Wrap" Text="Software Development Kits: " VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="210,621,0,0" TextWrapping="Wrap" Text="Microsoft Windows SDK 2.8" VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="210,652,0,0" TextWrapping="Wrap" Text="WinUI 2.0" VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="210,683,0,0" TextWrapping="Wrap" Text=".NET Framework 8.0" VerticalAlignment="Top"/>
+
+                <TextBlock HorizontalAlignment="Left" FontSize="20" FontWeight="ExtraBold" Margin="170,744,0,0" TextWrapping="Wrap" Text="UWP Documentation can be found at " VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="299,770,0,0" TextWrapping="Wrap" Text="https://learn.microsoft.com/en-us/windows/uwp/" VerticalAlignment="Top"/>
+
+
+                <TextBlock HorizontalAlignment="Left" FontSize="20" FontStyle="Italic" Margin="170,839,0,0" TextWrapping="Wrap" Text="The app uses open-source license through Microsoft Public License" VerticalAlignment="Top"/>
+
+
+
+
+
+
+
+
+
+
+
+            </Grid>
+
+        </ScrollViewer>
     </Grid>
+
 </Page>
