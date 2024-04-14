@@ -22,7 +22,6 @@
         <TextBox x:Name="tbxBestSelling" HorizontalAlignment="Left" Margin="825,72,0,0" TextWrapping="Wrap" Text="Most Purchased Category Placeholder" VerticalAlignment="Top" Width="268"/>
 
 
-        <ListView Margin="59,139,110,66"/>
 
 
 
