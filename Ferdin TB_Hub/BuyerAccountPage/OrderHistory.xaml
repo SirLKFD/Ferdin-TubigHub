@@ -1,0 +1,39 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Ferdin_TB_Hub.BuyerAccountPage"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Custom="using:C1.Xaml.FlexGrid"
+    x:Class="Ferdin_TB_Hub.BuyerAccountPage.OrderHistory"
+    mc:Ignorable="d" FontFamily="Electronic Arts Text"
+    xmlns:mesius="using:C1.Xaml.FlexGrid"
+    Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
+
+    <Grid>
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+
+        </Grid.RowDefinitions>
+
+
+        <TextBox Visibility="Collapsed" x:Name="tbxBuyerID" TextChanged="tbxBuyerID_TextChanged"  HorizontalAlignment="Left" Margin="204,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="271" Text="{Binding Buyer.BUYER_ID, Mode=TwoWay}"/>
+
+        <TextBlock Grid.Row="0" HorizontalAlignment="Left" Margin="59,56,0,0" TextWrapping="Wrap" FontSize="35" Text="Order History" VerticalAlignment="Top" Height="48" Width="451" FontWeight="Bold"/>
+
+        <AutoSuggestBox Grid.Row="0" QueryIcon="Find" PlaceholderText="Find your orders" TextChanged="AutoSuggestBox_TextChanged" HorizontalAlignment="Left" Margin="328,63,0,0" Width="261"/>
+
+
+        <mesius:C1FlexGrid x:Name="receiptDataGrid" FontFamily="Electronic Arts Text" Background="Transparent" Grid.Row="1" AllowDragging="Both" AllowResizing="Both" Margin="59,38,63,48">
+            <mesius:C1FlexGrid.Columns>
+
+            </mesius:C1FlexGrid.Columns>
+        </mesius:C1FlexGrid>
+
+
+
+    </Grid>
+</Page>

@@ -31,6 +31,8 @@ namespace Ferdin_TB_Hub.Seller
 
     public sealed partial class YourWaterProducts : Page
     {
+        // REMEMBER TO CHANGE THE GETPRODUCTDETAILS ARGUMENT
+
         private StorageFile selectedFile;
         private int currentSellerID;
         public YourWaterProducts()
@@ -42,7 +44,8 @@ namespace Ferdin_TB_Hub.Seller
         private void PopulateProductList()
         {
 
-            List<ProductDetails> productDetailsList = Database.GetProductDetails(); 
+            // REMEMBER TO CHANGE THIS
+            List<ProductDetails> productDetailsList = Database.GetAllProductDetails();
 
             // Bind the list of product details to the ListView
             ListProducts.ItemsSource = productDetailsList;
@@ -200,13 +203,14 @@ namespace Ferdin_TB_Hub.Seller
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
+                //REMEMBER TO CHANGE THIS
                 // Fetch all product details from the database
-                List<ProductDetails> allProductDetails = Database.GetProductDetails();
+                List<ProductDetails> sellerProductDetails = Database.GetAllProductDetails();
 
 
 
                 // Filter the products based on user input
-                var filteredProducts = allProductDetails.Where(product =>
+                var filteredProducts = sellerProductDetails.Where(product =>
                     product.ProductName.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
                     product.ProductCategory.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
                     product.ProductPrice.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||

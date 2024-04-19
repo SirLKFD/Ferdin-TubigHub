@@ -1,11 +1,14 @@
 ﻿<Page
-    x:Class="Ferdin_TB_Hub.Seller.SellerComplete"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Ferdin_TB_Hub.Seller"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Custom="using:C1.Xaml.FlexGrid"
+    x:Class="Ferdin_TB_Hub.Seller.SellerComplete"
+    xmlns:mesius="using:C1.Xaml.FlexGrid"
     mc:Ignorable="d" FontFamily="Electronic Arts Text"
+    
     Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
 
     <Grid>
@@ -16,164 +19,55 @@
 
         </Grid.RowDefinitions>
 
-         
-            <ComboBox x:Name="cbxShowA" Loaded="cbxShowA_Loaded"  PlaceholderText="Select Summary" Margin="574,13,0,0" Width="215"  SelectionChanged="cbxShowA_SelectionChanged">
-                <ComboBoxItem Content="Total Purchases"/>
-                <ComboBoxItem Content="Best Selling Category"/>
-                <ComboBoxItem Content="Most Purchased Product"/>
-            </ComboBox>
+
+        <ComboBox x:Name="cbxShowA" Loaded="cbxShowA_Loaded"  PlaceholderText="Select Summary" Margin="574,13,0,0" Width="215"  SelectionChanged="cbxShowA_SelectionChanged">
+            <ComboBoxItem Content="Total Purchases"/>
+            <ComboBoxItem Content="Best Selling Category"/>
+            <ComboBoxItem Content="Most Purchased Product"/>
+        </ComboBox>
 
 
-            <ComboBox x:Name="cbxTable" PlaceholderText="Query Table" Margin="835,60,0,0" Width="215" SelectionChanged="cbxTable_SelectionChanged">
-                <ComboBoxItem Content="All"/>
-                <ComboBoxItem Content="Product Name / Product Category / Price"/>
-                <ComboBoxItem Content="Customer Info"/>
-                <ComboBoxItem Content="Addresses"/>
-                <ComboBoxItem Content="Payment Details"/>
-            </ComboBox>
+        <ComboBox x:Name="cbxTable" PlaceholderText="Query Table" Margin="835,60,0,0" Width="215" SelectionChanged="cbxTable_SelectionChanged">
+            <ComboBoxItem Content="All"/>
+            <ComboBoxItem Content="Product Name / Product Category / Price"/>
+            <ComboBoxItem Content="Customer Info"/>
+            <ComboBoxItem Content="Addresses"/>
+            <ComboBoxItem Content="Payment Details"/>
+        </ComboBox>
 
 
-            <Button x:Name="btnExport" Background="{ThemeResource SystemAccentColor}" CornerRadius="5" Click="btnExport_Click" Content="Export to Excel" Margin="1077,61,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btnExport" Background="{ThemeResource SystemAccentColor}" CornerRadius="5" Click="btnExport_Click" Content="Export to Excel" Margin="1077,61,0,0" VerticalAlignment="Top"/>
 
 
-            <TextBlock Grid.Row="0" HorizontalAlignment="Left" Margin="68,35,0,0" TextWrapping="Wrap" FontSize="25" Text="Sales Report" VerticalAlignment="Top" Height="48" Width="451" FontWeight="Bold"/>
-            <AutoSuggestBox TextChanged="AutoSuggestBox_TextChanged" QueryIcon="Find" PlaceholderText="Find your sold products" HorizontalAlignment="Left" Margin="247,36,0,0"  Width="291" Height="32"/>
+        <TextBlock Grid.Row="0" HorizontalAlignment="Left" Margin="68,35,0,0" TextWrapping="Wrap" FontSize="25" Text="Sales Report" VerticalAlignment="Top" Height="48" Width="451" FontWeight="Bold"/>
+        <AutoSuggestBox TextChanged="AutoSuggestBox_TextChanged" QueryIcon="Find" PlaceholderText="Find your sold products" HorizontalAlignment="Left" Margin="243,36,0,0"  Width="291" Height="32"/>
 
 
-            <TextBlock x:Name="lblTotalSales" Grid.Row="0" HorizontalAlignment="Left"  Margin="575,68,0,0" TextWrapping="Wrap" Text="Total Sales: " VerticalAlignment="Top"/>
-            <TextBlock Visibility="Collapsed" x:Name="lblBestSelling" HorizontalAlignment="Left"  Margin="825,20,0,0" TextWrapping="Wrap" Text="Best Selling Category: " VerticalAlignment="Top"/>
+        <TextBlock x:Name="lblTotalSales" Grid.Row="0" HorizontalAlignment="Left"  Margin="575,68,0,0" TextWrapping="Wrap" Text="Total Sales: " VerticalAlignment="Top"/>
+        <TextBlock Visibility="Collapsed" x:Name="lblBestSelling" HorizontalAlignment="Left"  Margin="825,20,0,0" TextWrapping="Wrap" Text="Best Selling Category: " VerticalAlignment="Top"/>
 
-            <TextBlock Visibility="Collapsed" x:Name="lblTotalPurchases" HorizontalAlignment="Left"  Margin="829,20,0,0" TextWrapping="Wrap" Text="Total Purchases: " VerticalAlignment="Top"/>
-            <TextBlock Visibility="Collapsed" x:Name="lblMostPurchased" HorizontalAlignment="Left"  Margin="827,20,0,0" TextWrapping="Wrap" Text="Most Purchased Product: " VerticalAlignment="Top"/>
+        <TextBlock Visibility="Collapsed" x:Name="lblTotalPurchases" HorizontalAlignment="Left"  Margin="829,20,0,0" TextWrapping="Wrap" Text="Total Purchases: " VerticalAlignment="Top"/>
+        <TextBlock Visibility="Collapsed" x:Name="lblMostPurchased" HorizontalAlignment="Left"  Margin="827,20,0,0" TextWrapping="Wrap" Text="Most Purchased Product: " VerticalAlignment="Top"/>
 
-            <TextBox Visibility="Collapsed" x:Name="tbxTotalPurchases" IsReadOnly="True" HorizontalAlignment="Left" Margin="941,13,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="69"/>
-            <TextBox Visibility="Collapsed" x:Name="tbxMostPurchased" IsReadOnly="true" HorizontalAlignment="Left" Margin="995,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="110"/>
-            <TextBox  x:Name="tbxTotalSales" IsReadOnly="true" HorizontalAlignment="Left" Margin="666,61,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="135"/>
-            <TextBox Visibility="Collapsed" x:Name="tbxBestSelling" IsReadOnly="true" HorizontalAlignment="Left" Margin="975,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="236"/>
-
-
-
-        <ScrollViewer Grid.Row="1"
-    VerticalAlignment="Top" HorizontalAlignment="Center"
-    HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Auto"
-    VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" >
-
-            <ListView  x:Name="ReceiptListView" ItemsSource="{x:Bind ProductReceipts}">
-                <ListView.HeaderTemplate>
-                    <DataTemplate>
-                        <Grid Margin="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-
-                                <!-- Define additional columns as needed -->
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock Text="Order Number" Margin="20" Grid.Column="0" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Product Name" Margin="20" Grid.Column="1" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Product Category" Margin="20" Grid.Column="2" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Price" Margin="20" Grid.Column="3" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Last Name" Margin="20" Grid.Column="4" HorizontalAlignment="Center"/>
-                            <TextBlock Text="First Name" Margin="20" Grid.Column="5" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Middle Name" Margin="20" Grid.Column="6" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Phone Number" Margin="20" Grid.Column="7" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Address Line 1" Margin="20" Grid.Column="8" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Address Line 2" Margin="20" Grid.Column="9" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Email" Margin="20" Grid.Column="10" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Payment" Margin="20" Grid.Column="11" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Date Purchased" Margin="20" Grid.Column="12" HorizontalAlignment="Center"/>
-                        </Grid>
-                    </DataTemplate>
-                </ListView.HeaderTemplate>
+        <TextBox Visibility="Collapsed" x:Name="tbxTotalPurchases" IsReadOnly="True" HorizontalAlignment="Left" Margin="941,13,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="69"/>
+        <TextBox Visibility="Collapsed" x:Name="tbxMostPurchased" IsReadOnly="true" HorizontalAlignment="Left" Margin="995,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="110"/>
+        <TextBox  x:Name="tbxTotalSales" IsReadOnly="true" HorizontalAlignment="Left" Margin="666,61,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="135"/>
+        <TextBox Visibility="Collapsed" x:Name="tbxBestSelling" IsReadOnly="true" HorizontalAlignment="Left" Margin="975,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="236"/>
 
 
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Margin="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <!-- Define additional columns as needed -->
-                            </Grid.ColumnDefinitions>
+        <mesius:C1FlexGrid x:Name="receiptDataGrid" FontFamily="Electronic Arts Text" Background="Transparent" Grid.Row="1" AllowDragging="Both" AllowResizing="Both">
+            <mesius:C1FlexGrid.Columns>
+               
+            </mesius:C1FlexGrid.Columns>
+        </mesius:C1FlexGrid>
 
-                            
-                            <Border BorderBrush="White" BorderThickness="1" Grid.Column="0">
-                                <TextBlock Text="{Binding OrderNumber}" Margin="20" HorizontalAlignment="Center"/>
-                            </Border>
-                            <Border BorderBrush="White" BorderThickness="1" Grid.Column="1">
-                                <TextBlock Text="{Binding ProductName}" Margin="20" HorizontalAlignment="Center"/>
-                            </Border>
-                            <Border BorderBrush="White" BorderThickness="1" Grid.Column="2">
-                                <TextBlock Text="{Binding ProductCategory}" Margin="20" HorizontalAlignment="Center"/>
-                            </Border>
-                            <Border BorderBrush="White" BorderThickness="1" Grid.Column="3">
-                                <TextBlock Text="{Binding ProductPrice}" Margin="20" HorizontalAlignment="Center"/>
-                            </Border>
-                            <Border BorderBrush="White" BorderThickness="1" Grid.Column="4">
-                                <TextBlock Text="{Binding FirstName}" Margin="20" HorizontalAlignment="Center"/>
-                            </Border>
-                            <Border BorderBrush="White" BorderThickness="1" Grid.Column="5">
-                                <TextBlock Text="{Binding LastName}" Margin="20" HorizontalAlignment="Center"/>
-                            </Border>
-                            <Border BorderBrush="White" BorderThickness="1" Grid.Column="6">
-                                <TextBlock Text="{Binding MiddleName}" Margin="20" HorizontalAlignment="Center"/>
-                            </Border>
-                            <Border BorderBrush="White" BorderThickness="1" Grid.Column="7">
-                                <TextBlock Text="{Binding PhoneNumber}" Margin="20" HorizontalAlignment="Center"/>
-                            </Border>
-                            <Border BorderBrush="White" BorderThickness="1" Grid.Column="8">
-                                <TextBlock Text="{Binding AddressLine1}" Margin="20" HorizontalAlignment="Center"/>
-                            </Border>
-                            <Border BorderBrush="White" BorderThickness="1" Grid.Column="9">
-                                <TextBlock Text="{Binding AddressLine2}" Margin="20" HorizontalAlignment="Center"/>
-                            </Border>
-                            <Border BorderBrush="White" BorderThickness="1" Grid.Column="10">
-                                <TextBlock Text="{Binding PaymentMethod}" Margin="20" HorizontalAlignment="Center"/>
-                            </Border>
-                            <Border BorderBrush="White" BorderThickness="1" Grid.Column="11">
-                                <TextBlock Text="{Binding Email}" Margin="20" HorizontalAlignment="Center"/>
-                            </Border>
-                            <Border BorderBrush="White" BorderThickness="1" Grid.Column="12">
-                                <TextBlock Text="{Binding DatePurchased}" Margin="20" HorizontalAlignment="Center"/>
-                            </Border>
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </ScrollViewer>
+
+
+
+
+
+
+
 
 
     </Grid>

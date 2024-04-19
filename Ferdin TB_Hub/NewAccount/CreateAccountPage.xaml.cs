@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -29,7 +30,7 @@ namespace Ferdin_TB_Hub.NewAccount
 
         private void GoBackToMainPage(NavigationView sender, NavigationViewBackRequestedEventArgs args)
         {
-           Frame.Navigate(typeof(MainPage));
+           Frame.Navigate(typeof(MainPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromLeft });
         }
 
         private void NavigationView_Loaded(object sender, RoutedEventArgs e)

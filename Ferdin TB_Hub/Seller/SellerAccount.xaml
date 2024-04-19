@@ -37,8 +37,8 @@
                 <!-- UserLogo -->
                 <Grid Grid.Row="0" >
 
-                    <TextBlock FontSize="40" HorizontalAlignment="Center" Margin="0,42,0,0" TextWrapping="Wrap" Text="Account" VerticalAlignment="Top"/>
-                    <Image Source="/Icons/Default_UserIcon.png" x:Name="DefaultUserIcon" HorizontalAlignment="Center" Height="100" Margin="0,110,0,0" VerticalAlignment="Top" Width="100" Stretch="Fill"/>
+                    <TextBlock TextDecorations="Underline" FontWeight="Bold"  FontSize="40" HorizontalAlignment="Center" Margin="0,42,0,0" TextWrapping="Wrap" Text="Account" VerticalAlignment="Top"/>
+                    <Image Source="/Icons/AppIcon.png" x:Name="DefaultUserIcon" HorizontalAlignment="Center" Height="100" Margin="0,110,0,0" VerticalAlignment="Top" Width="100" Stretch="Fill"/>
                     <ToggleSwitch Header="Modify Account" Margin="28,195,0,0" VerticalAlignment="Top" Toggled="ToggledModifyAccount"/>
 
 

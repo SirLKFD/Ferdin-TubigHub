@@ -47,7 +47,8 @@
                 <Image x:Name="ProductImage" HorizontalAlignment="Center" Height="183" VerticalAlignment="Center" Width="230" Stretch="Fill"/>
             </Border>
 
-
+            <TextBox x:Name="tbxSellerID" IsEnabled="False" HorizontalAlignment="Left" Margin="337,521,0,0" TextWrapping="Wrap" Text="{Binding Seller.SELLER_ID, Mode=TwoWay}" VerticalAlignment="Top" Width="86"/>
+            <TextBlock HorizontalAlignment="Left" Margin="266,528,0,0" TextWrapping="Wrap" Text="SellerID" VerticalAlignment="Top"/>
 
         </Grid>
     </ScrollViewer>

@@ -22,6 +22,14 @@
 
         </Grid.RowDefinitions>
 
+        <Grid.ColumnDefinitions>
+
+            <ColumnDefinition Width="650.4"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <TextBox Visibility="Collapsed" x:Name="tbxBuyerID"  HorizontalAlignment="Left" Margin="369,27,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="271" Text="{Binding Buyer.BUYER_ID, Mode=TwoWay}"/>
+
         <TextBlock  Grid.Row="0" HorizontalAlignment="Left" Margin="178,48,0,0" TextWrapping="Wrap"  FontSize="35" Text="Home" VerticalAlignment="Top" Height="48" Width="119" FontWeight="Bold"/>
 
         <Image Grid.Row="0" Source ="/Icons/AppIcon.png"
@@ -30,13 +38,13 @@
                MinWidth="400"
                MaxHeight="100"
                MaxWidth="400"
-             Margin="48,9,0,10" Width="118"/>
+             Margin="48,9,0,10" Width="400"/>
 
-        <TextBlock HorizontalAlignment="Left" Margin="961,58,0,0" TextWrapping="Wrap" FontSize="20" Text="Price Slider" VerticalAlignment="Top" Height="38" Width="360"/>
-        <AutoSuggestBox TextChanged="AutoSuggestBox_TextChanged" QueryIcon="Find" PlaceholderText="Search Water Products" HorizontalAlignment="Left" Margin="357,55,0,0" Width="272" Height="32"/>
-        <Slider  Grid.Row="0"  TickPlacement="Outside" SnapsTo="StepValues" TickFrequency="1"  StepFrequency="0.01" x:Name="PriceSlider" ValueChanged="Slider_ValueChanged" HorizontalAlignment="Left"  Margin="1079,55,0,0" VerticalAlignment="Top" Width="138" Height="33" />
+        <TextBlock HorizontalAlignment="Left" Margin="315,58,0,0" TextWrapping="Wrap" FontSize="20" Text="Price Slider" VerticalAlignment="Top" Height="38" Width="360" Grid.Column="1"/>
+        <AutoSuggestBox TextChanged="AutoSuggestBox_TextChanged" QueryIcon="Find" PlaceholderText="Search Water Products" HorizontalAlignment="Left" Margin="349,55,0,0" Width="272" Height="32"/>
+        <Slider  Grid.Row="0"  TickPlacement="Outside" SnapsTo="StepValues" TickFrequency="1"  StepFrequency="0.01" x:Name="PriceSlider" ValueChanged="Slider_ValueChanged" HorizontalAlignment="Left"  Margin="433,55,0,0" VerticalAlignment="Top" Width="138" Height="33" Grid.Column="1" />
 
-        <ComboBox x:Name="cbxCategories" SelectionChanged="cbxCategories_SelectionChanged" PlaceholderText="Sort by Category" Margin="659,27,0,0" Width="272" Height="32">
+        <ComboBox x:Name="cbxCategories" SelectionChanged="cbxCategories_SelectionChanged" PlaceholderText="Sort by Category" Margin="13,27,0,0" Width="272" Height="32" Grid.Column="1">
             <ComboBoxItem Content="All Products"/>
             <ComboBoxItem Content="Electrolyte Water"/>
             <ComboBoxItem Content="Mineral Water"/>
@@ -51,14 +59,14 @@
         </ComboBox>
 
 
-        <ComboBox x:Name="cbxPrice" SelectionChanged="cbxPrice_SelectionChanged"  PlaceholderText="Sort by Price" Margin="659,72,0,0" Width="272" Height="32">
+        <ComboBox x:Name="cbxPrice" SelectionChanged="cbxPrice_SelectionChanged"  PlaceholderText="Sort by Price" Margin="13,72,0,0" Width="272" Height="32" Grid.Column="1">
             <ComboBoxItem Content="All"/>
             <ComboBoxItem Content="Low to High"/>
             <ComboBoxItem Content="High to Low"/>
         </ComboBox>
 
 
-        <GridView  Grid.Row="1" x:Name="ViewProducts" Margin="48,35,48,51">
+        <GridView Grid.Row="1" x:Name="ViewProducts" Margin="48,35,52,43" SelectionChanged="ViewProducts_SelectionChanged" SelectionMode="Single">
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <Border BorderBrush="Gray" CornerRadius="5" BorderThickness="1" Margin="5">
@@ -73,7 +81,6 @@
                                 <TextBlock Text="{Binding ProductName}" FontSize="20" FontWeight="Bold" TextDecorations="Underline"/>
                                 <TextBlock Text="{Binding ProductCategory}" FontSize="16" FontStyle="Italic"/>
                                 <TextBlock Text="{Binding ProductPrice}" FontSize="16"/>
-                                <TextBlock Text="{Binding ProductQuantity}" FontSize="16"/>
                                 <Button x:Name="AddToCart" Background="{ThemeResource SystemAccentColor}" Loaded="AddToCart_Loaded" CornerRadius="5" Content="Add to Cart" Click="AddToCart_Click">
                                     <Button.ContentTemplate>
                                         <DataTemplate>
@@ -89,6 +96,34 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
+
+
+        <ScrollViewer Grid.Column="2" Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Center"
+ HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Auto"
+ VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" >
+
+            <Grid>
+
+
+
+                <TextBlock FontSize="40"  x:Name="lblProductName" FontWeight="Bold" HorizontalAlignment="Left" Margin="333,35,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Select Product" VerticalAlignment="Top" Grid.Column="1" Height="50" Width="589"/>
+                <TextBlock FontSize="20" FontWeight="Bold"   HorizontalAlignment="Left" Margin="360,136,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Quantity: " VerticalAlignment="Top" Grid.Column="1" Height="34" Width="103"/>
+
+                <TextBlock FontSize="20"  x:Name="lblDescription" HorizontalAlignment="Left" Margin="28,352,0,0" Grid.Row="1" TextWrapping="Wrap"  VerticalAlignment="Top" Grid.Column="1" Height="485" Width="784"/>
+
+                <TextBlock FontSize="20" FontWeight="Bold"   HorizontalAlignment="Left" Margin="28,310,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Product Description: " VerticalAlignment="Top" Grid.Column="1" Height="34" Width="247"/>
+                <TextBlock FontSize="20"  x:Name="lblQuanitity"  HorizontalAlignment="Left" Margin="493,136,0,0" Grid.Row="1" TextWrapping="Wrap"  VerticalAlignment="Top" Grid.Column="1" Height="31" Width="67"/>
+
+                <TextBlock FontSize="20" FontWeight="bold"  HorizontalAlignment="Left" Margin="360,104,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Price: " VerticalAlignment="Top" Grid.Column="1" Height="34" Width="103"/>
+                <TextBlock FontSize="20"  x:Name="lblPrice"  HorizontalAlignment="Left" Margin="492,104,0,0" Grid.Row="1" TextWrapping="Wrap"  VerticalAlignment="Top" Grid.Column="1" Height="31" Width="67"/>
+                <Image x:Name="ProductImage" Grid.Column="1" HorizontalAlignment="Left" Height="253" Margin="27,35,0,0" Grid.Row="1" VerticalAlignment="Top" Width="280"/>
+
+
+            </Grid>
+
+        </ScrollViewer>
+
+
 
 
     </Grid>

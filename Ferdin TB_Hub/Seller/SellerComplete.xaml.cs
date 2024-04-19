@@ -35,6 +35,10 @@ namespace Ferdin_TB_Hub.Seller
             this.InitializeComponent();
             LoadProductReceipts();
             SetTextValues();
+
+            receiptDataGrid.ItemsSource = ProductReceipts;
+            receiptDataGrid.Columns["ProductPrice"].Format = "₱0.00";
+            receiptDataGrid.Columns["OrderNumber"].Format = "000000000000";
         }
 
         private void LoadProductReceipts()
@@ -43,7 +47,7 @@ namespace Ferdin_TB_Hub.Seller
             ProductReceipts = Database.GetProductReceipts();
 
             // Notify the UI that the data has changed
-            ReceiptListView.ItemsSource = ProductReceipts;
+            //ReceiptListView.ItemsSource = ProductReceipts;
         }
 
         private void SetTextValues()
@@ -76,30 +80,23 @@ namespace Ferdin_TB_Hub.Seller
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                // Filter the products based on user input
-                var filteredProducts = ProductReceipts.Where(receipt =>
-                 receipt.OrderNumber.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
+                // Filter the ProductReceipts based on user input
+                var filteredReceipts = ProductReceipts.Where(receipt =>
+                    receipt.OrderNumber.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
                     receipt.ProductName.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
                     receipt.ProductCategory.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
-                    receipt.ProductPrice.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
-                    receipt.ProductQuantity.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
-                    receipt.LastName.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
-                    receipt.MiddleName.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
-                    receipt.FirstName.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
-                    receipt.Email.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
-                    receipt.PhoneNumber.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
-                    receipt.AddressLine1.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
-                    receipt.AddressLine2.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
-                    receipt.PaymentMethod.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
-                    receipt.DatePurchased.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase)
-
-
-
-
+                    receipt.LastName.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
+                    receipt.FirstName.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
+                    receipt.MiddleName.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
+                    receipt.Email.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
+                    receipt.AddressLine1.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
+                    receipt.AddressLine2.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
+                    receipt.PaymentMethod.Contains(sender.Text, StringComparison.OrdinalIgnoreCase)
+                // Add more properties to search as needed
                 ).ToList();
 
-                // Update the ListView with filtered items
-                ReceiptListView.ItemsSource = filteredProducts;
+                // Set the filtered list as the ItemsSource for your data grid
+                receiptDataGrid.ItemsSource = filteredReceipts;
             }
         }
 
@@ -198,8 +195,6 @@ namespace Ferdin_TB_Hub.Seller
                         worksheet.Cells[1, 12].Value = "Payment";
                         worksheet.Cells[1, 13].Value = "Date Purchased";
 
-
-
                         // Data
                         int row = 2;
                         foreach (var receipt in ProductReceipts)
@@ -208,8 +203,8 @@ namespace Ferdin_TB_Hub.Seller
                             worksheet.Cells[row, 2].Value = receipt.ProductName;
                             worksheet.Cells[row, 3].Value = receipt.ProductCategory;
                             worksheet.Cells[row, 4].Value = receipt.ProductPrice;
-                            worksheet.Cells[row, 5].Value = receipt.LastName;
-                            worksheet.Cells[row, 6].Value = receipt.FirstName;
+                            worksheet.Cells[row, 6].Value = receipt.LastName;
+                            worksheet.Cells[row, 5].Value = receipt.FirstName;
                             worksheet.Cells[row, 7].Value = receipt.MiddleName;
                             worksheet.Cells[row, 8].Value = receipt.PhoneNumber;
                             worksheet.Cells[row, 9].Value = receipt.AddressLine1;
@@ -220,9 +215,20 @@ namespace Ferdin_TB_Hub.Seller
 
                             worksheet.Cells[row, 13].Style.Numberformat.Format = "yyyy/mm/dd hh:mm:ss";
 
-
                             row++;
                         }
+
+                        // Insert additional information above the table
+                        worksheet.Cells[2, 15].Value = "Total Sales:";
+                        worksheet.Cells[2, 16].Value = tbxTotalSales.Text;
+                        worksheet.Cells[4, 15].Value = "Total Purchases:";
+                        worksheet.Cells[4, 16].Value = tbxTotalPurchases.Text;
+                        worksheet.Cells[6, 15].Value = "Best Selling Category:";
+                        worksheet.Cells[6, 16].Value = tbxBestSelling.Text;
+                        worksheet.Cells[8, 15].Value = "Most Purchased Product:";
+                        worksheet.Cells[8, 16].Value = tbxMostPurchased.Text;
+                        worksheet.Cells[10, 15].Value = "Generated Date:";
+                        worksheet.Cells[10, 16].Value = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
 
                         // Save the ExcelPackage to the selected file
                         await stream.FlushAsync();
@@ -234,4 +240,6 @@ namespace Ferdin_TB_Hub.Seller
         }
 
     }
+
 }
+

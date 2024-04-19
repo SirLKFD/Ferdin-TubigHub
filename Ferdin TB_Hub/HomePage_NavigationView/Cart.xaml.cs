@@ -65,8 +65,11 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
 
         private void LoadCartItems()
         {
+
+
             // Retrieve the list of products in the cart from the database
             ProductCartList = Database.GetProductCart();
+      
 
             // Calculate total price
             double totalPrice = 0;
@@ -193,6 +196,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             string addressLine1 = tbxAddressLine1.Text;
             string addressLine2 = tbxAddressLine2.Text;
             string email = tbxEmail.Text;
+            string passbuyerID = tbxBuyerID.Text;
 
             // Check if any of the required fields are empty
             if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) ||
@@ -218,18 +222,32 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             // Get the current date and time as the date of purchase
             DateTime datePurchased = DateTime.Now;
 
+            // Retrieve the buyer's ID using the DatabaseAccess class
+            DatabaseAccess dbAccess = new DatabaseAccess();
+            var product = DataContext as ProductDetails;
+            var seller = DataContext as SellerDetails;
+
+
+            dbAccess.RetrieveBuyerIDFromDatabase(passbuyerID); // Assuming email is used to uniquely identify the buyer
+          // dbAccess.RetrieveSellerIDFromDatabase(firstName); // Assuming email is used to uniquely identify the seller
+
+            // Get the retrieved buyer ID from the BuyerAndSellerID class
+            int buyerID = dbAccess.RetrieveBuyerIDFromDatabase(passbuyerID);
+            //  int sellerID = BuyerAndSellerID.SellerID;
+
             // Prepare to pass the order summary and buyer's information to the receipt
+
             // Loop through the items in the cart and pass each item to the receipt
             foreach (var productCart in ProductCartList)
             {
                 // Retrieve the corresponding product details from the database based on the product name
-                var productDetails = Database.GetProductDetails().FirstOrDefault(p => p.ProductName == productCart.ProductName);
+                var productDetails = Database.GetAllProductDetails().FirstOrDefault(p => p.ProductName == productCart.ProductName);
 
                 // Check if the product details are not null
                 if (productDetails != null)
                 {
-                    // Pass each item to the receipt with correct product category
-                    PassProductToReceipt(productCart, lastName, firstName, middleName, phoneNumber, productDetails.ProductCategory, addressLine1, addressLine2, Buyer.Email, paymentMethod, datePurchased);
+                    // Pass each item to the receipt with correct product category and buyer ID
+                    PassProductToReceipt(productCart, lastName, firstName, middleName, phoneNumber, productDetails.ProductCategory, addressLine1, addressLine2, email, paymentMethod, datePurchased, buyerID);
                 }
             }
 
@@ -240,8 +258,8 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
 
             // Show receipt using prompt
             ShowReceiptPrompt(receiptContent);
-
         }
+
 
         public static void ShowOrderPlacedNotification()
         {
@@ -249,7 +267,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             var content = new ToastContentBuilder()
                 .AddText("Order Placed")
                 .AddText("Your order has been successfully placed!")
-                .AddText("Thank you for shopping with us!, A receipt will be shown shortly.")
+                .AddText("Thank you for shopping with us!\n A receipt will be shown shortly.")
                 .GetToastContent();
 
             // Create the toast notification
@@ -276,6 +294,9 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             Database.DeleteProductFromCart(selectedProduct.ProductCart_ID);
 
             // Restore the product quantity in the database
+
+            int sellerID = BuyerAndSellerID.SellerID;
+
             Database.RestoreProductQuantity(productName, quantity + 1);
 
             // Refresh the cart items

@@ -35,6 +35,8 @@
         </Grid.ColumnDefinitions>
 
 
+        <TextBox x:Name="tbxBuyerID" Visibility="Collapsed"  HorizontalAlignment="Left" Margin="204,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="271" Text="{Binding Buyer.BUYER_ID, Mode=TwoWay}"/>
+       
         <TextBlock  Grid.Row="0" HorizontalAlignment="Left" Margin="42,60,0,0" TextWrapping="Wrap"  FontSize="35" Text="Your Cart" VerticalAlignment="Top" Height="48" Width="451" FontWeight="Bold"/>
         <AutoSuggestBox TextChanged="AutoSuggestBox_TextChanged" QueryIcon="Find" PlaceholderText="Search Cart" Height="32" Margin="235,66,25,0"/>
 

@@ -39,6 +39,19 @@ namespace Ferdin_TB_Hub.Seller
         public AddProduct()
         {
             this.InitializeComponent();
+         
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            // Check if the parameter is not null and is of type string
+            if (e.Parameter != null && e.Parameter is string)
+            {
+                // Cast the parameter to string and assign it to SellerID TextBox
+                tbxSellerID.Text = e.Parameter as string;
+            }
         }
 
         private async void InsertPicture_Click(object sender, RoutedEventArgs e)
@@ -138,17 +151,21 @@ namespace Ferdin_TB_Hub.Seller
             ContentDialogResult result = await confirmDialog.ShowAsync();
             if (result == ContentDialogResult.Primary)
             {
+                var seller = DataContext as SellerDetails;
+
                 // If the user confirms, proceed to add the product
                 string productName = tbxProductName.Text;
                 string productCategory = (cbxProductCategory.SelectedItem as ComboBoxItem)?.Content.ToString();
                 string productDescription = tbxProductDescription.Text;
+                string ADDsellerID = tbxSellerID.Text;
 
                 byte[] productPicture = await ConvertImageToByteArray(selectedFile);
 
+                DatabaseAccess dbAccess = new DatabaseAccess();
 
-                // Call AddProduct with SellerId
+                int sellerID = dbAccess.RetrieveSellerIDFromDatabase(ADDsellerID);
 
-                Database.AddProduct(productName, productCategory, productPrice, productDescription, productQuantity, productPicture);
+                Database.AddProduct(productName, productCategory, productPrice, productDescription, productQuantity, productPicture, sellerID);
 
                 // Clear the textboxes
                 tbxProductName.Text = "";

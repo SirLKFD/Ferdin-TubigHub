@@ -76,6 +76,7 @@ namespace Ferdin_TB_Hub
                     if (buyer != null)
                     {
                         Frame.Navigate(typeof(HomePage), buyer, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+                   
                     }
                     else
                     {

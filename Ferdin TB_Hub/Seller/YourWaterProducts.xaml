@@ -75,12 +75,15 @@
 
                     </ComboBox>
 
+                    <TextBox x:Name="tbxSellerID" IsEnabled="False" HorizontalAlignment="Left" Margin="368,554,0,0" TextWrapping="Wrap" Text="{Binding Seller.SELLER_ID, Mode=TwoWay}" VerticalAlignment="Top" Width="87"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="302,561,0,0" TextWrapping="Wrap" Text="SellerID" VerticalAlignment="Top"/>
+
                     <TextBox x:Name="tbxProductDescription" HorizontalAlignment="Left" Margin="212,303,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="344" Height="215"/>
                     <TextBox x:Name="tbxProductQuantity" HorizontalAlignment="Left" Margin="212,554,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77"/>
 
-                    <Button x:Name="ChangePicture" Click="ChangePicture_Click" CornerRadius="5" Foreground="White" Background="Purple" Content="Change Picture" Margin="68,708,0,0" VerticalAlignment="Top"/>
-                    <Button x:Name="UpdateProduct" CornerRadius="5" Foreground="White" Background="Purple" Content="Update Product" VerticalAlignment="Top" Click="UpdateProduct_Click" Margin="469,610,0,0"/>
-                    <Button x:Name="DeleteProduct" CornerRadius="5" Foreground="White" Background="Purple" Content="Delete Product"  VerticalAlignment="Top" Click="DeleteProduct_Click" Margin="468,760,0,0"/>
+                    <Button x:Name="ChangePicture" Click="ChangePicture_Click" CornerRadius="5" Foreground="White" Background="{ThemeResource SystemAccentColor}" Content="Change Picture" Margin="68,708,0,0" VerticalAlignment="Top"/>
+                    <Button x:Name="UpdateProduct" CornerRadius="5" Foreground="White" Background="{ThemeResource SystemAccentColor}" Content="Update Product" VerticalAlignment="Top" Click="UpdateProduct_Click" Margin="469,610,0,0"/>
+                    <Button x:Name="DeleteProduct" CornerRadius="5" Foreground="White" Background="{ThemeResource SystemAccentColor}" Content="Delete Product"  VerticalAlignment="Top" Click="DeleteProduct_Click" Margin="468,760,0,0"/>
 
                     <Border BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Left" Height="183" Margin="212,610,0,0" VerticalAlignment="Top" Width="230">
 

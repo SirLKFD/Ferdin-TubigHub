@@ -35,7 +35,6 @@ namespace Ferdin_TB_Hub
             Database.InitializeDB_BUYERACCOUNTS();
             Database.InitializeDB_SELLERACCOUNTS();
             Database.InitializeDB_PRODUCTDETAILS();
-            Database.InitializeDB_SHOPADDRESS_AVAILABILITY();
             Database.InitializeDB_PRODUCTRECEIPT();
             Database.InitializeDB_PRODUCTCART();
         }

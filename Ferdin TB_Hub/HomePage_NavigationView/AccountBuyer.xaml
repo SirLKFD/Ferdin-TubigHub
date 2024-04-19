@@ -35,7 +35,7 @@
                     <!-- UserLogo -->
                     <Grid Grid.Row="0" >
 
-                        <TextBlock FontSize="40" HorizontalAlignment="Center" Margin="0,42,0,0" TextWrapping="Wrap" Text="Account" VerticalAlignment="Top"/>
+                        <TextBlock TextDecorations="Underline" FontWeight="Bold" FontSize="40" HorizontalAlignment="Center" Margin="0,42,0,0" TextWrapping="Wrap" Text="Account" VerticalAlignment="Top"/>
                         <Image Source="/Icons/Default_UserIcon.png" x:Name="DefaultUserIcon" HorizontalAlignment="Center" Height="100" Margin="0,110,0,0" VerticalAlignment="Top" Width="100" Stretch="Fill"/>
                         <ToggleSwitch Toggled="ToggleSwitch_Toggled" Header="Modify Account" Margin="30,195,0,0" VerticalAlignment="Top"/>
 
@@ -138,17 +138,16 @@
                 <TextBlock HorizontalAlignment="Left" FontSize="20" FontWeight="ExtraBold" Margin="170,590,0,0" TextWrapping="Wrap" Text="Software Development Kits: " VerticalAlignment="Top"/>
                 <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="210,621,0,0" TextWrapping="Wrap" Text="Microsoft Windows SDK 2.8" VerticalAlignment="Top"/>
                 <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="210,652,0,0" TextWrapping="Wrap" Text="WinUI 2.0" VerticalAlignment="Top"/>
-                <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="210,683,0,0" TextWrapping="Wrap" Text=".NET Framework 8.0" VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="210,683,0,0" TextWrapping="Wrap" Text=".NET Core 8.0" VerticalAlignment="Top"/>
 
                 <TextBlock HorizontalAlignment="Left" FontSize="20" FontWeight="ExtraBold" Margin="170,744,0,0" TextWrapping="Wrap" Text="UWP Documentation can be found at " VerticalAlignment="Top"/>
                 <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="299,770,0,0" TextWrapping="Wrap" Text="https://learn.microsoft.com/en-us/windows/uwp/" VerticalAlignment="Top"/>
 
 
-                <TextBlock HorizontalAlignment="Left" FontSize="20" FontStyle="Italic" Margin="170,839,0,0" TextWrapping="Wrap" Text="The app uses open-source license through Microsoft Public License" VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" FontSize="20" FontStyle="Italic" Margin="170,839,0,0" TextWrapping="Wrap" Text="The app uses open-source source code through Microsoft Public License" VerticalAlignment="Top"/>
 
 
-
-
+                <TextBlock FontSize="15" Foreground="{ThemeResource SystemAccentColor}" Text="RELEASE BUILD 1.0.0" Margin="602,177,234,936" FontWeight="Bold"/>
 
 
 

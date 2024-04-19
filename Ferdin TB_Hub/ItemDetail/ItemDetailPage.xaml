@@ -15,7 +15,6 @@
 
     <Grid>
 
-        <Image x:Name="DestinationImage" Source="{Binding ProductPicture, Converter={StaticResource ByteArrayToImageSourceConverter}}" Margin="30,46,1167,653"/>
 
 
     </Grid>

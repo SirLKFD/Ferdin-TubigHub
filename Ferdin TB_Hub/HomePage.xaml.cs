@@ -1,4 +1,5 @@
-﻿using Ferdin_TB_Hub.Classes;
+﻿using Ferdin_TB_Hub.BuyerAccountPage;
+using Ferdin_TB_Hub.Classes;
 using Ferdin_TB_Hub.HomePage_NavigationView;
 using Ferdin_TB_Hub.NewAccount;
 using System;
@@ -54,18 +55,23 @@ namespace Ferdin_TB_Hub
             switch (item.Tag.ToString())
             {
                 case "Locate":                  
-                    contentFrame.Navigate(typeof(Locate));
+                    contentFrame.Navigate(typeof(Locate), _buyer);
                     break;
                 case "Account":
                     //THE BUYER INFO WILL BE PASSED TO THE ACCOUNT BUYER
                     contentFrame.Navigate(typeof(AccountBuyer), _buyer);
                     break;
                 case "Home":
-                    contentFrame.Navigate(typeof(Home));
+                    contentFrame.Navigate(typeof(Home), _buyer);
                     break;               
                 case "Cart":
                     contentFrame.Navigate(typeof(Cart), _buyer);
                     break;
+                case "History":
+                    contentFrame.Navigate(typeof(OrderHistory), _buyer);
+                    break;
+
+               
 
             }
         }

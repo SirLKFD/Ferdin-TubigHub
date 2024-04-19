@@ -1,4 +1,5 @@
 ﻿using Ferdin_TB_Hub.Classes;
+using Ferdin_TB_Hub.HomePage_NavigationView;
 using Ferdin_TB_Hub.NewAccount;
 using System;
 using System.Collections.Generic;
@@ -89,7 +90,7 @@ namespace Ferdin_TB_Hub.Seller
             {
                 // Navigate back to the MainPage to logout
                 _seller = null;
-                Frame.Navigate(typeof(MainPage));
+                Frame.Navigate(typeof(MainPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromLeft });
             }
             else
             {
@@ -181,6 +182,12 @@ namespace Ferdin_TB_Hub.Seller
             }
         }
 
+        private void NavigateToLocatePage()
+        {
+            // Pass the Seller object to the Locate page when navigating
+            Frame.Navigate(typeof(Locate), Seller);
+        }
+
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             NavigationViewItem item = args.SelectedItem as NavigationViewItem;
@@ -206,6 +213,11 @@ namespace Ferdin_TB_Hub.Seller
             }
         }
 
+        private void NavigateToAddProduct()
+        {
+            // Pass SellerID as parameter when navigating to AddProduct page
+            Frame.Navigate(typeof(AddProduct), tbxID.Text);
+        }
 
 
         private void NavigationView_Loaded(object sender, RoutedEventArgs e)

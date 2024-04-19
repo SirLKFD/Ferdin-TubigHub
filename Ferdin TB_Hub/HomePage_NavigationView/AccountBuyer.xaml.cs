@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using static Ferdin_TB_Hub.Classes.Database;
 
@@ -55,6 +56,11 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private void NavigateToHome(string buyerEmail)
+        {
+            Frame.Navigate(typeof(Home), buyerEmail);
+        }
+
 
         private async void Logout_Click(object sender, RoutedEventArgs e)
         {
@@ -75,7 +81,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             {
                 // Navigate directly to MainPage without adding to back stack
                 Frame rootFrame = Window.Current.Content as Frame;
-                rootFrame.Navigate(typeof(MainPage));
+                rootFrame.Navigate(typeof(MainPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromLeft });
             }
             else
             {
@@ -95,10 +101,15 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
                 // Notify the UI that the Buyer property has changed
                 OnPropertyChanged(nameof(Buyer));
 
-                // Pass the BuyerDetails object to the Cart page when navigating to it
+                // Pass the BuyerDetails object to the rest of the page
                 Frame.Navigate(typeof(Cart), Buyer);
+                Frame.Navigate(typeof(Home), Buyer);
+                Frame.Navigate(typeof(Locate), Buyer);
+                Frame.Navigate(typeof(OrderHistory), Buyer);         
             }
         }
+
+      
 
         private async void DeleteBuyerAccount_Click(object sender, RoutedEventArgs e)
         {
