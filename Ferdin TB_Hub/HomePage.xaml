@@ -28,8 +28,8 @@
            
       
             <NavigationView.MenuItems>
-                <NavigationViewItem Icon="Home" Tag="Home" Content="Shop "/>
-                <NavigationViewItem Icon="Flag" Tag="Locate" Content="Locate Stores"/>
+                <NavigationViewItem Icon="Home" Tag="Home" Content="Home"/>
+                <NavigationViewItem Icon="Flag" Tag="Locate" Content="Stores"/>
                 <NavigationViewItem Icon="Shop" Tag="Cart" Content="Cart"/>
                 <NavigationViewItem Icon="Bookmarks" Tag="History" Content="Order History"/>
                 <NavigationViewItem Content="Account" Tag="Account" Icon="Contact" />

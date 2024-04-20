@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using static Ferdin_TB_Hub.Classes.Database;
 using System.ComponentModel;
+using Windows.UI.Popups;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -55,38 +56,44 @@ namespace Ferdin_TB_Hub.BuyerAccountPage
 
         public OrderHistory()
         {
-            this.InitializeComponent();
-            LoadProductReceipts();
-            this.DataContext = this; // Set the DataContext of the page to itself
-
-            // Initialize Buyer object before accessing its properties
-            Buyer = new BuyerDetails();
-
-            // Check if Buyer object is not null before accessing its properties
-            if (Buyer != null)
+            try
             {
-                // Set the initial buyer ID to the one entered in the TextBox
-                int.TryParse(tbxBuyerID.Text, out int initialBuyerID);
-                BuyerID = initialBuyerID;
+                this.InitializeComponent();
+                LoadProductReceipts();
+                this.DataContext = this; // Set the DataContext of the page to itself
 
-                // Call GetBuyerProductReceipts with the initial buyer ID
-                receiptDataGrid.ItemsSource = GetBuyerProductReceipts(BuyerID + 1);
+                // Initialize Buyer object before accessing its properties
+                Buyer = new BuyerDetails();
+
+                // Check if Buyer object is not null before accessing its properties
+                if (Buyer != null)
+                {
+                    // Set the initial buyer ID to the one entered in the TextBox
+                    int.TryParse(tbxBuyerID.Text, out int initialBuyerID);
+                    BuyerID = initialBuyerID;
+
+                    // Call GetBuyerProductReceipts with the initial buyer ID
+                    receiptDataGrid.ItemsSource = GetBuyerProductReceipts(BuyerID + 1);
+                }
+
+                receiptDataGrid.Columns["ProductPrice"].Format = "₱0.00";
+                receiptDataGrid.Columns["OrderNumber"].Format = "000000000000";
             }
-
-            receiptDataGrid.Columns["ProductPrice"].Format = "₱0.00";
-            receiptDataGrid.Columns["OrderNumber"].Format = "000000000000";
-
-
+            catch (Exception ex)
+            {
+          
+            }
         }
+
+
+
+
 
         private void LoadProductReceipts()
         {
             // Fetch product receipts from the database
             ProductReceipts = Database.GetProductReceipts();
 
-
-            // Notify the UI that the data has changed
-            //ReceiptListView.ItemsSource = ProductReceipts;
         }
 
 

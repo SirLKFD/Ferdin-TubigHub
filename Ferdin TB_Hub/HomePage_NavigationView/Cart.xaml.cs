@@ -20,6 +20,11 @@ using Windows.UI.Xaml.Media;
 using Windows.Data.Xml.Dom; 
 using Windows.UI.Xaml.Navigation;
 using static Ferdin_TB_Hub.Classes.Database;
+using Windows.Storage.Provider;
+using Windows.Storage;
+using PdfSharpCore.Drawing;
+using PdfSharpCore.Pdf;
+
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -261,13 +266,15 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
         }
 
 
+
+
         public static void ShowOrderPlacedNotification()
         {
             // Construct the toast content
             var content = new ToastContentBuilder()
                 .AddText("Order Placed")
                 .AddText("Your order has been successfully placed!")
-                .AddText("Thank you for shopping with us!\n A receipt will be shown shortly.")
+                .AddText("Thank you for shopping with us!\n A receipt will be generated shortly.")
                 .GetToastContent();
 
             // Create the toast notification
@@ -323,32 +330,34 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             double shippingFee = 50;
 
             // Prepare receipt content
-            string receiptContent = "Order Summary:\n\n";
+            string receiptContent = "ORDER RECEIPT\n\n";
 
             // Loop through the items in the cart and add them to the receipt
             foreach (var productCart in ProductCartList)
             {
-                receiptContent += $"{productCart.ProductName}: ₱{productCart.ProductPrice:n2}\n"; // Use ₱ for Philippine Peso sign
+                receiptContent += $"{productCart.ProductName}: ₱{productCart.ProductPrice:n2}\n";
             }
+
+            // Add buyer information to the receipt
+            receiptContent += $"\nBUYER INFO\n";
+            receiptContent += $"NAME: {tbxFirstName.Text} {tbxMiddleName.Text} {tbxLastName.Text}\n";
+            receiptContent += $"PHONE NUMBER: {tbxPhoneNumber.Text}\n";
+            receiptContent += $"ADDRESS: {tbxAddressLine1.Text}, {tbxAddressLine2.Text}\n";
+            receiptContent += $"EMAIL: {tbxEmail.Text}\n";
+
+            // Add payment method to the receipt
+            receiptContent += $"\nPAYMENT METHOD: {((ComboBoxItem)cbxBuyerPayment.SelectedItem)?.Content}\n";
 
 
             // Add total price, tax, and shipping fee to the receipt
-            receiptContent += $"\nTotal Price: ₱{totalPriceWithTax + shippingFee:n2}\n";
-            receiptContent += $"Total Quantity: {ProductCartList.Count}\n";
-            receiptContent += $"VAT Tax: ₱{tax:n2}\n";
-            receiptContent += $"Shipping Fee: ₱{shippingFee:n2}\n";
+            receiptContent += $"TOTAL QUANTITY: {ProductCartList.Count}\n";
+            receiptContent += $"VAT: ₱{tax:n2}\n";
+            receiptContent += $"SHIPPING FEE: ₱{shippingFee:n2}\n";
+            receiptContent += $"\nTOTAL PRICE: ₱{totalPriceWithTax + shippingFee:n2}\n";
+      
 
-            // Add buyer information to the receipt
-            receiptContent += $"\nBuyer Information:\n";
-            receiptContent += $"Name: {tbxFirstName.Text} {tbxMiddleName.Text} {tbxLastName.Text}\n";
-            receiptContent += $"Phone Number: {tbxPhoneNumber.Text}\n";
-            receiptContent += $"Address: {tbxAddressLine1.Text}, {tbxAddressLine2.Text}\n";
-            receiptContent += $"Email: {tbxEmail.Text}\n";
 
-            // Add payment method to the receipt
-            receiptContent += $"\nPayment Method: {((ComboBoxItem)cbxBuyerPayment.SelectedItem)?.Content}\n";
 
-            receiptContent += "\nThank you for choosing Ferdin TB Hub!\n\nPlease screenshot this receipt for your reference.";
 
             // Return the generated receipt content
             return receiptContent;
@@ -370,15 +379,28 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
         }
 
 
-
-
         private async void ShowReceiptPrompt(string receiptContent)
         {
-            // Show receipt using prompt
+            // Create a TextBlock to contain the receipt content
+            TextBlock textBlock = new TextBlock
+            {
+                Text = receiptContent,
+                TextWrapping = TextWrapping.Wrap,
+                Margin = new Thickness(20) // Add margin for better readability
+            };
+
+            // Create a ScrollViewer to make the content scrollable
+            ScrollViewer scrollViewer = new ScrollViewer
+            {
+                Content = textBlock,
+                VerticalScrollBarVisibility = ScrollBarVisibility.Auto // Enable vertical scrollbar
+            };
+
+            // Create the receipt dialog with the scrollable content
             ContentDialog receiptDialog = new ContentDialog
             {
                 Title = "Order Receipt",
-                Content = receiptContent,
+                Content = scrollViewer, // Set the ScrollViewer as the content
                 CloseButtonText = "Close"
             };
 
@@ -389,12 +411,110 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             ContentDialogResult result = await receiptDialog.ShowAsync();
         }
 
-        private void ReceiptDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
+
+
+        private async void ReceiptDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
         {
+            // Generate receipt content
+            string receiptContent = GenerateReceiptContent();
+
+            // Create a new PDF document
+            PdfDocument document = new PdfDocument();
+
+
+            // Add a page to the document with custom dimensions
+            // Here, I'm setting a very long height for demonstration purposes
+            PdfPage page = document.AddPage();
+            page.Width = XUnit.FromInch(8.5); // Standard letter size width
+            page.Height = XUnit.FromInch(20); // Custom height - adjust as needed
+
+            // Create XGraphics object from the PDF page
+            XGraphics gfx = XGraphics.FromPdfPage(page);
+
+            // Load the image to use as the header
+            StorageFile imageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Icons/Title3.png")); // Replace "header_image.jpg" with the actual file name of your image
+            XImage headerImage = XImage.FromStream(() => imageFile.OpenStreamForReadAsync().Result);
+
+            // Calculate the position for the top right corner of the header
+            double headerImageX = 450; // Adjust the value as needed for horizontal position
+            double headerImageY = 10; // Adjust the value as needed for vertical position
+            double headerImageWidth = 150; // Adjust the value as needed for image width
+            double headerImageHeight = 100; // Adjust the value as needed for image height
+
+            // Draw the image as the header at the calculated position
+            gfx.DrawImage(headerImage, new XRect(headerImageX, headerImageY, headerImageWidth, headerImageHeight));
+
+            // Set font and brush for drawing text
+            XFont font = new XFont("Courier New", 12, XFontStyle.Bold);
+            XBrush brush = XBrushes.Blue;
+
+            // Split receipt content into lines
+            string[] lines = receiptContent.Split('\n');
+
+            // Set starting position for drawing text
+            double textYPosition = 40;
+
+            // Draw each line of the receipt content
+            foreach (string line in lines)
+            {
+                gfx.DrawString(line, font, brush, new XPoint(40, textYPosition));
+                textYPosition += 20; // Adjust line spacing as needed
+            }
+
+
+            // Draw footer
+            string footerText1 = "Thank you for choosing Ferdin TubigHub :)";
+            XSize footerTextSize1 = gfx.MeasureString(footerText1, font);
+            double footerX1 = (page.Width - footerTextSize1.Width) / 2;
+            double footerY1 = page.Height - 60; // Adjust the value as needed for vertical position
+            gfx.DrawString(footerText1, font, brush, new XPoint(footerX1, footerY1));
+
+            string footerText2 = "Please save this receipt for your reference.";
+            XSize footerTextSize2 = gfx.MeasureString(footerText2, font);
+            double footerX2 = (page.Width - footerTextSize2.Width) / 2;
+            double footerY2 = page.Height - 40; // Adjust the value as needed for vertical position
+            gfx.DrawString(footerText2, font, brush, new XPoint(footerX2, footerY2));
+
+            // Save the PDF document to a file
+            StorageFile pdfFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("Receipt.pdf", CreationCollisionOption.ReplaceExisting);
+            using (var fileStream = await pdfFile.OpenStreamForWriteAsync())
+            {
+                document.Save(fileStream, false);
+            }
+
+            // Show file picker for the user to save the PDF file
+            var savePicker = new Windows.Storage.Pickers.FileSavePicker();
+            savePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
+            savePicker.FileTypeChoices.Add("Adobe PDF Document", new List<string>() { ".pdf" });
+            savePicker.SuggestedFileName = "Receipt";
+
+            StorageFile file = await savePicker.PickSaveFileAsync();
+            if (file != null)
+            {
+                CachedFileManager.DeferUpdates(file);
+                await pdfFile.CopyAndReplaceAsync(file);
+                FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
+                if (status == FileUpdateStatus.Complete)
+                {
+                    // File saved successfully
+                }
+                else
+                {
+                    // Failed to save file
+                }
+            }
+            else
+            {
+                // User canceled the operation
+            }
+
             // Clear the ProductCartList after the receipt dialog is closed
             ProductCartList.Clear();
             LoadCartItems(); // Refresh the cart UI
         }
+
+
+
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {

@@ -352,13 +352,25 @@ namespace Ferdin_TB_Hub.Classes
             using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
             {
                 con.Open();
-                string deleteCMD = "DELETE FROM Buyers WHERE Username = @Username OR Email = @Email";
+                string deleteReceiptsCMD = "DELETE FROM ProductReceipts WHERE Buyer_ID IN (SELECT BUYER_ID FROM Buyers WHERE Username = @Username OR Email = @Email)";
+                string deleteBuyerCMD = "DELETE FROM Buyers WHERE Username = @Username OR Email = @Email";
 
-                SqliteCommand cmdDeleteRecord = new SqliteCommand(deleteCMD, con);
-                cmdDeleteRecord.Parameters.AddWithValue("@Username", usernameOrEmail);
-                cmdDeleteRecord.Parameters.AddWithValue("@Email", usernameOrEmail);
+                // Delete associated records from ProductReceipts table
+                using (SqliteCommand cmdDeleteReceipts = new SqliteCommand(deleteReceiptsCMD, con))
+                {
+                    cmdDeleteReceipts.Parameters.AddWithValue("@Username", usernameOrEmail);
+                    cmdDeleteReceipts.Parameters.AddWithValue("@Email", usernameOrEmail);
+                    cmdDeleteReceipts.ExecuteNonQuery();
+                }
 
-                cmdDeleteRecord.ExecuteReader();
+                // Delete the buyer account from the Buyers table
+                using (SqliteCommand cmdDeleteBuyer = new SqliteCommand(deleteBuyerCMD, con))
+                {
+                    cmdDeleteBuyer.Parameters.AddWithValue("@Username", usernameOrEmail);
+                    cmdDeleteBuyer.Parameters.AddWithValue("@Email", usernameOrEmail);
+                    cmdDeleteBuyer.ExecuteNonQuery();
+                }
+
                 con.Close();
             }
         }
@@ -591,7 +603,7 @@ namespace Ferdin_TB_Hub.Classes
         }
 
 
-        // Method to delete a seller account from the database
+        // Method to delete a seller account from the database along with associated product details
         public static void DeleteSellerAccountFromDatabase(string usernameOrEmail)
         {
             string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
@@ -599,16 +611,29 @@ namespace Ferdin_TB_Hub.Classes
             using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
             {
                 con.Open();
-                string deleteCMD = "DELETE FROM Sellers WHERE Username = @Username OR Email = @Email";
 
-                SqliteCommand cmdDeleteRecord = new SqliteCommand(deleteCMD, con);
-                cmdDeleteRecord.Parameters.AddWithValue("@Username", usernameOrEmail);
-                cmdDeleteRecord.Parameters.AddWithValue("@Email", usernameOrEmail);
+                // Delete associated records from ProductDetails table
+                string deleteProductDetailsCMD = "DELETE FROM ProductDetails WHERE Seller_ID IN (SELECT SELLER_ID FROM Sellers WHERE Username = @Username OR Email = @Email)";
+                using (SqliteCommand cmdDeleteProductDetails = new SqliteCommand(deleteProductDetailsCMD, con))
+                {
+                    cmdDeleteProductDetails.Parameters.AddWithValue("@Username", usernameOrEmail);
+                    cmdDeleteProductDetails.Parameters.AddWithValue("@Email", usernameOrEmail);
+                    cmdDeleteProductDetails.ExecuteNonQuery();
+                }
 
-                cmdDeleteRecord.ExecuteReader();
+                // Delete the seller account from the Sellers table
+                string deleteSellerCMD = "DELETE FROM Sellers WHERE Username = @Username OR Email = @Email";
+                using (SqliteCommand cmdDeleteSeller = new SqliteCommand(deleteSellerCMD, con))
+                {
+                    cmdDeleteSeller.Parameters.AddWithValue("@Username", usernameOrEmail);
+                    cmdDeleteSeller.Parameters.AddWithValue("@Email", usernameOrEmail);
+                    cmdDeleteSeller.ExecuteNonQuery();
+                }
+
                 con.Close();
             }
         }
+
 
 
         /// <summary>

@@ -132,7 +132,7 @@
                 <NavigationView.MenuItems>
                     <NavigationViewItem x:Name="YourProduct" Icon="Filter"  Content="Your Water Products" Tag="ProductPage" />
                     <NavigationViewItem x:Name="AddProduct" Icon="Add" Content="Add Product" Tag="AddPage" />
-                    <NavigationViewItem x:Name="Complete" Icon="OpenFile" Content="Sales Report of Orders" Tag="SellerCompletePage" />
+                    <NavigationViewItem x:Name="Complete" Icon="OpenFile" Content="Sales Report" Tag="SellerCompletePage" />
 
                 </NavigationView.MenuItems>
                 <Frame x:Name="contentFrame"/>

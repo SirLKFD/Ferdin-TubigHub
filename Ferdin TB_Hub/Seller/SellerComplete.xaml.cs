@@ -39,6 +39,20 @@ namespace Ferdin_TB_Hub.Seller
             receiptDataGrid.ItemsSource = ProductReceipts;
             receiptDataGrid.Columns["ProductPrice"].Format = "₱0.00";
             receiptDataGrid.Columns["OrderNumber"].Format = "000000000000";
+
+            // Modify the header names
+            receiptDataGrid.Columns["OrderNumber"].ColumnName = "Order Number";
+            receiptDataGrid.Columns["ProductName"].ColumnName = "Product Name";
+            receiptDataGrid.Columns["ProductCategory"].ColumnName = "Product Category";
+            receiptDataGrid.Columns["LastName"].ColumnName = "Last Name";
+            receiptDataGrid.Columns["FirstName"].ColumnName = "First Name";
+            receiptDataGrid.Columns["MiddleName"].ColumnName = "Middle Name";
+            receiptDataGrid.Columns["PhoneNumber"].ColumnName = "Phone Number";
+            receiptDataGrid.Columns["AddressLine1"].ColumnName = "Address Line 1";
+            receiptDataGrid.Columns["AddressLine2"].ColumnName = "Address Line 2";
+            receiptDataGrid.Columns["Email"].ColumnName = "Payment";
+            receiptDataGrid.Columns["PaymentMethod"].ColumnName = "Email";
+            receiptDataGrid.Columns["DatePurchased"].ColumnName = "Date Purchased";
         }
 
         private void LoadProductReceipts()
@@ -150,10 +164,71 @@ namespace Ferdin_TB_Hub.Seller
         }
 
         private void cbxTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+{
+    // Get the selected item from the ComboBox
+    ComboBoxItem selectedItem = cbxTable.SelectedItem as ComboBoxItem;
+    if (selectedItem != null)
+    {
+
+          receiptDataGrid.Columns["Email"].ColumnName = "Payment";
+          receiptDataGrid.Columns["PaymentMethod"].ColumnName = "Email";
+
+                // Get the content of the selected item
+                string selectedItemContent = selectedItem.Content.ToString();
+
+        // Hide all columns initially
+        foreach (var column in receiptDataGrid.Columns)
         {
-
-
+            column.Visible = false;
         }
+
+        // Always show the OrderNumber column
+        receiptDataGrid.Columns["OrderNumber"].Visible = true;
+
+        // Show columns based on the selected item
+        switch (selectedItemContent)
+        {
+            case "All":
+                // Show all columns
+                foreach (var column in receiptDataGrid.Columns)
+                {
+                    column.Visible = true;
+                }
+                break;
+            case "Product Name / Product Category / Price":
+                // Show only the specified columns
+                receiptDataGrid.Columns["ProductName"].Visible = true;
+                receiptDataGrid.Columns["ProductCategory"].Visible = true;
+                receiptDataGrid.Columns["ProductPrice"].Visible = true;
+                break;
+            case "Customer Info":
+                // Show only customer information columns
+
+                receiptDataGrid.Columns["LastName"].Visible = true;
+                receiptDataGrid.Columns["FirstName"].Visible = true;
+                receiptDataGrid.Columns["MiddleName"].Visible = true;
+                receiptDataGrid.Columns["PhoneNumber"].Visible = true;
+                receiptDataGrid.Columns["PaymentMethod"].ColumnName = "Email";
+                receiptDataGrid.Columns["PaymentMethod"].Visible = true;
+                break;
+            case "Addresses":
+                // Show only address columns
+                receiptDataGrid.Columns["AddressLine1"].Visible = true;
+                receiptDataGrid.Columns["AddressLine2"].Visible = true;
+                break;
+            case "Payment Details":
+                // Show only payment details columns
+                receiptDataGrid.Columns["Email"].ColumnName = "Payment";
+                receiptDataGrid.Columns["Email"].Visible = true;
+                receiptDataGrid.Columns["DatePurchased"].Visible = true;
+
+                break;
+            default:
+                break;
+        }
+    }
+}
+
 
         private void btnExport_Click(object sender, RoutedEventArgs e)
         {
@@ -191,8 +266,8 @@ namespace Ferdin_TB_Hub.Seller
                         worksheet.Cells[1, 8].Value = "Phone Number";
                         worksheet.Cells[1, 9].Value = "Address Line 1";
                         worksheet.Cells[1, 10].Value = "Address Line 2";
-                        worksheet.Cells[1, 11].Value = "Email";
-                        worksheet.Cells[1, 12].Value = "Payment";
+                        worksheet.Cells[1, 11].Value = "Payment";
+                        worksheet.Cells[1, 12].Value = "Email";
                         worksheet.Cells[1, 13].Value = "Date Purchased";
 
                         // Data

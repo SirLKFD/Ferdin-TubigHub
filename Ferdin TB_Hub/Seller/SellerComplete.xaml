@@ -55,7 +55,7 @@
         <TextBox Visibility="Collapsed" x:Name="tbxBestSelling" IsReadOnly="true" HorizontalAlignment="Left" Margin="975,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="236"/>
 
 
-        <mesius:C1FlexGrid x:Name="receiptDataGrid" FontFamily="Electronic Arts Text" Background="Transparent" Grid.Row="1" AllowDragging="Both" AllowResizing="Both">
+        <mesius:C1FlexGrid x:Name="receiptDataGrid" FontFamily="Electronic Arts Text" Background="Transparent" Grid.Row="1" AllowDragging="Both" AllowResizing="Both" Margin="68,39,77,53">
             <mesius:C1FlexGrid.Columns>
                
             </mesius:C1FlexGrid.Columns>

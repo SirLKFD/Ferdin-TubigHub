@@ -135,9 +135,9 @@ namespace Ferdin_TB_Hub
             ObservableCollection<StorageFile> imageFiles = new ObservableCollection<StorageFile>
         {
 
+            await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync("2.png"),
+            await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync("1.png"),
             await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync("WaterSample1.jpg"),
-            await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync("WaterSample2.jpg"),
-            await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync("WaterSample3.jpg"),
             // Add more file paths as needed
         };
 

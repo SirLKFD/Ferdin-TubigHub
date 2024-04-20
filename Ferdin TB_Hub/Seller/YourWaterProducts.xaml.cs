@@ -1,6 +1,7 @@
 ﻿using Ferdin_TB_Hub.Classes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -29,26 +30,74 @@ namespace Ferdin_TB_Hub.Seller
     /// </summary>
     /// 
 
-    public sealed partial class YourWaterProducts : Page
+    public sealed partial class YourWaterProducts : Page, INotifyPropertyChanged
     {
         // REMEMBER TO CHANGE THE GETPRODUCTDETAILS ARGUMENT
 
         private StorageFile selectedFile;
+
         private int currentSellerID;
+        public int SellerID { get; set; }
+
+
+        private ProductDetails _product;
+        public ProductDetails Product
+        {
+            get { return _product; }
+            set
+            {
+                if (_product != value)
+                {
+                    _product = value;
+                    OnPropertyChanged(nameof(Product));
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+
+   
+
         public YourWaterProducts()
         {
             this.InitializeComponent();
+
+            // Subscribe to the TextChanged event of the tbxSellerID TextBox
+            tbxSellerID.TextChanged += tbxSellerID_TextChanged;
+
+            // No need to populate the product list here
+        }
+
+
+
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            // Set the initial SellerID
+            int.TryParse(tbxSellerID.Text, out int initialSellerID);
+            SellerID = initialSellerID;
+
+            // Populate the product list with the initial SellerID
             PopulateProductList();
         }
-     
+
+
+
         private void PopulateProductList()
         {
+            // Get the list of products for the initial SellerID
+            List<ProductDetails> productDetailsList = Database.GetProductDetails(SellerID + 1);
 
-            // REMEMBER TO CHANGE THIS
-            List<ProductDetails> productDetailsList = Database.GetAllProductDetails();
-
-            // Bind the list of product details to the ListView
-            ListProducts.ItemsSource = productDetailsList;
+            // Update the ListView with the retrieved product list
+            ListProducts.ItemsSource = null; // Set the ItemsSource to null
+            ListProducts.ItemsSource = productDetailsList; // Set the ItemsSource to the updated list
         }
 
         private async void ChangePicture_Click(object sender, RoutedEventArgs e)
@@ -205,7 +254,7 @@ namespace Ferdin_TB_Hub.Seller
             {
                 //REMEMBER TO CHANGE THIS
                 // Fetch all product details from the database
-                List<ProductDetails> sellerProductDetails = Database.GetAllProductDetails();
+                List<ProductDetails> sellerProductDetails = Database.GetProductDetails(SellerID);
 
 
 
@@ -276,6 +325,14 @@ namespace Ferdin_TB_Hub.Seller
             }
         }
 
-       
+        private void tbxSellerID_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            // Update the buyer ID whenever the text in the TextBox changes
+            int.TryParse(tbxSellerID.Text, out int newSellerID);
+            SellerID = newSellerID;
+
+            // Call GetBuyerProductReceipts with the new buyer ID and update the data grid
+            ListProducts.ItemsSource = GetProductDetails(SellerID);
+        }
     }
 }

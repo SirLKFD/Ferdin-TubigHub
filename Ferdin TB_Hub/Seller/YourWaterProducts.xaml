@@ -75,7 +75,7 @@
 
                     </ComboBox>
 
-                    <TextBox x:Name="tbxSellerID" IsEnabled="False" HorizontalAlignment="Left" Margin="368,554,0,0" TextWrapping="Wrap" Text="{Binding Seller.SELLER_ID, Mode=TwoWay}" VerticalAlignment="Top" Width="87"/>
+                    <TextBox TextChanged="tbxSellerID_TextChanged" x:Name="tbxSellerID"  HorizontalAlignment="Left" Margin="368,554,0,0" TextWrapping="Wrap" Text="{Binding Seller.SELLER_ID, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="87"/>
                     <TextBlock HorizontalAlignment="Left" Margin="302,561,0,0" TextWrapping="Wrap" Text="SellerID" VerticalAlignment="Top"/>
 
                     <TextBox x:Name="tbxProductDescription" HorizontalAlignment="Left" Margin="212,303,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="344" Height="215"/>
