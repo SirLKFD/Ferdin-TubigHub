@@ -157,15 +157,17 @@ namespace Ferdin_TB_Hub.Seller
                 string productName = tbxProductName.Text;
                 string productCategory = (cbxProductCategory.SelectedItem as ComboBoxItem)?.Content.ToString();
                 string productDescription = tbxProductDescription.Text;
-                string ADDsellerID = tbxSellerID.Text;
+                string sellerIDText = tbxSellerID.Text; // Get the text from the TextBox
+                int ADDsellerID;
+                int.TryParse(sellerIDText, out ADDsellerID); // Convert the text to an integer
 
                 byte[] productPicture = await ConvertImageToByteArray(selectedFile);
 
                 DatabaseAccess dbAccess = new DatabaseAccess();
 
-                int sellerID = dbAccess.RetrieveSellerIDFromDatabase(ADDsellerID);
+              //  int sellerID = dbAccess.RetrieveSellerIDFromDatabase(ADDsellerID);
 
-                Database.AddProduct(productName, productCategory, productPrice, productDescription, productQuantity, productPicture, sellerID);
+                Database.AddProduct(productName, productCategory, productPrice, productDescription, productQuantity, productPicture, ADDsellerID);
 
                 // Clear the textboxes
                 tbxProductName.Text = "";

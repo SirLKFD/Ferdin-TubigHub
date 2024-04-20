@@ -87,13 +87,10 @@ namespace Ferdin_TB_Hub.BuyerAccountPage
 
 
 
-
-
         private void LoadProductReceipts()
         {
             // Fetch product receipts from the database
             ProductReceipts = Database.GetProductReceipts();
-
         }
 
 

@@ -75,6 +75,8 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
         }
 
+
+
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)

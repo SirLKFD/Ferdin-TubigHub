@@ -28,7 +28,7 @@
 
         <AutoSuggestBox Grid.Column="0" HorizontalAlignment="Left" Margin="223,45,0,0"  Width="250" Height="32" TextChanged="AutoSuggestBox_TextChanged" QueryIcon="Find" PlaceholderText="Search your products here"/>
 
-        <ListView x:Name="ListProducts" Grid.Column="0" Margin="0,114,0,0" SelectionChanged="ListProducts_SelectionChanged">
+        <ListView x:Name="ListProducts" Grid.Column="0" Margin="0,108,0,0" SelectionChanged="ListProducts_SelectionChanged">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -75,8 +75,8 @@
 
                     </ComboBox>
 
-                    <TextBox TextChanged="tbxSellerID_TextChanged" x:Name="tbxSellerID"  HorizontalAlignment="Left" Margin="368,554,0,0" TextWrapping="Wrap" Text="{Binding Seller.SELLER_ID, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="87"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="302,561,0,0" TextWrapping="Wrap" Text="SellerID" VerticalAlignment="Top"/>
+                    <TextBox IsEnabled="False" Visibility="Collapsed" TextChanged="tbxSellerID_TextChanged" x:Name="tbxSellerID"  HorizontalAlignment="Left" Margin="368,554,0,0" TextWrapping="Wrap" Text="{Binding Seller.SELLER_ID, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="87"/>
+                    <TextBlock Visibility="Collapsed" HorizontalAlignment="Left" Margin="302,561,0,0" TextWrapping="Wrap" Text="SellerID" VerticalAlignment="Top"/>
 
                     <TextBox x:Name="tbxProductDescription" HorizontalAlignment="Left" Margin="212,303,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="344" Height="215"/>
                     <TextBox x:Name="tbxProductQuantity" HorizontalAlignment="Left" Margin="212,554,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77"/>
@@ -90,6 +90,7 @@
                         <Image x:Name="ProductImage" HorizontalAlignment="Center" Height="184" VerticalAlignment="Center" Width="230" Stretch="Fill" RenderTransformOrigin="0.59,0.527"/>
 
                     </Border>
+                    <Button x:Name="btnRefresh" Click="btnRefresh_Click" CornerRadius="5" Foreground="White" Background="{ThemeResource SystemAccentColor}" Content="Refresh" Margin="250,43,0,0" VerticalAlignment="Top" Height="34" Width="86" />
 
 
 

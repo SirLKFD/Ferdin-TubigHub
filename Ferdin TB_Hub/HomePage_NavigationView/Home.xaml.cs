@@ -301,7 +301,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             else
             {
                 // Clear the description if no item is selected
-                lblDescription.Text = string.Empty;
+              //  lblDescription.Text = string.Empty;
             }
 
         }

@@ -54,6 +54,21 @@ namespace Ferdin_TB_Hub.Seller
             }
         }
 
+        private SellerDetails _seller;
+
+        public SellerDetails Seller
+        {
+            get { return _seller; }
+            set
+            {
+                if (_seller != value)
+                {
+                    _seller = value;
+                    OnPropertyChanged(nameof(Seller));
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName)
         {
@@ -61,37 +76,41 @@ namespace Ferdin_TB_Hub.Seller
         }
 
 
-   
+
 
         public YourWaterProducts()
         {
             this.InitializeComponent();
 
-            // Subscribe to the TextChanged event of the tbxSellerID TextBox
+            // Initialize Seller object before accessing its properties
+            Seller = new SellerDetails();
+
+            // Subscribe to the TextChanged event for tbxSellerID
             tbxSellerID.TextChanged += tbxSellerID_TextChanged;
 
-            // No need to populate the product list here
+            // Check if Seller object is not null before accessing its properties
+            if (Seller != null)
+            {
+                // Set the initial seller ID to the one entered in the TextBox
+                int.TryParse(tbxSellerID.Text, out int initialSellerID);
+                SellerID = initialSellerID;
+
+                // Automatically invoke the refresh button based on the initial value of tbxSellerID
+                btnRefresh_Click(null, null);
+            }
         }
 
 
 
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            // Set the initial SellerID
-            int.TryParse(tbxSellerID.Text, out int initialSellerID);
-            SellerID = initialSellerID;
-
-            // Populate the product list with the initial SellerID
-            PopulateProductList();
-        }
 
 
 
         private void PopulateProductList()
         {
+
+            int.TryParse(tbxSellerID.Text, out int newSellerID);
+            SellerID = newSellerID;
+
             // Get the list of products for the initial SellerID
             List<ProductDetails> productDetailsList = Database.GetProductDetails(SellerID + 1);
 
@@ -252,22 +271,39 @@ namespace Ferdin_TB_Hub.Seller
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                //REMEMBER TO CHANGE THIS
                 // Fetch all product details from the database
-                List<ProductDetails> sellerProductDetails = Database.GetProductDetails(SellerID);
-
-
-
-                // Filter the products based on user input
-                var filteredProducts = sellerProductDetails.Where(product =>
-                    product.ProductName.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
-                    product.ProductCategory.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
-                    product.ProductPrice.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
-                    product.ProductQuantity.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase)
-                ).ToList();
-
-                // Update the ListView with filtered items
-                ListProducts.ItemsSource = filteredProducts;
+                int sellerID = SellerID;
+                if (tbxSellerID.Text == SellerID.ToString())
+                {
+                    // Search based on the initial value of tbxSellerID
+                    List<ProductDetails> sellerProductDetails = Database.GetProductDetails(SellerID);
+                    // Filter the products based on user input
+                    var filteredProducts = sellerProductDetails.Where(product =>
+                        product.ProductName.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
+                        product.ProductCategory.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
+                        product.ProductPrice.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
+                        product.ProductQuantity.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase)
+                    ).ToList();
+                    // Update the ListView with filtered items
+                    ListProducts.ItemsSource = filteredProducts;
+                }
+                else
+                {
+                    // Search based on the user input in tbxSellerID
+                    if (int.TryParse(tbxSellerID.Text, out sellerID))
+                    {
+                        List<ProductDetails> sellerProductDetails = Database.GetProductDetails(sellerID);
+                        // Filter the products based on user input
+                        var filteredProducts = sellerProductDetails.Where(product =>
+                            product.ProductName.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
+                            product.ProductCategory.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
+                            product.ProductPrice.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
+                            product.ProductQuantity.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase)
+                        ).ToList();
+                        // Update the ListView with filtered items
+                        ListProducts.ItemsSource = filteredProducts;
+                    }
+                }
             }
         }
 
@@ -327,12 +363,38 @@ namespace Ferdin_TB_Hub.Seller
 
         private void tbxSellerID_TextChanged(object sender, TextChangedEventArgs e)
         {
-            // Update the buyer ID whenever the text in the TextBox changes
-            int.TryParse(tbxSellerID.Text, out int newSellerID);
-            SellerID = newSellerID;
-
-            // Call GetBuyerProductReceipts with the new buyer ID and update the data grid
-            ListProducts.ItemsSource = GetProductDetails(SellerID);
+            if (int.TryParse(tbxSellerID.Text, out int sellerID))
+            {
+                UpdateListViewData(sellerID);
+            }
+            else
+            {
+                // Handle the case where the input is not a valid integer
+                // You can show a message to the user indicating that the SellerID must be a valid number
+            }
         }
+
+        private void UpdateListViewData(int sellerID)
+        {
+            var products = GetProductDetails(sellerID);
+            ListProducts.ItemsSource = products;
+        }
+
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            // Check if tbxSellerID contains a valid integer value
+            if (int.TryParse(tbxSellerID.Text, out int sellerID))
+            {
+                // Update the ListView data based on the SellerID from tbxSellerID
+                UpdateListViewData(sellerID);
+            }
+            else
+            {
+                // Handle the case where the input is not a valid integer
+                // You can show a message to the user indicating that the SellerID must be a valid number
+              //  ShowMessageDialog("Please enter a valid SellerID.");
+            }
+        }
+
     }
 }

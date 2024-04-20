@@ -202,6 +202,17 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             string addressLine2 = tbxAddressLine2.Text;
             string email = tbxEmail.Text;
             string passbuyerID = tbxBuyerID.Text;
+            int buyerID;
+
+            if (int.TryParse(passbuyerID, out buyerID))
+            {
+                // Conversion successful, 'buyerID' contains the integer value
+                // Now you can use 'buyerID' as an integer
+            }
+            else
+            {
+                // Conversion failed, handle the case where the input is not a valid integer
+            }
 
             // Check if any of the required fields are empty
             if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) ||
@@ -233,11 +244,11 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             var seller = DataContext as SellerDetails;
 
 
-            dbAccess.RetrieveBuyerIDFromDatabase(passbuyerID); // Assuming email is used to uniquely identify the buyer
-          // dbAccess.RetrieveSellerIDFromDatabase(firstName); // Assuming email is used to uniquely identify the seller
+            dbAccess.RetrieveBuyerIDFromDatabase(passbuyerID); 
+          // dbAccess.RetrieveSellerIDFromDatabase(firstName); 
 
             // Get the retrieved buyer ID from the BuyerAndSellerID class
-            int buyerID = dbAccess.RetrieveBuyerIDFromDatabase(passbuyerID);
+           // int buyerID = dbAccess.RetrieveBuyerIDFromDatabase(passbuyerID);
             //  int sellerID = BuyerAndSellerID.SellerID;
 
             // Prepare to pass the order summary and buyer's information to the receipt
