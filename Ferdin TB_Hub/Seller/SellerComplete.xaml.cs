@@ -32,28 +32,37 @@ namespace Ferdin_TB_Hub.Seller
 
         public SellerComplete()
         {
-            this.InitializeComponent();
-            LoadProductReceipts();
-            SetTextValues();
+            try
+            {
+                this.InitializeComponent();
+                LoadProductReceipts();
+                SetTextValues();
 
-            receiptDataGrid.ItemsSource = ProductReceipts;
-            receiptDataGrid.Columns["ProductPrice"].Format = "₱0.00";
-            receiptDataGrid.Columns["OrderNumber"].Format = "000000000000";
+                receiptDataGrid.ItemsSource = ProductReceipts;
+                receiptDataGrid.Columns["ProductPrice"].Format = "₱0.00";
+                receiptDataGrid.Columns["OrderNumber"].Format = "000000000000";
 
-            // Modify the header names
-            receiptDataGrid.Columns["OrderNumber"].ColumnName = "Order Number";
-            receiptDataGrid.Columns["ProductName"].ColumnName = "Product Name";
-            receiptDataGrid.Columns["ProductCategory"].ColumnName = "Product Category";
-            receiptDataGrid.Columns["LastName"].ColumnName = "Last Name";
-            receiptDataGrid.Columns["FirstName"].ColumnName = "First Name";
-            receiptDataGrid.Columns["MiddleName"].ColumnName = "Middle Name";
-            receiptDataGrid.Columns["PhoneNumber"].ColumnName = "Phone Number";
-            receiptDataGrid.Columns["AddressLine1"].ColumnName = "Address Line 1";
-            receiptDataGrid.Columns["AddressLine2"].ColumnName = "Address Line 2";
-            receiptDataGrid.Columns["Email"].ColumnName = "Payment";
-            receiptDataGrid.Columns["PaymentMethod"].ColumnName = "Email";
-            receiptDataGrid.Columns["DatePurchased"].ColumnName = "Date Purchased";
+                // Modify the header names
+                receiptDataGrid.Columns["OrderNumber"].ColumnName = "Order Number";
+                receiptDataGrid.Columns["ProductName"].ColumnName = "Product Name";
+                receiptDataGrid.Columns["ProductCategory"].ColumnName = "Product Category";
+                receiptDataGrid.Columns["LastName"].ColumnName = "Last Name";
+                receiptDataGrid.Columns["FirstName"].ColumnName = "First Name";
+                receiptDataGrid.Columns["MiddleName"].ColumnName = "Middle Name";
+                receiptDataGrid.Columns["PhoneNumber"].ColumnName = "Phone Number";
+                receiptDataGrid.Columns["AddressLine1"].ColumnName = "Address Line 1";
+                receiptDataGrid.Columns["AddressLine2"].ColumnName = "Address Line 2";
+                receiptDataGrid.Columns["Email"].ColumnName = "Payment";
+                receiptDataGrid.Columns["PaymentMethod"].ColumnName = "Email";
+                receiptDataGrid.Columns["DatePurchased"].ColumnName = "Date Purchased";
+            }
+            catch (Exception ex)
+            {
+                
+               
+            }
         }
+
 
         private void LoadProductReceipts()
         {

@@ -177,8 +177,8 @@ namespace Ferdin_TB_Hub.Seller
                 // Perform deletion of the seller account
                 Database.DeleteSellerAccountFromDatabase(tbxUsername.Text); // Assuming tbxUsername contains the seller's username
 
-                // Navigate back to the main page or log out
-                Frame.Navigate(typeof(MainPage));
+                // Navigate back to the main page
+                Frame.Navigate(typeof(MainPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromLeft });
             }
         }
 

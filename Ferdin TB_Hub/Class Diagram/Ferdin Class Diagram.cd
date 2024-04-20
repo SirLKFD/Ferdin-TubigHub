@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Ferdin_TB_Hub.Classes.Buttons" Collapsed="true">
+    <Position X="14" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAACBAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Buttons.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Object" Collapsed="true">
+    <Position X="23.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Ferdin_TB_Hub.HomePage_NavigationView.Cart">
+    <Position X="6" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gEAAAgAAAQEAAAAAIxASAQQggQAUAAAAACAAAIEAAAQ=</HashCode>
+      <FileName>HomePage_NavigationView\Cart.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Windows.UI.Xaml.Controls.Page" Collapsed="true">
+    <Position X="21" Y="3.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Windows.UI.Xaml.Controls.UserControl" Collapsed="true">
+    <Position X="20.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Windows.UI.Xaml.Controls.Control" Collapsed="true">
+    <Position X="17.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Windows.UI.Xaml.FrameworkElement" Collapsed="true">
+    <Position X="25.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Windows.UI.Xaml.UIElement" Collapsed="true">
+    <Position X="27.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Windows.UI.Xaml.DependencyObject" Collapsed="true">
+    <Position X="29.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Ferdin_TB_Hub.BuyerAccountPage.BuyerComplete">
+    <Position X="8.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BuyerAccountPage\BuyerComplete.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Right" Position="0.183" />
+  </Class>
+  <Class Name="Ferdin_TB_Hub.BuyerAccountPage.OrderHistory">
+    <Position X="10.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAgAAAAIAARAQQAgAAAAAAEACAAAAAAAAA=</HashCode>
+      <FileName>BuyerAccountPage\OrderHistory.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Ferdin_TB_Hub.HomePage">
+    <Position X="12.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ARAIAAAAAAAAQAAAAAAABAQAAAAAAAAAACAgAAAAAAA=</HashCode>
+      <FileName>HomePage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Ferdin_TB_Hub.HomePage_NavigationView.AccountBuyer">
+    <Position X="15" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAIAAwACRAgAIAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>HomePage_NavigationView\AccountBuyer.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Ferdin_TB_Hub.HomePage_NavigationView.Home">
+    <Position X="17.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EBEAAAAAgAAAAAAAMAQQAQQAggCAgAgAECAAAAEAAAA=</HashCode>
+      <FileName>HomePage_NavigationView\Home.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Ferdin_TB_Hub.HomePage_NavigationView.Locate">
+    <Position X="19.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQQAAAAAAAAQAAAACAAAAAQ=</HashCode>
+      <FileName>HomePage_NavigationView\Locate.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Ferdin_TB_Hub.ItemDetail.ItemDetailPage">
+    <Position X="21.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ItemDetail\ItemDetailPage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Ferdin_TB_Hub.MainPage">
+    <Position X="24" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAIAEAAAAIA=</HashCode>
+      <FileName>MainPage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Ferdin_TB_Hub.NewAccount.CreateAccountPage">
+    <Position X="26.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAgAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NewAccount\CreateAccountPage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Ferdin_TB_Hub.NewAccount.CreateBuyer">
+    <Position X="28.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAgAAAAAQAQAAAAAAAAAA=</HashCode>
+      <FileName>NewAccount\CreateBuyer.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Ferdin_TB_Hub.NewAccount.CreateSeller">
+    <Position X="30.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAgAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>NewAccount\CreateSeller.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Ferdin_TB_Hub.Receipt">
+    <Position X="33" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Receipt\Receipt.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Ferdin_TB_Hub.Seller.AddProduct">
+    <Position X="35.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAQAAAQAAAAIAAQAAAAgAAAgAAA=</HashCode>
+      <FileName>Seller\AddProduct.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Ferdin_TB_Hub.Seller.SellerAccount">
+    <Position X="37.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QBAABAAQEAAAAEAAIAAkBAQAgAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Seller\SellerAccount.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Ferdin_TB_Hub.Seller.SellerComplete">
+    <Position X="39.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAKAAAAAkAAAAAgAAAQAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Seller\SellerComplete.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Ferdin_TB_Hub.Seller.YourWaterProducts">
+    <Position X="42" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QACCAAAAAAQICAAAMEQAARAAgAAAAAABAIAEAAQgCEA=</HashCode>
+      <FileName>Seller\YourWaterProducts.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Ferdin_TB_Hub.Classes.ByteArrayToImageSourceConverter" Collapsed="true">
+    <Position X="11" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\ByteArrayToImageSourceConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Ferdin_TB_Hub.Classes.ChatGPTIntegration" Collapsed="true">
+    <Position X="15" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAQAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\ChatGPTIntegration.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ferdin_TB_Hub.Classes.Database">
+    <Position X="1.5" Y="2.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="Ferdin_TB_Hub.Classes.Database.BuyerDetails">
+        <TypeIdentifier>
+          <NewMemberFileName>Classes\Database.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="Ferdin_TB_Hub.Classes.Database.SellerDetails">
+        <TypeIdentifier>
+          <NewMemberFileName>Classes\Database.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="Ferdin_TB_Hub.Classes.Database.ProductDetails">
+        <TypeIdentifier>
+          <NewMemberFileName>Classes\Database.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="Ferdin_TB_Hub.Classes.Database.ProductCart">
+        <TypeIdentifier>
+          <NewMemberFileName>Classes\Database.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="Ferdin_TB_Hub.Classes.Database.ProductReceipt">
+        <TypeIdentifier>
+          <NewMemberFileName>Classes\Database.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>QAAUAAAQEAABAGCAAMACYgAECAgBRAMEAlAQEGAAQAA=</HashCode>
+      <FileName>Classes\Database.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

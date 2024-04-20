@@ -116,15 +116,7 @@ namespace Ferdin_TB_Hub.Classes
 
         }
 
-        public class ShopAddress_Availability
-        {
-            public int SHOP_ID { get; set; }
-            public string AddressLine1 { get; set; }
-            public string AddressLine2 { get; set; }
-            public string ProductName { get; set; }
-            public int ProductQuantity { get; set; }
-
-        }
+ 
 
 
 

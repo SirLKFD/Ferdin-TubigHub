@@ -75,7 +75,7 @@
                         <TextBox  IsEnabled="False" x:Name="tbxAddressLine2" Text="{Binding Seller.AddressLine2, Mode=TwoWay}" HorizontalAlignment="Left" Margin="158,368,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="233" Height="33"/>
                         <TextBox  IsEnabled="False" x:Name="tbxEmail" Text="{Binding Seller.Email, Mode=TwoWay}" HorizontalAlignment="Left" Margin="159,422,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="232"/>
                         <PasswordBox  IsEnabled="False" x:Name="tbxPassword" Password="{Binding Seller.Password, Mode=TwoWay}" HorizontalAlignment="Left" Margin="158,476,0,0" VerticalAlignment="Top" Width="233"/>
-                        <TextBox  x:Name="tbxID" Text="{Binding Seller.SELLER_ID, Mode=TwoWay}" HorizontalAlignment="Left" Margin="36,677,0,0" VerticalAlignment="Top" Width="57" IsReadOnly="True" IsEnabled="False"/>
+                        <TextBox  x:Name="tbxID" Text="{Binding Seller.SELLER_ID, Mode=TwoWay}" HorizontalAlignment="Left" Margin="39,676,0,0" VerticalAlignment="Top" Width="57" IsReadOnly="True" IsEnabled="False"/>
 
 
                         <Button Grid.Row="0"

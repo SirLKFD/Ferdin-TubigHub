@@ -40,11 +40,11 @@
                MaxWidth="400"
              Margin="48,9,0,10" Width="400"/>
 
-        <TextBlock HorizontalAlignment="Left" Margin="315,58,0,0" TextWrapping="Wrap" FontSize="20" Text="Price Slider" VerticalAlignment="Top" Height="38" Width="360" Grid.Column="1"/>
+        <TextBlock HorizontalAlignment="Left" Margin="268,53,0,0" TextWrapping="Wrap" FontSize="20" Text="Price Slider" VerticalAlignment="Top" Height="38" Width="360" Grid.Column="1"/>
         <AutoSuggestBox TextChanged="AutoSuggestBox_TextChanged" QueryIcon="Find" PlaceholderText="Search Water Products" HorizontalAlignment="Left" Margin="296,55,0,0" Width="272" Height="32"/>
-        <Slider  Grid.Row="0"  TickPlacement="Outside" SnapsTo="StepValues" TickFrequency="1"  x:Name="PriceSlider" ValueChanged="Slider_ValueChanged" HorizontalAlignment="Left"  Margin="433,55,0,0" VerticalAlignment="Top" Width="138" Height="33" Grid.Column="1" />
+        <Slider  Grid.Row="0"  TickPlacement="Outside" SnapsTo="StepValues" TickFrequency="1"  x:Name="PriceSlider" ValueChanged="Slider_ValueChanged" HorizontalAlignment="Left"  Margin="386,50,0,0" VerticalAlignment="Top" Width="220" Height="33" Grid.Column="1" />
 
-        <ComboBox x:Name="cbxCategories" SelectionChanged="cbxCategories_SelectionChanged" PlaceholderText="Sort by Category" Margin="13,27,0,0" Width="272" Height="32" Grid.Column="1">
+        <ComboBox x:Name="cbxCategories" SelectionChanged="cbxCategories_SelectionChanged" PlaceholderText="Sort by Category" Margin="614,27,0,0" Width="272" Height="32" Grid.ColumnSpan="2">
             <ComboBoxItem Content="All Products"/>
             <ComboBoxItem Content="Electrolyte Water"/>
             <ComboBoxItem Content="Mineral Water"/>
@@ -59,7 +59,7 @@
         </ComboBox>
 
 
-        <ComboBox x:Name="cbxPrice" SelectionChanged="cbxPrice_SelectionChanged"  PlaceholderText="Sort by Price" Margin="13,72,0,0" Width="272" Height="32" Grid.Column="1">
+        <ComboBox x:Name="cbxPrice" SelectionChanged="cbxPrice_SelectionChanged"  PlaceholderText="Sort by Price" Margin="615,73,0,0" Width="272" Height="32" Grid.ColumnSpan="2">
             <ComboBoxItem Content="All"/>
             <ComboBoxItem Content="Low to High"/>
             <ComboBoxItem Content="High to Low"/>

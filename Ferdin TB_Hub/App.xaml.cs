@@ -16,6 +16,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using C1.Xaml;
+using C1.Xaml.FlexGrid;
+
 
 namespace Ferdin_TB_Hub
 {
@@ -30,6 +33,8 @@ namespace Ferdin_TB_Hub
         /// </summary>
         public App()
         {
+           
+
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             Database.InitializeDB_BUYERACCOUNTS();
@@ -37,7 +42,10 @@ namespace Ferdin_TB_Hub
             Database.InitializeDB_PRODUCTDETAILS();
             Database.InitializeDB_PRODUCTRECEIPT();
             Database.InitializeDB_PRODUCTCART();
+
         }
+
+
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
@@ -48,7 +56,7 @@ namespace Ferdin_TB_Hub
         {
             Frame rootFrame = Window.Current.Content as Frame;
             // Set EPPlus license context
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            ExcelPackage.LicenseContext = LicenseContext.Commercial;
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active

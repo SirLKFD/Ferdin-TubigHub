@@ -131,7 +131,8 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
                 Database.DeleteBuyerAccountFromDatabase(tbxUsername.Text); // Assuming tbxUsername contains the buyer's username
 
                 // Navigate back to the main page or log out
-                Frame.Navigate(typeof(MainPage));
+                Frame rootFrame = Window.Current.Content as Frame;
+                rootFrame.Navigate(typeof(MainPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromLeft }); 
             }
         }
 
