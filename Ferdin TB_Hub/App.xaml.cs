@@ -18,6 +18,9 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using C1.Xaml;
 using C1.Xaml.FlexGrid;
+using Windows.ApplicationModel.Core;
+using Windows.UI.ViewManagement;
+using Windows.UI;
 
 
 namespace Ferdin_TB_Hub
@@ -42,6 +45,8 @@ namespace Ferdin_TB_Hub
             Database.InitializeDB_PRODUCTDETAILS();
             Database.InitializeDB_PRODUCTRECEIPT();
             Database.InitializeDB_PRODUCTCART();
+
+       
 
         }
 
@@ -76,6 +81,12 @@ namespace Ferdin_TB_Hub
                 Window.Current.Content = rootFrame;
             }
 
+            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+            ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            titleBar.ButtonBackgroundColor = Colors.Transparent;
+            ElementSoundPlayer.State = ElementSoundPlayerState.On;
+            ElementSoundPlayer.SpatialAudioMode = ElementSpatialAudioMode.On;
+
             if (e.PrelaunchActivated == false)
             {
                 if (rootFrame.Content == null)
@@ -89,6 +100,8 @@ namespace Ferdin_TB_Hub
                 Window.Current.Activate();
             }
         }
+
+
 
         /// <summary>
         /// Invoked when Navigation to a certain page fails

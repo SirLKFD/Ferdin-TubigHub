@@ -502,6 +502,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
 
                 // Show the dialog
                 ContentDialogResult result = await receiptDialog.ShowAsync();
+
             }
             catch (Exception ex)
             {

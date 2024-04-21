@@ -12,15 +12,15 @@
   IgnorableNamespaces="uap mp uap3 uap6 iot uap4 uap2">
 
   <Identity
-    Name="Ferdin"
-    Publisher="CN=LKFD"
-    Version="0.1.1.0" />
+    Name="FerdinTubigHub"
+    Publisher="CN=Ferdin Incorporated"
+    Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="2c62fd2f-9e5c-4c0b-9789-aefe03a0db36" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Ferdin</DisplayName>
-    <PublisherDisplayName>LKFD</PublisherDisplayName>
+    <DisplayName>Ferdin TubigHub</DisplayName>
+    <PublisherDisplayName>Ferdin Incorporated</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -44,7 +44,7 @@
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
-        <uap:LockScreen BadgeLogo="Assets\BadgeLogo.png" Notification="badge"/>
+        <uap:LockScreen BadgeLogo="Assets\BadgeLogo.png" Notification="badgeAndTileText"/>
       </uap:VisualElements>
     </Application>
   </Applications>
