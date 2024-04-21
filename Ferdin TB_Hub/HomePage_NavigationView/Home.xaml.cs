@@ -118,7 +118,8 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
                 // Filter the products based on user input
                 var filteredProducts = allProductDetails.Where(product =>
                     product.ProductName.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
-                    product.ProductDescription.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase)
+                    product.ProductDescription.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
+                    product.ProductCategory.Contains(sender.Text, StringComparison.OrdinalIgnoreCase)
 
                 ).ToList();
 

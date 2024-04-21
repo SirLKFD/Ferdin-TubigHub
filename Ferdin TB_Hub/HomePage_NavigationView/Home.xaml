@@ -11,6 +11,8 @@
 
     <Page.Resources>
         <local1:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter"/>
+        <Style x:Key="AccentButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonRevealStyle}">
+        </Style>
     </Page.Resources>
 
 

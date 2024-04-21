@@ -127,13 +127,15 @@ namespace Ferdin_TB_Hub.Classes
         //Initializing for Buyer Accounts Database
         public async static void InitializeDB_BUYERACCOUNTS()
         {
-            await ApplicationData.Current.LocalFolder.CreateFileAsync("MyDatabase.db", CreationCollisionOption.OpenIfExists);
-            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
-
-            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            try
             {
-                con.Open();
-                string initCMD = @"CREATE TABLE IF NOT EXISTS Buyers (
+                await ApplicationData.Current.LocalFolder.CreateFileAsync("MyDatabase.db", CreationCollisionOption.OpenIfExists);
+                string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
+
+                using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+                {
+                    con.Open();
+                    string initCMD = @"CREATE TABLE IF NOT EXISTS Buyers (
                             BUYER_ID INTEGER PRIMARY KEY AUTOINCREMENT,
                             Email TEXT NOT NULL,
                             Username TEXT NOT NULL,
@@ -146,10 +148,16 @@ namespace Ferdin_TB_Hub.Classes
                             AddressLine2 TEXT NOT NULL
                           )";
 
-                SqliteCommand CMDcreateTable = new SqliteCommand(initCMD, con);
-                CMDcreateTable.ExecuteReader();
-                con.Close();
+                    SqliteCommand CMDcreateTable = new SqliteCommand(initCMD, con);
+                    CMDcreateTable.ExecuteReader();
+                    con.Close();
+                }
             }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+          
         }
 
         // Method to check if the buyer username already exists
@@ -177,35 +185,43 @@ namespace Ferdin_TB_Hub.Classes
         // Adding Buyer Account
         public static void AddBuyer(string email, string username, string lastName, string firstName, string middleName, string password, string phoneNumber, string addressLine1, string addressLine2)
         {
-            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
-
-            // Check if the username already exists
-            if (IsBuyerAlreadyExists(username, email))
+            try
             {
-                // Show an error message indicating that the username is already taken
-                return; // Exit the method without proceeding further
-            }
+                string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
 
-            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
-            {
-                con.Open();
-                string insertCMD = @"INSERT INTO Buyers (Email, Username, LastName, FirstName, MiddleName, Password, PhoneNumber, AddressLine1, AddressLine2) 
+                // Check if the username already exists
+                if (IsBuyerAlreadyExists(username, email))
+                {
+                    // Show an error message indicating that the username is already taken
+                    return; // Exit the method without proceeding further
+                }
+
+                using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+                {
+                    con.Open();
+                    string insertCMD = @"INSERT INTO Buyers (Email, Username, LastName, FirstName, MiddleName, Password, PhoneNumber, AddressLine1, AddressLine2) 
                             VALUES (@Email, @Username, @LastName, @FirstName, @MiddleName, @Password, @PhoneNumber, @AddressLine1, @AddressLine2)";
 
-                SqliteCommand cmdInsertRecord = new SqliteCommand(insertCMD, con);
-                cmdInsertRecord.Parameters.AddWithValue("@Email", email);
-                cmdInsertRecord.Parameters.AddWithValue("@Username", username);
-                cmdInsertRecord.Parameters.AddWithValue("@LastName", lastName);
-                cmdInsertRecord.Parameters.AddWithValue("@FirstName", firstName);
-                cmdInsertRecord.Parameters.AddWithValue("@MiddleName", middleName);
-                cmdInsertRecord.Parameters.AddWithValue("@Password", password);
-                cmdInsertRecord.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
-                cmdInsertRecord.Parameters.AddWithValue("@AddressLine1", addressLine1);
-                cmdInsertRecord.Parameters.AddWithValue("@AddressLine2", addressLine2);
+                    SqliteCommand cmdInsertRecord = new SqliteCommand(insertCMD, con);
+                    cmdInsertRecord.Parameters.AddWithValue("@Email", email);
+                    cmdInsertRecord.Parameters.AddWithValue("@Username", username);
+                    cmdInsertRecord.Parameters.AddWithValue("@LastName", lastName);
+                    cmdInsertRecord.Parameters.AddWithValue("@FirstName", firstName);
+                    cmdInsertRecord.Parameters.AddWithValue("@MiddleName", middleName);
+                    cmdInsertRecord.Parameters.AddWithValue("@Password", password);
+                    cmdInsertRecord.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
+                    cmdInsertRecord.Parameters.AddWithValue("@AddressLine1", addressLine1);
+                    cmdInsertRecord.Parameters.AddWithValue("@AddressLine2", addressLine2);
 
-                cmdInsertRecord.ExecuteReader();
-                con.Close();
+                    cmdInsertRecord.ExecuteReader();
+                    con.Close();
+                }
             }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+         
         }
 
         // Query to Retreive Buyer Account
@@ -268,7 +284,6 @@ namespace Ferdin_TB_Hub.Classes
         }
 
         // Method to get buyer details by username or email
-
         public static BuyerDetails GetBuyerByUsernameOrEmail(string usernameOrEmail)
         {
             BuyerDetails buyer = null;
@@ -310,61 +325,77 @@ namespace Ferdin_TB_Hub.Classes
         // Method to update buyer information in the database
         public static void UpdateBuyerInfoFromDatabase(int buyer_id, string email, string username, string lastName, string firstName, string middleName, string password, string phoneNumber, string addressLine1, string addressLine2)
         {
-            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
-
-            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            try
             {
-                con.Open();
-                string updateCMD = @"UPDATE Buyers SET Email = @Email, Username = @Username, LastName = @LastName, FirstName = @FirstName, 
+                string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
+
+                using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+                {
+                    con.Open();
+                    string updateCMD = @"UPDATE Buyers SET Email = @Email, Username = @Username, LastName = @LastName, FirstName = @FirstName, 
                             MiddleName = @MiddleName, Password = @Password, PhoneNumber = @PhoneNumber, AddressLine1 = @AddressLine1, AddressLine2 = @AddressLine2 
                             WHERE BUYER_ID = @BUYER_ID";
 
-                SqliteCommand cmdUpdateRecord = new SqliteCommand(updateCMD, con);
-                cmdUpdateRecord.Parameters.AddWithValue("@BUYER_ID", buyer_id); // Add Id parameter
-                cmdUpdateRecord.Parameters.AddWithValue("@Email", email);
-                cmdUpdateRecord.Parameters.AddWithValue("@Username", username);
-                cmdUpdateRecord.Parameters.AddWithValue("@LastName", lastName);
-                cmdUpdateRecord.Parameters.AddWithValue("@FirstName", firstName);
-                cmdUpdateRecord.Parameters.AddWithValue("@MiddleName", middleName);
-                cmdUpdateRecord.Parameters.AddWithValue("@Password", password);
-                cmdUpdateRecord.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
-                cmdUpdateRecord.Parameters.AddWithValue("@AddressLine1", addressLine1);
-                cmdUpdateRecord.Parameters.AddWithValue("@AddressLine2", addressLine2);
+                    SqliteCommand cmdUpdateRecord = new SqliteCommand(updateCMD, con);
+                    cmdUpdateRecord.Parameters.AddWithValue("@BUYER_ID", buyer_id); // Add Id parameter
+                    cmdUpdateRecord.Parameters.AddWithValue("@Email", email);
+                    cmdUpdateRecord.Parameters.AddWithValue("@Username", username);
+                    cmdUpdateRecord.Parameters.AddWithValue("@LastName", lastName);
+                    cmdUpdateRecord.Parameters.AddWithValue("@FirstName", firstName);
+                    cmdUpdateRecord.Parameters.AddWithValue("@MiddleName", middleName);
+                    cmdUpdateRecord.Parameters.AddWithValue("@Password", password);
+                    cmdUpdateRecord.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
+                    cmdUpdateRecord.Parameters.AddWithValue("@AddressLine1", addressLine1);
+                    cmdUpdateRecord.Parameters.AddWithValue("@AddressLine2", addressLine2);
 
-                cmdUpdateRecord.ExecuteReader();
-                con.Close();
+                    cmdUpdateRecord.ExecuteReader();
+                    con.Close();
+                }
             }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+           
         }
 
         // Method to delete a buyer account from the database
         public static void DeleteBuyerAccountFromDatabase(string usernameOrEmail)
         {
-            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
-
-            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            try
             {
-                con.Open();
-                string deleteReceiptsCMD = "DELETE FROM ProductReceipts WHERE Buyer_ID IN (SELECT BUYER_ID FROM Buyers WHERE Username = @Username OR Email = @Email)";
-                string deleteBuyerCMD = "DELETE FROM Buyers WHERE Username = @Username OR Email = @Email";
+                string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
 
-                // Delete associated records from ProductReceipts table
-                using (SqliteCommand cmdDeleteReceipts = new SqliteCommand(deleteReceiptsCMD, con))
+                using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
                 {
-                    cmdDeleteReceipts.Parameters.AddWithValue("@Username", usernameOrEmail);
-                    cmdDeleteReceipts.Parameters.AddWithValue("@Email", usernameOrEmail);
-                    cmdDeleteReceipts.ExecuteNonQuery();
-                }
+                    con.Open();
+                    string deleteReceiptsCMD = "DELETE FROM ProductReceipts WHERE Buyer_ID IN (SELECT BUYER_ID FROM Buyers WHERE Username = @Username OR Email = @Email)";
+                    string deleteBuyerCMD = "DELETE FROM Buyers WHERE Username = @Username OR Email = @Email";
 
-                // Delete the buyer account from the Buyers table
-                using (SqliteCommand cmdDeleteBuyer = new SqliteCommand(deleteBuyerCMD, con))
-                {
-                    cmdDeleteBuyer.Parameters.AddWithValue("@Username", usernameOrEmail);
-                    cmdDeleteBuyer.Parameters.AddWithValue("@Email", usernameOrEmail);
-                    cmdDeleteBuyer.ExecuteNonQuery();
-                }
+                    // Delete associated records from ProductReceipts table
+                    using (SqliteCommand cmdDeleteReceipts = new SqliteCommand(deleteReceiptsCMD, con))
+                    {
+                        cmdDeleteReceipts.Parameters.AddWithValue("@Username", usernameOrEmail);
+                        cmdDeleteReceipts.Parameters.AddWithValue("@Email", usernameOrEmail);
+                        cmdDeleteReceipts.ExecuteNonQuery();
+                    }
 
-                con.Close();
+                    // Delete the buyer account from the Buyers table
+                    using (SqliteCommand cmdDeleteBuyer = new SqliteCommand(deleteBuyerCMD, con))
+                    {
+                        cmdDeleteBuyer.Parameters.AddWithValue("@Username", usernameOrEmail);
+                        cmdDeleteBuyer.Parameters.AddWithValue("@Email", usernameOrEmail);
+                        cmdDeleteBuyer.ExecuteNonQuery();
+                    }
+
+                    con.Close();
+                }
             }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+          
         }
 
 
@@ -375,13 +406,15 @@ namespace Ferdin_TB_Hub.Classes
         //Initializing for Seller Accounts Database
         public async static void InitializeDB_SELLERACCOUNTS()
         {
-            await ApplicationData.Current.LocalFolder.CreateFileAsync("MyDatabase.db", CreationCollisionOption.OpenIfExists);
-            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
-
-            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            try
             {
-                con.Open();
-                string initCMD = @"CREATE TABLE IF NOT EXISTS Sellers (
+                await ApplicationData.Current.LocalFolder.CreateFileAsync("MyDatabase.db", CreationCollisionOption.OpenIfExists);
+                string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
+
+                using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+                {
+                    con.Open();
+                    string initCMD = @"CREATE TABLE IF NOT EXISTS Sellers (
                             SELLER_ID INTEGER PRIMARY KEY AUTOINCREMENT,                        
                             BusinessName TEXT NOT NULL,
                             Email TEXT NOT NULL,
@@ -395,10 +428,16 @@ namespace Ferdin_TB_Hub.Classes
                             AddressLine2 TEXT NOT NULL
                           )";
 
-                SqliteCommand CMDcreateTable = new SqliteCommand(initCMD, con);
-                CMDcreateTable.ExecuteReader();
-                con.Close();
+                    SqliteCommand CMDcreateTable = new SqliteCommand(initCMD, con);
+                    CMDcreateTable.ExecuteReader();
+                    con.Close();
+                }
             }
+            catch
+            {
+
+            }
+         
         }
 
       
@@ -429,36 +468,44 @@ namespace Ferdin_TB_Hub.Classes
         // Adding Seller Account
         public static void AddSeller(string businessName, string email, string username, string lastName, string firstName, string middleName, string password, string phoneNumber, string addressLine1, string addressLine2)
         {
-            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
-
-            // Check if the username or email already exists
-            if (IsSellerAlreadyExists(username, email, businessName))
+            try
             {
-                // Show an error message indicating that the username or email is already taken
-                return; // Exit the method without proceeding further
-            }
+                string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
 
-            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
-            {
-                con.Open();
-                string insertCMD = @"INSERT INTO Sellers (BusinessName, Email, Username, LastName, FirstName, MiddleName, Password, PhoneNumber, AddressLine1, AddressLine2) 
+                // Check if the username or email already exists
+                if (IsSellerAlreadyExists(username, email, businessName))
+                {
+                    // Show an error message indicating that the username or email is already taken
+                    return; // Exit the method without proceeding further
+                }
+
+                using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+                {
+                    con.Open();
+                    string insertCMD = @"INSERT INTO Sellers (BusinessName, Email, Username, LastName, FirstName, MiddleName, Password, PhoneNumber, AddressLine1, AddressLine2) 
                                     VALUES (@BusinessName, @Email, @Username, @LastName, @FirstName, @MiddleName, @Password, @PhoneNumber, @AddressLine1, @AddressLine2)";
 
-                SqliteCommand cmdInsertRecord = new SqliteCommand(insertCMD, con);
-                cmdInsertRecord.Parameters.AddWithValue("@BusinessName", businessName);
-                cmdInsertRecord.Parameters.AddWithValue("@Email", email);
-                cmdInsertRecord.Parameters.AddWithValue("@Username", username);
-                cmdInsertRecord.Parameters.AddWithValue("@LastName", lastName);
-                cmdInsertRecord.Parameters.AddWithValue("@FirstName", firstName);
-                cmdInsertRecord.Parameters.AddWithValue("@MiddleName", middleName);
-                cmdInsertRecord.Parameters.AddWithValue("@Password", password);
-                cmdInsertRecord.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
-                cmdInsertRecord.Parameters.AddWithValue("@AddressLine1", addressLine1);
-                cmdInsertRecord.Parameters.AddWithValue("@AddressLine2", addressLine2);
+                    SqliteCommand cmdInsertRecord = new SqliteCommand(insertCMD, con);
+                    cmdInsertRecord.Parameters.AddWithValue("@BusinessName", businessName);
+                    cmdInsertRecord.Parameters.AddWithValue("@Email", email);
+                    cmdInsertRecord.Parameters.AddWithValue("@Username", username);
+                    cmdInsertRecord.Parameters.AddWithValue("@LastName", lastName);
+                    cmdInsertRecord.Parameters.AddWithValue("@FirstName", firstName);
+                    cmdInsertRecord.Parameters.AddWithValue("@MiddleName", middleName);
+                    cmdInsertRecord.Parameters.AddWithValue("@Password", password);
+                    cmdInsertRecord.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
+                    cmdInsertRecord.Parameters.AddWithValue("@AddressLine1", addressLine1);
+                    cmdInsertRecord.Parameters.AddWithValue("@AddressLine2", addressLine2);
 
-                cmdInsertRecord.ExecuteReader();
-                con.Close();
+                    cmdInsertRecord.ExecuteReader();
+                    con.Close();
+                }
             }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+          
         }
 
         // Query to Retrieve Seller Account
@@ -567,72 +614,85 @@ namespace Ferdin_TB_Hub.Classes
         // Method to update seller information in the database
         public static void UpdateSellerInfoFromDatabase(int seller_id, string businessName, string email, string username, string lastName, string firstName, string middleName, string password, string phoneNumber, string addressLine1, string addressLine2)
         {
-            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
-
-            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            try
             {
-                con.Open();
-                string updateCMD = @"UPDATE Sellers SET BusinessName = @BusinessName, Email = @Email, Username = @Username, LastName = @LastName, FirstName = @FirstName, 
+                string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
+
+                using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+                {
+                    con.Open();
+                    string updateCMD = @"UPDATE Sellers SET BusinessName = @BusinessName, Email = @Email, Username = @Username, LastName = @LastName, FirstName = @FirstName, 
                             MiddleName = @MiddleName, Password = @Password, PhoneNumber = @PhoneNumber, AddressLine1 = @AddressLine1, AddressLine2 = @AddressLine2 
                             WHERE SELLER_ID = @SELLER_ID";
 
-                SqliteCommand cmdUpdateRecord = new SqliteCommand(updateCMD, con);
-                cmdUpdateRecord.Parameters.AddWithValue("@SELLER_ID", seller_id); // Add Id parameter
-                cmdUpdateRecord.Parameters.AddWithValue("@BusinessName", businessName);
-                cmdUpdateRecord.Parameters.AddWithValue("@Email", email);
-                cmdUpdateRecord.Parameters.AddWithValue("@Username", username);
-                cmdUpdateRecord.Parameters.AddWithValue("@LastName", lastName);
-                cmdUpdateRecord.Parameters.AddWithValue("@FirstName", firstName);
-                cmdUpdateRecord.Parameters.AddWithValue("@MiddleName", middleName);
-                cmdUpdateRecord.Parameters.AddWithValue("@Password", password);
-                cmdUpdateRecord.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
-                cmdUpdateRecord.Parameters.AddWithValue("@AddressLine1", addressLine1);
-                cmdUpdateRecord.Parameters.AddWithValue("@AddressLine2", addressLine2);
+                    SqliteCommand cmdUpdateRecord = new SqliteCommand(updateCMD, con);
+                    cmdUpdateRecord.Parameters.AddWithValue("@SELLER_ID", seller_id); // Add Id parameter
+                    cmdUpdateRecord.Parameters.AddWithValue("@BusinessName", businessName);
+                    cmdUpdateRecord.Parameters.AddWithValue("@Email", email);
+                    cmdUpdateRecord.Parameters.AddWithValue("@Username", username);
+                    cmdUpdateRecord.Parameters.AddWithValue("@LastName", lastName);
+                    cmdUpdateRecord.Parameters.AddWithValue("@FirstName", firstName);
+                    cmdUpdateRecord.Parameters.AddWithValue("@MiddleName", middleName);
+                    cmdUpdateRecord.Parameters.AddWithValue("@Password", password);
+                    cmdUpdateRecord.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
+                    cmdUpdateRecord.Parameters.AddWithValue("@AddressLine1", addressLine1);
+                    cmdUpdateRecord.Parameters.AddWithValue("@AddressLine2", addressLine2);
 
-                cmdUpdateRecord.ExecuteReader();
-                con.Close();
+                    cmdUpdateRecord.ExecuteReader();
+                    con.Close();
+                }
             }
+           catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+           
         }
 
 
         // Method to delete a seller account from the database along with associated product details
         public static void DeleteSellerAccountFromDatabase(string usernameOrEmail)
         {
-            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
-
-            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            try
             {
-                con.Open();
+                string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
 
-                // Delete associated records from ProductDetails table
-                string deleteProductDetailsCMD = "DELETE FROM ProductDetails WHERE Seller_ID IN (SELECT SELLER_ID FROM Sellers WHERE Username = @Username OR Email = @Email)";
-                using (SqliteCommand cmdDeleteProductDetails = new SqliteCommand(deleteProductDetailsCMD, con))
+                using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
                 {
-                    cmdDeleteProductDetails.Parameters.AddWithValue("@Username", usernameOrEmail);
-                    cmdDeleteProductDetails.Parameters.AddWithValue("@Email", usernameOrEmail);
-                    cmdDeleteProductDetails.ExecuteNonQuery();
-                }
+                    con.Open();
 
-                // Delete the seller account from the Sellers table
-                string deleteSellerCMD = "DELETE FROM Sellers WHERE Username = @Username OR Email = @Email";
-                using (SqliteCommand cmdDeleteSeller = new SqliteCommand(deleteSellerCMD, con))
-                {
-                    cmdDeleteSeller.Parameters.AddWithValue("@Username", usernameOrEmail);
-                    cmdDeleteSeller.Parameters.AddWithValue("@Email", usernameOrEmail);
-                    cmdDeleteSeller.ExecuteNonQuery();
-                }
+                    // Delete associated records from ProductDetails table
+                    string deleteProductDetailsCMD = "DELETE FROM ProductDetails WHERE Seller_ID IN (SELECT SELLER_ID FROM Sellers WHERE Username = @Username OR Email = @Email)";
+                    using (SqliteCommand cmdDeleteProductDetails = new SqliteCommand(deleteProductDetailsCMD, con))
+                    {
+                        cmdDeleteProductDetails.Parameters.AddWithValue("@Username", usernameOrEmail);
+                        cmdDeleteProductDetails.Parameters.AddWithValue("@Email", usernameOrEmail);
+                        cmdDeleteProductDetails.ExecuteNonQuery();
+                    }
 
-                con.Close();
+                    // Delete the seller account from the Sellers table
+                    string deleteSellerCMD = "DELETE FROM Sellers WHERE Username = @Username OR Email = @Email";
+                    using (SqliteCommand cmdDeleteSeller = new SqliteCommand(deleteSellerCMD, con))
+                    {
+                        cmdDeleteSeller.Parameters.AddWithValue("@Username", usernameOrEmail);
+                        cmdDeleteSeller.Parameters.AddWithValue("@Email", usernameOrEmail);
+                        cmdDeleteSeller.ExecuteNonQuery();
+                    }
+
+                    con.Close();
+                }
             }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+          
         }
-
 
 
         /// <summary>
         /// PRODUCT DETAILS
         /// </summary>
-
-        //FROM THE DATABASE.CS
 
         //Initializing for Product Details Database
 
@@ -640,13 +700,15 @@ namespace Ferdin_TB_Hub.Classes
         //Initializing for Product Details Database
         public async static void InitializeDB_PRODUCTDETAILS()
         {
-            await ApplicationData.Current.LocalFolder.CreateFileAsync("MyDatabase.db", CreationCollisionOption.OpenIfExists);
-            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
-
-            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            try
             {
-                con.Open();
-                string initCMD = @"CREATE TABLE IF NOT EXISTS ProductDetails (
+                await ApplicationData.Current.LocalFolder.CreateFileAsync("MyDatabase.db", CreationCollisionOption.OpenIfExists);
+                string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
+
+                using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+                {
+                    con.Open();
+                    string initCMD = @"CREATE TABLE IF NOT EXISTS ProductDetails (
                           PRODUCTDETAILS_ID INTEGER PRIMARY KEY AUTOINCREMENT,
                           ProductName TEXT NOT NULL,
                           ProductCategory TEXT,
@@ -660,65 +722,81 @@ namespace Ferdin_TB_Hub.Classes
 
                         )";
 
-                SqliteCommand CMDcreateTable = new SqliteCommand(initCMD, con);
-                CMDcreateTable.ExecuteReader();
-                con.Close();
+                    SqliteCommand CMDcreateTable = new SqliteCommand(initCMD, con);
+                    CMDcreateTable.ExecuteReader();
+                    con.Close();
+                }
             }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+                 
         }
 
 
         // Adding Product to the Database
         public static void AddProduct(string productname, string productcategory, double productprice, string productdescription, int productquantity, byte[] productpicture, int seller_id)
         {
-            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
-
-            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            try
             {
-                con.Open();
+                string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
 
-                // Generate a random 12-digit SKU
-                Random random = new Random();
-                long productSKU;
-                bool isUniqueSKU = false;
-
-                // Loop until a unique SKU is generated
-                do
+                using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
                 {
-                    productSKU = (long)(random.NextDouble() * (999999999999L - 100000000000L) + 100000000000L);
-                    string checkSKUQuery = "SELECT COUNT(*) FROM ProductDetails WHERE ProductSKU = @ProductSKU";
+                    con.Open();
 
-                    using (SqliteCommand cmdCheckSKU = new SqliteCommand(checkSKUQuery, con))
+                    // Generate a random 12-digit SKU
+                    Random random = new Random();
+                    long productSKU;
+                    bool isUniqueSKU = false;
+
+                    // Loop until a unique SKU is generated
+                    do
                     {
-                        cmdCheckSKU.Parameters.AddWithValue("@ProductSKU", productSKU);
-                        long existingCount = (long)cmdCheckSKU.ExecuteScalar();
+                        productSKU = (long)(random.NextDouble() * (999999999999L - 100000000000L) + 100000000000L);
+                        string checkSKUQuery = "SELECT COUNT(*) FROM ProductDetails WHERE ProductSKU = @ProductSKU";
 
-                        if (existingCount == 0)
-                            isUniqueSKU = true;
-                    }
-                } while (!isUniqueSKU);
+                        using (SqliteCommand cmdCheckSKU = new SqliteCommand(checkSKUQuery, con))
+                        {
+                            cmdCheckSKU.Parameters.AddWithValue("@ProductSKU", productSKU);
+                            long existingCount = (long)cmdCheckSKU.ExecuteScalar();
 
-                string insertCMD = @"INSERT INTO ProductDetails (ProductSKU, ProductName, ProductCategory, ProductPrice, ProductDescription, ProductQuantity, ProductPicture, Seller_ID) 
+                            if (existingCount == 0)
+                                isUniqueSKU = true;
+                        }
+                    } while (!isUniqueSKU);
+
+                    string insertCMD = @"INSERT INTO ProductDetails (ProductSKU, ProductName, ProductCategory, ProductPrice, ProductDescription, ProductQuantity, ProductPicture, Seller_ID) 
                              VALUES (@ProductSKU, @ProductName, @ProductCategory, @ProductPrice, @ProductDescription, @ProductQuantity, @ProductPicture, @Seller_ID)";
 
-                SqliteCommand cmdInsertRecord = new SqliteCommand(insertCMD, con);
-                cmdInsertRecord.Parameters.AddWithValue("@Seller_ID", seller_id);
-                cmdInsertRecord.Parameters.AddWithValue("@ProductName", productname);
-                cmdInsertRecord.Parameters.AddWithValue("@ProductCategory", productcategory);
-                cmdInsertRecord.Parameters.AddWithValue("@ProductPrice", productprice);
-                cmdInsertRecord.Parameters.AddWithValue("@ProductDescription", productdescription);
-                cmdInsertRecord.Parameters.AddWithValue("@ProductQuantity", productquantity);
-                cmdInsertRecord.Parameters.AddWithValue("@ProductPicture", productpicture);
-                cmdInsertRecord.Parameters.AddWithValue("@ProductSKU", productSKU);
+                    SqliteCommand cmdInsertRecord = new SqliteCommand(insertCMD, con);
+                    cmdInsertRecord.Parameters.AddWithValue("@Seller_ID", seller_id);
+                    cmdInsertRecord.Parameters.AddWithValue("@ProductName", productname);
+                    cmdInsertRecord.Parameters.AddWithValue("@ProductCategory", productcategory);
+                    cmdInsertRecord.Parameters.AddWithValue("@ProductPrice", productprice);
+                    cmdInsertRecord.Parameters.AddWithValue("@ProductDescription", productdescription);
+                    cmdInsertRecord.Parameters.AddWithValue("@ProductQuantity", productquantity);
+                    cmdInsertRecord.Parameters.AddWithValue("@ProductPicture", productpicture);
+                    cmdInsertRecord.Parameters.AddWithValue("@ProductSKU", productSKU);
 
-                cmdInsertRecord.ExecuteNonQuery();
-                con.Close();
+                    cmdInsertRecord.ExecuteNonQuery();
+                    con.Close();
+                }
             }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+          
+          
         }
 
 
         // Query to Retrieve Seller's product details
         public static List<ProductDetails> GetProductDetails(int seller_id)
         {
+           
             List<ProductDetails> productList = new List<ProductDetails>();
 
             string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
@@ -799,27 +877,35 @@ namespace Ferdin_TB_Hub.Classes
         // Update Product Details Method
         public static void UpdateProductDetailsFromDatabase(long productSKU, string productname, string productcategory, double productprice, string productdescription, int productquantity, byte[] productpicture)
         {
-            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
-
-            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            try
             {
-                con.Open();
-                string updateCMD = @"UPDATE ProductDetails SET ProductName = @ProductName, ProductCategory = @ProductCategory, ProductPrice = @ProductPrice, ProductDescription = @ProductDescription, 
+                string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
+
+                using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+                {
+                    con.Open();
+                    string updateCMD = @"UPDATE ProductDetails SET ProductName = @ProductName, ProductCategory = @ProductCategory, ProductPrice = @ProductPrice, ProductDescription = @ProductDescription, 
                     ProductQuantity = @ProductQuantity, ProductPicture = @ProductPicture
                     WHERE ProductSKU = @ProductSKU";
 
-                SqliteCommand cmdUpdateRecord = new SqliteCommand(updateCMD, con);
-                cmdUpdateRecord.Parameters.AddWithValue("@ProductSKU", productSKU);
-                cmdUpdateRecord.Parameters.AddWithValue("@ProductName", productname);
-                cmdUpdateRecord.Parameters.AddWithValue("@ProductCategory", productcategory);
-                cmdUpdateRecord.Parameters.AddWithValue("@ProductPrice", productprice);
-                cmdUpdateRecord.Parameters.AddWithValue("@ProductDescription", productdescription);
-                cmdUpdateRecord.Parameters.AddWithValue("@ProductQuantity", productquantity);
-                cmdUpdateRecord.Parameters.AddWithValue("@ProductPicture", productpicture);
+                    SqliteCommand cmdUpdateRecord = new SqliteCommand(updateCMD, con);
+                    cmdUpdateRecord.Parameters.AddWithValue("@ProductSKU", productSKU);
+                    cmdUpdateRecord.Parameters.AddWithValue("@ProductName", productname);
+                    cmdUpdateRecord.Parameters.AddWithValue("@ProductCategory", productcategory);
+                    cmdUpdateRecord.Parameters.AddWithValue("@ProductPrice", productprice);
+                    cmdUpdateRecord.Parameters.AddWithValue("@ProductDescription", productdescription);
+                    cmdUpdateRecord.Parameters.AddWithValue("@ProductQuantity", productquantity);
+                    cmdUpdateRecord.Parameters.AddWithValue("@ProductPicture", productpicture);
 
-                cmdUpdateRecord.ExecuteReader();
-                con.Close();
+                    cmdUpdateRecord.ExecuteReader();
+                    con.Close();
+                }
             }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+           
         }
 
 
@@ -827,37 +913,37 @@ namespace Ferdin_TB_Hub.Classes
         // Method to delete a product details from the database
         public static void DeleteProductDetailsFromDatabase(long productSKU)
         {
-            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
-
-            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            try
             {
-                con.Open();
-                string deleteCMD = "DELETE FROM ProductDetails WHERE ProductSKU = @ProductSKU";
+                string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
 
-                SqliteCommand cmdDeleteRecord = new SqliteCommand(deleteCMD, con);
-                cmdDeleteRecord.Parameters.AddWithValue("@ProductSKU", productSKU);
+                using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+                {
+                    con.Open();
+                    string deleteCMD = "DELETE FROM ProductDetails WHERE ProductSKU = @ProductSKU";
 
-                cmdDeleteRecord.ExecuteNonQuery();
-                con.Close();
+                    SqliteCommand cmdDeleteRecord = new SqliteCommand(deleteCMD, con);
+                    cmdDeleteRecord.Parameters.AddWithValue("@ProductSKU", productSKU);
+
+                    cmdDeleteRecord.ExecuteNonQuery();
+                    con.Close();
+                }
             }
-        }
-
-     
-
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
         
-   
-          private static byte[] GetByteArrayFromBlob(SqliteDataReader reader, int columnIndex)
+        }
+          
+        private static byte[] GetByteArrayFromBlob(SqliteDataReader reader, int columnIndex)
         {
                  byte[] buffer = new byte[reader.GetBytes(columnIndex, 0, null, 0, int.MaxValue)];
                 reader.GetBytes(columnIndex, 0, buffer, 0, buffer.Length);
                 return buffer;
         }
          
-        
-
-
-
-
+       
         /// <summary>
         /// PRODUCT CART
         /// </summary>
@@ -867,13 +953,15 @@ namespace Ferdin_TB_Hub.Classes
 
         public async static void InitializeDB_PRODUCTCART()
         {
-            await ApplicationData.Current.LocalFolder.CreateFileAsync("MyDatabase.db", CreationCollisionOption.OpenIfExists);
-            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
-
-            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            try
             {
-                con.Open();
-                string initCMD = @"CREATE TABLE IF NOT EXISTS ProductCart (
+                await ApplicationData.Current.LocalFolder.CreateFileAsync("MyDatabase.db", CreationCollisionOption.OpenIfExists);
+                string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
+
+                using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+                {
+                    con.Open();
+                    string initCMD = @"CREATE TABLE IF NOT EXISTS ProductCart (
                     ProductCart_ID INTEGER PRIMARY KEY AUTOINCREMENT,                   
                     ProductName TEXT NOT NULL,
                     ProductPrice REAL NOT NULL,
@@ -882,52 +970,74 @@ namespace Ferdin_TB_Hub.Classes
                     ProductPicture BLOB NOT NULL               
                   )";
 
-                SqliteCommand CMDcreateTable = new SqliteCommand(initCMD, con);
-                CMDcreateTable.ExecuteReader();
-                con.Close();
+                    SqliteCommand CMDcreateTable = new SqliteCommand(initCMD, con);
+                    CMDcreateTable.ExecuteReader();
+                    con.Close();
+                }
             }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+          
         }
 
 
         // Method to add a product to the cart
         public static void AddProductToCart(string productName, double productPrice, string productCategory, int productQuantity, byte[] productPicture)
         {
-            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
-
-            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            try
             {
-                con.Open();
-                string insertCMD = @"INSERT INTO ProductCart (ProductName, ProductPrice, ProductCategory, ProductQuantity, ProductPicture) 
+                string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
+
+                using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+                {
+                    con.Open();
+                    string insertCMD = @"INSERT INTO ProductCart (ProductName, ProductPrice, ProductCategory, ProductQuantity, ProductPicture) 
                      VALUES (@ProductName, @ProductPrice, @ProductCategory, @ProductQuantity, @ProductPicture)";
 
-                SqliteCommand cmdInsertRecord = new SqliteCommand(insertCMD, con);
-                cmdInsertRecord.Parameters.AddWithValue("@ProductName", productName);
-                cmdInsertRecord.Parameters.AddWithValue("@ProductPrice", productPrice);
-                cmdInsertRecord.Parameters.AddWithValue("@ProductQuantity", productQuantity);
-                cmdInsertRecord.Parameters.AddWithValue("@ProductCategory", productCategory);
-                cmdInsertRecord.Parameters.AddWithValue("@ProductPicture", productPicture);
+                    SqliteCommand cmdInsertRecord = new SqliteCommand(insertCMD, con);
+                    cmdInsertRecord.Parameters.AddWithValue("@ProductName", productName);
+                    cmdInsertRecord.Parameters.AddWithValue("@ProductPrice", productPrice);
+                    cmdInsertRecord.Parameters.AddWithValue("@ProductQuantity", productQuantity);
+                    cmdInsertRecord.Parameters.AddWithValue("@ProductCategory", productCategory);
+                    cmdInsertRecord.Parameters.AddWithValue("@ProductPicture", productPicture);
 
-                cmdInsertRecord.ExecuteNonQuery();
-                con.Close();
+                    cmdInsertRecord.ExecuteNonQuery();
+                    con.Close();
+                }
             }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+           
         }
 
         // Method to delete a product from the cart
         public static void DeleteProductFromCart(int productCart_ID)
         {
-            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
-
-            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            try
             {
-                con.Open();
-                string deleteCMD = "DELETE FROM ProductCart WHERE ProductCart_ID = @ProductCart_ID";
+                string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
 
-                SqliteCommand cmdDeleteRecord = new SqliteCommand(deleteCMD, con);
-                cmdDeleteRecord.Parameters.AddWithValue("@ProductCart_ID", productCart_ID);
+                using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+                {
+                    con.Open();
+                    string deleteCMD = "DELETE FROM ProductCart WHERE ProductCart_ID = @ProductCart_ID";
 
-                cmdDeleteRecord.ExecuteReader();
-                con.Close();
+                    SqliteCommand cmdDeleteRecord = new SqliteCommand(deleteCMD, con);
+                    cmdDeleteRecord.Parameters.AddWithValue("@ProductCart_ID", productCart_ID);
+
+                    cmdDeleteRecord.ExecuteReader();
+                    con.Close();
+                }
             }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+            
         }
 
         public static int GetProductQuantity(string productName)
@@ -1001,50 +1111,74 @@ namespace Ferdin_TB_Hub.Classes
         // Method to decrease the quantity of a product in the ProductDetails table
         public static void DecreaseProductQuantity(string productName, int quantity)
         {
-            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
-
-            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            try
             {
-                con.Open();
-                string updateCMD = @"UPDATE ProductDetails SET ProductQuantity = ProductQuantity - @Quantity WHERE ProductName = @ProductName";
+                string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
 
-                SqliteCommand cmdUpdateRecord = new SqliteCommand(updateCMD, con);
-                cmdUpdateRecord.Parameters.AddWithValue("@Quantity", quantity);
-                cmdUpdateRecord.Parameters.AddWithValue("@ProductName", productName);
+                using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+                {
+                    con.Open();
+                    string updateCMD = @"UPDATE ProductDetails SET ProductQuantity = ProductQuantity - @Quantity WHERE ProductName = @ProductName";
 
-                cmdUpdateRecord.ExecuteNonQuery(); // Use ExecuteNonQuery for UPDATE, INSERT, DELETE operations
-                con.Close();
+                    SqliteCommand cmdUpdateRecord = new SqliteCommand(updateCMD, con);
+                    cmdUpdateRecord.Parameters.AddWithValue("@Quantity", quantity);
+                    cmdUpdateRecord.Parameters.AddWithValue("@ProductName", productName);
+
+                    cmdUpdateRecord.ExecuteNonQuery(); // Use ExecuteNonQuery for UPDATE, INSERT, DELETE operations
+                    con.Close();
+                }
             }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+           
         }
 
 
         public static void PassProductToCart(ProductDetails productDetails, int quantity)
         {
-            // Call the AddProductToCart method with the details from the ProductDetails object
-            AddProductToCart(productDetails.ProductName, productDetails.ProductPrice, productDetails.ProductCategory, quantity, productDetails.ProductPicture);
+            try
+            {
+                // Call the AddProductToCart method with the details from the ProductDetails object
+                AddProductToCart(productDetails.ProductName, productDetails.ProductPrice, productDetails.ProductCategory, quantity, productDetails.ProductPicture);
 
-            // Decrease the quantity of the product in the ProductDetails table
-            DecreaseProductQuantity(productDetails.ProductName, quantity);
+                // Decrease the quantity of the product in the ProductDetails table
+                DecreaseProductQuantity(productDetails.ProductName, quantity);
+            }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+           
         }
 
 
         // Method to restore the quantity of a product in the ProductDetails table
         public static void RestoreProductQuantity(string productName, int quantity)
         {
-            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
-
-            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            try
             {
-                con.Open();
-                string updateCMD = @"UPDATE ProductDetails SET ProductQuantity = ProductQuantity + @Quantity WHERE ProductName = @ProductName";
+                string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
 
-                SqliteCommand cmdUpdateRecord = new SqliteCommand(updateCMD, con);
-                cmdUpdateRecord.Parameters.AddWithValue("@Quantity", quantity);
-                cmdUpdateRecord.Parameters.AddWithValue("@ProductName", productName);
+                using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+                {
+                    con.Open();
+                    string updateCMD = @"UPDATE ProductDetails SET ProductQuantity = ProductQuantity + @Quantity WHERE ProductName = @ProductName";
 
-                cmdUpdateRecord.ExecuteNonQuery();
-                con.Close();
+                    SqliteCommand cmdUpdateRecord = new SqliteCommand(updateCMD, con);
+                    cmdUpdateRecord.Parameters.AddWithValue("@Quantity", quantity);
+                    cmdUpdateRecord.Parameters.AddWithValue("@ProductName", productName);
+
+                    cmdUpdateRecord.ExecuteNonQuery();
+                    con.Close();
+                }
             }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+           
         }
 
 
@@ -1056,13 +1190,15 @@ namespace Ferdin_TB_Hub.Classes
 
         public async static void InitializeDB_PRODUCTRECEIPT()
         {
-            await ApplicationData.Current.LocalFolder.CreateFileAsync("MyDatabase.db", CreationCollisionOption.OpenIfExists);
-            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
-
-            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            try
             {
-                con.Open();
-                string initCMD = @"CREATE TABLE IF NOT EXISTS ProductReceipts (
+                await ApplicationData.Current.LocalFolder.CreateFileAsync("MyDatabase.db", CreationCollisionOption.OpenIfExists);
+                string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
+
+                using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+                {
+                    con.Open();
+                    string initCMD = @"CREATE TABLE IF NOT EXISTS ProductReceipts (
             PRODUCT_RECEIPT_ID INTEGER PRIMARY KEY AUTOINCREMENT,
             OrderNumber INTEGER NOT NULL,
             ProductName TEXT NOT NULL,                  
@@ -1082,68 +1218,83 @@ namespace Ferdin_TB_Hub.Classes
             FOREIGN KEY (Buyer_ID) REFERENCES Buyers(BUYER_ID)
                     )";
 
-                SqliteCommand CMDcreateTable = new SqliteCommand(initCMD, con);
-                CMDcreateTable.ExecuteReader();
-                con.Close();
+                    SqliteCommand CMDcreateTable = new SqliteCommand(initCMD, con);
+                    CMDcreateTable.ExecuteReader();
+                    con.Close();
+                }
             }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+          
         }
 
 
         // Method to add the cart items to the receipt with a random 12 digit order number
         public static void AddProductToReceipt(string productName, string lastName, string firstName, string middleName, string phoneNumber, string productCategory, double productPrice, int productQuantity, string addressLine1, string addressLine2, string email, string paymentMethod, DateTime datePurchased, int buyer_ID)
         {
-            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
-
-            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            try
             {
-                con.Open();
+                string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
 
-                // Generate a random 12-digit order number
-                Random random = new Random();
-                long orderNumber;
-                bool isUniqueOrderNumber = false;
-
-                // Loop until a unique order number is generated
-                do
+                using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
                 {
-                    orderNumber = (long)(random.NextDouble() * (999999999999L - 100000000000L) + 100000000000L);
-                    string checkOrderNumberQuery = "SELECT COUNT(*) FROM ProductReceipts WHERE OrderNumber = @OrderNumber";
+                    con.Open();
 
-                    using (SqliteCommand cmdCheckOrderNumber = new SqliteCommand(checkOrderNumberQuery, con))
+                    // Generate a random 12-digit order number
+                    Random random = new Random();
+                    long orderNumber;
+                    bool isUniqueOrderNumber = false;
+
+                    // Loop until a unique order number is generated
+                    do
                     {
-                        cmdCheckOrderNumber.Parameters.AddWithValue("@OrderNumber", orderNumber);
-                        long existingCount = (long)cmdCheckOrderNumber.ExecuteScalar();
+                        orderNumber = (long)(random.NextDouble() * (999999999999L - 100000000000L) + 100000000000L);
+                        string checkOrderNumberQuery = "SELECT COUNT(*) FROM ProductReceipts WHERE OrderNumber = @OrderNumber";
 
-                        if (existingCount == 0)
-                            isUniqueOrderNumber = true;
-                    }
-                } while (!isUniqueOrderNumber);
+                        using (SqliteCommand cmdCheckOrderNumber = new SqliteCommand(checkOrderNumberQuery, con))
+                        {
+                            cmdCheckOrderNumber.Parameters.AddWithValue("@OrderNumber", orderNumber);
+                            long existingCount = (long)cmdCheckOrderNumber.ExecuteScalar();
 
-                string insertCMD = @"INSERT INTO ProductReceipts (OrderNumber, ProductName, LastName, FirstName, MiddleName, PhoneNumber, ProductCategory, ProductPrice, ProductQuantity, AddressLine1, AddressLine2, Email, PaymentMethod, DatePurchased, Buyer_ID) 
+                            if (existingCount == 0)
+                                isUniqueOrderNumber = true;
+                        }
+                    } while (!isUniqueOrderNumber);
+
+                    string insertCMD = @"INSERT INTO ProductReceipts (OrderNumber, ProductName, LastName, FirstName, MiddleName, PhoneNumber, ProductCategory, ProductPrice, ProductQuantity, AddressLine1, AddressLine2, Email, PaymentMethod, DatePurchased, Buyer_ID) 
                              VALUES (@OrderNumber, @ProductName, @LastName, @FirstName, @MiddleName, @PhoneNumber, @ProductCategory, @ProductPrice, @ProductQuantity, @AddressLine1, @AddressLine2, @Email,  @PaymentMethod, @DatePurchased, @Buyer_ID)";
 
-                SqliteCommand cmdInsertRecord = new SqliteCommand(insertCMD, con);
-                cmdInsertRecord.Parameters.AddWithValue("@OrderNumber", orderNumber);
-                cmdInsertRecord.Parameters.AddWithValue("@ProductName", productName);
-                cmdInsertRecord.Parameters.AddWithValue("@LastName", lastName);
-                cmdInsertRecord.Parameters.AddWithValue("@FirstName", firstName);
-                cmdInsertRecord.Parameters.AddWithValue("@MiddleName", middleName);
-                cmdInsertRecord.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
-                cmdInsertRecord.Parameters.AddWithValue("@ProductCategory", productCategory);
-                cmdInsertRecord.Parameters.AddWithValue("@ProductPrice", productPrice);
-                cmdInsertRecord.Parameters.AddWithValue("@ProductQuantity", productQuantity);
-                cmdInsertRecord.Parameters.AddWithValue("@AddressLine1", addressLine1);
-                cmdInsertRecord.Parameters.AddWithValue("@AddressLine2", addressLine2);
-                cmdInsertRecord.Parameters.AddWithValue("@PaymentMethod", paymentMethod);
-                cmdInsertRecord.Parameters.AddWithValue("@Email", email);
-                cmdInsertRecord.Parameters.AddWithValue("@DatePurchased", datePurchased);
-                cmdInsertRecord.Parameters.AddWithValue("@Buyer_ID", buyer_ID);
+                    SqliteCommand cmdInsertRecord = new SqliteCommand(insertCMD, con);
+                    cmdInsertRecord.Parameters.AddWithValue("@OrderNumber", orderNumber);
+                    cmdInsertRecord.Parameters.AddWithValue("@ProductName", productName);
+                    cmdInsertRecord.Parameters.AddWithValue("@LastName", lastName);
+                    cmdInsertRecord.Parameters.AddWithValue("@FirstName", firstName);
+                    cmdInsertRecord.Parameters.AddWithValue("@MiddleName", middleName);
+                    cmdInsertRecord.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
+                    cmdInsertRecord.Parameters.AddWithValue("@ProductCategory", productCategory);
+                    cmdInsertRecord.Parameters.AddWithValue("@ProductPrice", productPrice);
+                    cmdInsertRecord.Parameters.AddWithValue("@ProductQuantity", productQuantity);
+                    cmdInsertRecord.Parameters.AddWithValue("@AddressLine1", addressLine1);
+                    cmdInsertRecord.Parameters.AddWithValue("@AddressLine2", addressLine2);
+                    cmdInsertRecord.Parameters.AddWithValue("@PaymentMethod", paymentMethod);
+                    cmdInsertRecord.Parameters.AddWithValue("@Email", email);
+                    cmdInsertRecord.Parameters.AddWithValue("@DatePurchased", datePurchased);
+                    cmdInsertRecord.Parameters.AddWithValue("@Buyer_ID", buyer_ID);
 
 
 
-                cmdInsertRecord.ExecuteNonQuery();
-                con.Close();
+                    cmdInsertRecord.ExecuteNonQuery();
+                    con.Close();
+                }
             }
+           catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+
+          
         }
 
         // Query to Retrieve Product Receipt by Order Number
@@ -1242,13 +1393,20 @@ namespace Ferdin_TB_Hub.Classes
         // Method to pass the cart items to the receipt with product category, address, and date purchased
         public static void PassProductToReceipt(ProductCart productCart, string lastName, string firstName, string middleName, string phoneNumber, string productCategory, string addressLine1, string addressLine2, string email, string paymentMethod, DateTime datePurchased, int buyer_ID)
         {
-            // Call the AddProductToReceipt method with the details from the ProductCart object
-            AddProductToReceipt(productCart.ProductName, lastName, firstName, middleName, phoneNumber, productCategory, productCart.ProductPrice, productCart.ProductQuantity + 1, addressLine1, addressLine2, email, paymentMethod, datePurchased, buyer_ID);
+            try
+            {
+                // Call the AddProductToReceipt method with the details from the ProductCart object
+                AddProductToReceipt(productCart.ProductName, lastName, firstName, middleName, phoneNumber, productCategory, productCart.ProductPrice, productCart.ProductQuantity + 1, addressLine1, addressLine2, email, paymentMethod, datePurchased, buyer_ID);
 
-            // Delete the product from the cart
-            DeleteProductFromCart(productCart.ProductCart_ID);
+                // Delete the product from the cart
+                DeleteProductFromCart(productCart.ProductCart_ID);
+            }
+           catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+        
         }     
-
 
     }
 }

@@ -38,8 +38,6 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
     {
         private BuyerDetails _buyer;
         public List<ProductCart> ProductCartList { get; set; }
-
-
         public BuyerDetails Buyer
         {
             get { return _buyer; }
@@ -53,53 +51,6 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
         }
 
-        public Cart()
-        {
-            this.InitializeComponent();
-            this.DataContext = this; // Set the DataContext of the page to itself
-            LoadCartItems();
-
-            // Subscribe to TextChanged events
-            tbxGcash.TextChanged += tbxGcash_TextChanged;
-            tbxCard.TextChanged += tbxCard_TextChanged;
-
-            // Initially update the Pay button state
-            UpdatePayButtonState();
-
-        }
-
-        private void LoadCartItems()
-        {
-
-
-            // Retrieve the list of products in the cart from the database
-            ProductCartList = Database.GetProductCart();
-      
-
-            // Calculate total price
-            double totalPrice = 0;
-            foreach (var product in ProductCartList)
-            {
-                totalPrice += product.ProductPrice;
-            }
-
-            // Add tax (assuming tax is 12%)
-            double tax = totalPrice * 0.12;
-            double totalPriceWithTax = totalPrice + tax;
-
-            // Add shipping fee
-            double shippingFee = 50;
-
-            // Update the textboxes
-            tbxPrice.Text = (totalPriceWithTax + shippingFee).ToString("Php 0.00"); // Including shipping fee
-            tbxQuantity.Text = ProductCartList.Count.ToString(); // Total quantity is the count of items in the cart
-            tbxTax.Text = tax.ToString("Php 0.00");
-            tbxShippingFee.Text = shippingFee.ToString("Php 0.00"); // Display shipping fee
-
-            // Update the ListView
-            ListViewCart.ItemsSource = ProductCartList;
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName)
         {
@@ -107,225 +58,350 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
         }
 
 
+        public Cart()
+        {
+            try
+            {
+                this.InitializeComponent();
+                this.DataContext = this; // Set the DataContext of the page to itself
+                LoadCartItems();
+
+                // Subscribe to TextChanged events
+                tbxGcash.TextChanged += tbxGcash_TextChanged;
+                tbxCard.TextChanged += tbxCard_TextChanged;
+
+                // Initially update the Pay button state
+                UpdatePayButtonState();
+            }
+            catch (Exception ex)
+            {
+               Buttons.ShowMessage(ex.Message);
+            }
+           
+           
+
+        }
+
+        private void LoadCartItems()
+        {
+            try
+            {
+                // Retrieve the list of products in the cart from the database
+                ProductCartList = Database.GetProductCart();
+
+
+                // Calculate total price
+                double totalPrice = 0;
+                foreach (var product in ProductCartList)
+                {
+                    totalPrice += product.ProductPrice;
+                }
+
+                // Add tax (assuming tax is 12%)
+                double tax = totalPrice * 0.12;
+                double totalPriceWithTax = totalPrice + tax;
+
+                // Add shipping fee
+                double shippingFee = 50;
+
+                // Update the textboxes
+                tbxPrice.Text = (totalPriceWithTax + shippingFee).ToString("Php 0.00"); // Including shipping fee
+                tbxQuantity.Text = ProductCartList.Count.ToString(); // Total quantity is the count of items in the cart
+                tbxTax.Text = tax.ToString("Php 0.00");
+                tbxShippingFee.Text = shippingFee.ToString("Php 0.00"); // Display shipping fee
+
+                // Update the ListView
+                ListViewCart.ItemsSource = ProductCartList;
+            }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+
+
+          
+        }
+
+      
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            base.OnNavigatedTo(e);
-
-            // Check if a BuyerDetails object was passed as a parameter
-            if (e.Parameter != null && e.Parameter is BuyerDetails)
+            try
             {
-                // Cast the parameter to BuyerDetails and assign it to the Buyer property
-                Buyer = e.Parameter as BuyerDetails;
-                // Notify the UI that the Buyer property has changed
-                OnPropertyChanged(nameof(Buyer));
-            }
+                base.OnNavigatedTo(e);
 
-            // Check if a product was passed as a parameter
-            if (e.Parameter != null && e.Parameter is ProductDetails)
+                // Check if a BuyerDetails object was passed as a parameter
+                if (e.Parameter != null && e.Parameter is BuyerDetails)
+                {
+                    // Cast the parameter to BuyerDetails and assign it to the Buyer property
+                    Buyer = e.Parameter as BuyerDetails;
+                    // Notify the UI that the Buyer property has changed
+                    OnPropertyChanged(nameof(Buyer));
+                }
+
+                // Check if a product was passed as a parameter
+                if (e.Parameter != null && e.Parameter is ProductDetails)
+                {
+                    // Retrieve the selected product
+                    var selectedProduct = e.Parameter as ProductDetails;
+
+                    // Add the selected product to the cart's list view
+                    ListViewCart.Items.Add(selectedProduct);
+                }
+            }
+            catch (Exception ex)
             {
-                // Retrieve the selected product
-                var selectedProduct = e.Parameter as ProductDetails;
-
-                // Add the selected product to the cart's list view
-                ListViewCart.Items.Add(selectedProduct);
+                Buttons.ShowMessage(ex.Message);
             }
+         
         }
 
         private void cbxBuyerPayment_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string selectedPayment = ((ComboBoxItem)cbxBuyerPayment.SelectedItem)?.Content.ToString();
-
-            // Hide/show controls based on the selected payment
-            switch (selectedPayment)
+            try
             {
-                case "GCash":
-                    lblGcash.Visibility = Visibility.Visible;
-                    tbxGcash.Visibility = Visibility.Visible;
-                    lblCard.Visibility = Visibility.Collapsed;
-                    tbxCard.Visibility = Visibility.Collapsed;
-                    break;
+                string selectedPayment = ((ComboBoxItem)cbxBuyerPayment.SelectedItem)?.Content.ToString();
 
-                case "Credit/Debit Card":
-                    lblGcash.Visibility = Visibility.Collapsed;
-                    tbxGcash.Visibility = Visibility.Collapsed;
-                    lblCard.Visibility = Visibility.Visible;
-                    tbxCard.Visibility = Visibility.Visible;
-                    break;
+                // Hide/show controls based on the selected payment
+                switch (selectedPayment)
+                {
+                    case "GCash":
+                        lblGcash.Visibility = Visibility.Visible;
+                        tbxGcash.Visibility = Visibility.Visible;
+                        lblCard.Visibility = Visibility.Collapsed;
+                        tbxCard.Visibility = Visibility.Collapsed;
+                        break;
 
-                case "Cash on Delivery":
-                    lblGcash.Visibility = Visibility.Collapsed;
-                    tbxGcash.Visibility = Visibility.Collapsed;
-                    lblCard.Visibility = Visibility.Collapsed;
-                    tbxCard.Visibility = Visibility.Collapsed;
-                     btnPay.IsEnabled = true; // Enable Pay button
-            break;
+                    case "Credit/Debit Card":
+                        lblGcash.Visibility = Visibility.Collapsed;
+                        tbxGcash.Visibility = Visibility.Collapsed;
+                        lblCard.Visibility = Visibility.Visible;
+                        tbxCard.Visibility = Visibility.Visible;
+                        break;
 
-                default:
-                    // Handle other cases if needed
-                    break;
+                    case "Cash on Delivery":
+                        lblGcash.Visibility = Visibility.Collapsed;
+                        tbxGcash.Visibility = Visibility.Collapsed;
+                        lblCard.Visibility = Visibility.Collapsed;
+                        tbxCard.Visibility = Visibility.Collapsed;
+                        btnPay.IsEnabled = true; // Enable Pay button
+                        break;
+
+                    default:
+                        // Handle other cases if needed
+                        break;
+                }
             }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+           
         }
 
 
 
         private void gcash_NUMERIC(object sender, KeyRoutedEventArgs e)
         {
-            // Check if the pressed key is a numeric key (0-9) or a control key
-            Buttons.HandleNumericInput(e);
+            try
+            {
+                // Check if the pressed key is a numeric key (0-9) or a control key
+                Buttons.HandleNumericInput(e);
+            }
+           catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+       
         }
 
         private void card_NUMERIC(object sender, KeyRoutedEventArgs e)
         {
-            // Check if the pressed key is a numeric key (0-9) or a control key
-            Buttons.HandleNumericInput(e);
+            try
+            {
+                // Check if the pressed key is a numeric key (0-9) or a control key
+                Buttons.HandleNumericInput(e);
+            }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+         
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            // Initial setup - Hide controls since payment info is blank
-            lblGcash.Visibility = Visibility.Collapsed;
-            tbxGcash.Visibility = Visibility.Collapsed;
-            lblCard.Visibility = Visibility.Collapsed;
-            tbxCard.Visibility = Visibility.Collapsed;
+            try
+            {
+                // Initial setup - Hide controls since payment info is blank
+                lblGcash.Visibility = Visibility.Collapsed;
+                tbxGcash.Visibility = Visibility.Collapsed;
+                lblCard.Visibility = Visibility.Collapsed;
+                tbxCard.Visibility = Visibility.Collapsed;
+            }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+          
         }
 
 
 
         private void btnPay_Click(object sender, RoutedEventArgs e)
         {
-            // Get the values from the TextBoxes
-            string firstName = tbxFirstName.Text;
-            string middleName = tbxMiddleName.Text; // Assuming you have a TextBox for middle name
-            string lastName = tbxLastName.Text;
-            string phoneNumber = tbxPhoneNumber.Text;
-            string addressLine1 = tbxAddressLine1.Text;
-            string addressLine2 = tbxAddressLine2.Text;
-            string email = tbxEmail.Text;
-            string passbuyerID = tbxBuyerID.Text;
-            int buyerID;
-
-            if (int.TryParse(passbuyerID, out buyerID))
+            try
             {
-                // Conversion successful, 'buyerID' contains the integer value
-                // Now you can use 'buyerID' as an integer
-            }
-            else
-            {
-                // Conversion failed, handle the case where the input is not a valid integer
-            }
+                // Get the values from the TextBoxes
+                string firstName = tbxFirstName.Text;
+                string middleName = tbxMiddleName.Text; // Assuming you have a TextBox for middle name
+                string lastName = tbxLastName.Text;
+                string phoneNumber = tbxPhoneNumber.Text;
+                string addressLine1 = tbxAddressLine1.Text;
+                string addressLine2 = tbxAddressLine2.Text;
+                string email = tbxEmail.Text;
+                string passbuyerID = tbxBuyerID.Text;
+                int buyerID;
 
-            // Check if any of the required fields are empty
-            if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) ||
-                string.IsNullOrWhiteSpace(addressLine1) || string.IsNullOrWhiteSpace(email))
-            {
-                // Notify the user to fill in all required buyer details
-                ShowErrorPrompt("Please fill in all required buyer details.");
-                return;
-            }
-
-            // Check if there are items in the cart
-            if (ProductCartList == null || ProductCartList.Count == 0)
-            {
-                // Notify the user that the cart is empty
-                ShowErrorPrompt("Your cart is empty. Please add items before proceeding to payment.");
-                return;
-            }
-
-            // Get the selected payment method from the ComboBox
-            string paymentMethod = ((ComboBoxItem)cbxBuyerPayment.SelectedItem)?.Content?.ToString();
-
-
-            // Get the current date and time as the date of purchase
-            DateTime datePurchased = DateTime.Now;
-
-            // Retrieve the buyer's ID using the DatabaseAccess class
-            DatabaseAccess dbAccess = new DatabaseAccess();
-            var product = DataContext as ProductDetails;
-            var seller = DataContext as SellerDetails;
-
-
-            dbAccess.RetrieveBuyerIDFromDatabase(passbuyerID); 
-          // dbAccess.RetrieveSellerIDFromDatabase(firstName); 
-
-            // Get the retrieved buyer ID from the BuyerAndSellerID class
-           // int buyerID = dbAccess.RetrieveBuyerIDFromDatabase(passbuyerID);
-            //  int sellerID = BuyerAndSellerID.SellerID;
-
-            // Prepare to pass the order summary and buyer's information to the receipt
-
-            // Loop through the items in the cart and pass each item to the receipt
-            foreach (var productCart in ProductCartList)
-            {
-                // Retrieve the corresponding product details from the database based on the product name
-                var productDetails = Database.GetAllProductDetails().FirstOrDefault(p => p.ProductName == productCart.ProductName);
-
-                // Check if the product details are not null
-                if (productDetails != null)
+                if (int.TryParse(passbuyerID, out buyerID))
                 {
-                    // Pass each item to the receipt with correct product category and buyer ID
-                    PassProductToReceipt(productCart, lastName, firstName, middleName, phoneNumber, productDetails.ProductCategory, addressLine1, addressLine2, email, paymentMethod, datePurchased, buyerID);
+                    // Conversion successful, 'buyerID' contains the integer value
+                    // Now you can use 'buyerID' as an integer
                 }
+                else
+                {
+                    // Conversion failed, handle the case where the input is not a valid integer
+                }
+
+                // Check if any of the required fields are empty
+                if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) ||
+                    string.IsNullOrWhiteSpace(addressLine1) || string.IsNullOrWhiteSpace(email))
+                {
+                    // Notify the user to fill in all required buyer details
+                    ShowErrorPrompt("Please fill in all required buyer details.");
+                    return;
+                }
+
+                // Check if there are items in the cart
+                if (ProductCartList == null || ProductCartList.Count == 0)
+                {
+                    // Notify the user that the cart is empty
+                    ShowErrorPrompt("Your cart is empty. Please add items before proceeding to payment.");
+                    return;
+                }
+
+                // Get the selected payment method from the ComboBox
+                string paymentMethod = ((ComboBoxItem)cbxBuyerPayment.SelectedItem)?.Content?.ToString();
+
+
+                // Get the current date and time as the date of purchase
+                DateTime datePurchased = DateTime.Now;
+
+                // Retrieve the buyer's ID using the DatabaseAccess class
+                DatabaseAccess dbAccess = new DatabaseAccess();
+                var product = DataContext as ProductDetails;
+                var seller = DataContext as SellerDetails;
+
+
+                dbAccess.RetrieveBuyerIDFromDatabase(passbuyerID);
+                // dbAccess.RetrieveSellerIDFromDatabase(firstName); 
+
+                // Get the retrieved buyer ID from the BuyerAndSellerID class
+                // int buyerID = dbAccess.RetrieveBuyerIDFromDatabase(passbuyerID);
+                //  int sellerID = BuyerAndSellerID.SellerID;
+
+                // Prepare to pass the order summary and buyer's information to the receipt
+
+                // Loop through the items in the cart and pass each item to the receipt
+                foreach (var productCart in ProductCartList)
+                {
+                    // Retrieve the corresponding product details from the database based on the product name
+                    var productDetails = Database.GetAllProductDetails().FirstOrDefault(p => p.ProductName == productCart.ProductName);
+
+                    // Check if the product details are not null
+                    if (productDetails != null)
+                    {
+                        // Pass each item to the receipt with correct product category and buyer ID
+                        PassProductToReceipt(productCart, lastName, firstName, middleName, phoneNumber, productDetails.ProductCategory, addressLine1, addressLine2, email, paymentMethod, datePurchased, buyerID);
+                    }
+                }
+
+                ShowOrderPlacedNotification();
+
+                // Generate receipt content
+                string receiptContent = GenerateReceiptContent();
+
+                // Show receipt using prompt
+                ShowReceiptPrompt(receiptContent);
             }
-
-            ShowOrderPlacedNotification();
-
-            // Generate receipt content
-            string receiptContent = GenerateReceiptContent();
-
-            // Show receipt using prompt
-            ShowReceiptPrompt(receiptContent);
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+         
         }
-
-
 
 
         public static void ShowOrderPlacedNotification()
         {
-            // Construct the toast content
-            var content = new ToastContentBuilder()
-                .AddText("Order Placed")
-                .AddText("Your order has been successfully placed!")
-                .AddText("Thank you for shopping with us!\n A receipt will be generated shortly.")
-                .GetToastContent();
+            try
+            {
+                // Construct the toast content
+                var content = new ToastContentBuilder()
+                    .AddText("Order Placed")
+                    .AddText("Your order has been successfully placed!")
+                    .AddText("Thank you for shopping with us!\n A receipt will be generated shortly.")
+                    .GetToastContent();
 
-            // Create the toast notification
-            var toast = new ToastNotification(content.GetXml());
+                // Create the toast notification
+                var toast = new ToastNotification(content.GetXml());
 
-            // Show the toast notification
-            ToastNotificationManager.CreateToastNotifier().Show(toast);
+                // Show the toast notification
+                ToastNotificationManager.CreateToastNotifier().Show(toast);
+            }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+        
         }
 
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
-            // Retrieve the button that raised the event
-            Button button = (Button)sender;
+            try
+            {
+                // Retrieve the button that raised the event
+                Button button = (Button)sender;
 
-            // Retrieve the DataContext of the button which should be the ProductCart object
-            ProductCart selectedProduct = (ProductCart)button.DataContext;
+                // Retrieve the DataContext of the button which should be the ProductCart object
+                ProductCart selectedProduct = (ProductCart)button.DataContext;
 
-            // Retrieve the product name and quantity of the selected product
-            string productName = selectedProduct.ProductName;
-            int quantity = selectedProduct.ProductQuantity;
+                // Retrieve the product name and quantity of the selected product
+                string productName = selectedProduct.ProductName;
+                int quantity = selectedProduct.ProductQuantity;
 
-            // Delete the product from the cart
-            Database.DeleteProductFromCart(selectedProduct.ProductCart_ID);
+                // Delete the product from the cart
+                Database.DeleteProductFromCart(selectedProduct.ProductCart_ID);
 
-            // Restore the product quantity in the database
+                // Restore the product quantity in the database
 
-            int sellerID = BuyerAndSellerID.SellerID;
+                int sellerID = BuyerAndSellerID.SellerID;
 
-            Database.RestoreProductQuantity(productName, quantity + 1);
+                Database.RestoreProductQuantity(productName, quantity + 1);
 
-            // Refresh the cart items
-            LoadCartItems();
-
-
-
+                // Refresh the cart items
+                LoadCartItems();
+            }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+          
         }
 
         private string GenerateReceiptContent()
-        {
+        {           
             // Calculate total price
             double totalPrice = 0;
             foreach (var product in ProductCartList)
@@ -364,11 +440,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             receiptContent += $"TOTAL QUANTITY: {ProductCartList.Count}\n";
             receiptContent += $"VAT: ₱{tax:n2}\n";
             receiptContent += $"SHIPPING FEE: ₱{shippingFee:n2}\n";
-            receiptContent += $"\nTOTAL PRICE: ₱{totalPriceWithTax + shippingFee:n2}\n";
-      
-
-
-
+            receiptContent += $"\nTOTAL PRICE: ₱{totalPriceWithTax + shippingFee:n2}\n";    
 
             // Return the generated receipt content
             return receiptContent;
@@ -377,151 +449,175 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
 
         private async void ShowErrorPrompt(string errorMessage)
         {
-            // Show an error prompt
-            ContentDialog errorDialog = new ContentDialog
+            try
             {
-                Title = "Error",
-                Content = errorMessage,
-                CloseButtonText = "OK"
-            };
+                // Show an error prompt
+                ContentDialog errorDialog = new ContentDialog
+                {
+                    Title = "Error",
+                    Content = errorMessage,
+                    CloseButtonText = "OK"
+                };
 
-            // Show the dialog
-            await errorDialog.ShowAsync();
+                // Show the dialog
+                await errorDialog.ShowAsync();
+            }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+           
         }
 
 
         private async void ShowReceiptPrompt(string receiptContent)
         {
-            // Create a TextBlock to contain the receipt content
-            TextBlock textBlock = new TextBlock
+            try
             {
-                Text = receiptContent,
-                TextWrapping = TextWrapping.Wrap,
-                Margin = new Thickness(20) // Add margin for better readability
-            };
+                // Create a TextBlock to contain the receipt content
+                TextBlock textBlock = new TextBlock
+                {
+                    Text = receiptContent,
+                    TextWrapping = TextWrapping.Wrap,
+                    Margin = new Thickness(20) // Add margin for better readability
+                };
 
-            // Create a ScrollViewer to make the content scrollable
-            ScrollViewer scrollViewer = new ScrollViewer
+                // Create a ScrollViewer to make the content scrollable
+                ScrollViewer scrollViewer = new ScrollViewer
+                {
+                    Content = textBlock,
+                    VerticalScrollBarVisibility = ScrollBarVisibility.Auto // Enable vertical scrollbar
+                };
+
+                // Create the receipt dialog with the scrollable content
+                ContentDialog receiptDialog = new ContentDialog
+                {
+                    Title = "Order Receipt",
+                    Content = scrollViewer, // Set the ScrollViewer as the content
+                    CloseButtonText = "Close"
+                };
+
+                // Handle the Closed event to clear the ProductCartList after the dialog is closed
+                receiptDialog.Closed += ReceiptDialog_Closed;
+
+                // Show the dialog
+                ContentDialogResult result = await receiptDialog.ShowAsync();
+            }
+            catch (Exception ex)
             {
-                Content = textBlock,
-                VerticalScrollBarVisibility = ScrollBarVisibility.Auto // Enable vertical scrollbar
-            };
-
-            // Create the receipt dialog with the scrollable content
-            ContentDialog receiptDialog = new ContentDialog
-            {
-                Title = "Order Receipt",
-                Content = scrollViewer, // Set the ScrollViewer as the content
-                CloseButtonText = "Close"
-            };
-
-            // Handle the Closed event to clear the ProductCartList after the dialog is closed
-            receiptDialog.Closed += ReceiptDialog_Closed;
-
-            // Show the dialog
-            ContentDialogResult result = await receiptDialog.ShowAsync();
+                Buttons.ShowMessage(ex.Message);
+            }
+         
         }
 
 
 
         private async void ReceiptDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
         {
-            // Generate receipt content
-            string receiptContent = GenerateReceiptContent();
-
-            // Create a new PDF document
-            PdfDocument document = new PdfDocument();
-
-
-            // Add a page to the document with custom dimensions
-            // Here, I'm setting a very long height for demonstration purposes
-            PdfPage page = document.AddPage();
-            page.Width = XUnit.FromInch(8.5); // Standard letter size width
-            page.Height = XUnit.FromInch(20); // Custom height - adjust as needed
-
-            // Create XGraphics object from the PDF page
-            XGraphics gfx = XGraphics.FromPdfPage(page);
-
-            // Load the image to use as the header
-            StorageFile imageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Icons/Title3.png")); // Replace "header_image.jpg" with the actual file name of your image
-            XImage headerImage = XImage.FromStream(() => imageFile.OpenStreamForReadAsync().Result);
-
-            // Calculate the position for the top right corner of the header
-            double headerImageX = 450; // Adjust the value as needed for horizontal position
-            double headerImageY = 10; // Adjust the value as needed for vertical position
-            double headerImageWidth = 150; // Adjust the value as needed for image width
-            double headerImageHeight = 100; // Adjust the value as needed for image height
-
-            // Draw the image as the header at the calculated position
-            gfx.DrawImage(headerImage, new XRect(headerImageX, headerImageY, headerImageWidth, headerImageHeight));
-
-            // Set font and brush for drawing text
-            XFont font = new XFont("Courier New", 12, XFontStyle.Bold);
-            XBrush brush = XBrushes.Blue;
-
-            // Split receipt content into lines
-            string[] lines = receiptContent.Split('\n');
-
-            // Set starting position for drawing text
-            double textYPosition = 40;
-
-            // Draw each line of the receipt content
-            foreach (string line in lines)
+            try
             {
-                gfx.DrawString(line, font, brush, new XPoint(40, textYPosition));
-                textYPosition += 20; // Adjust line spacing as needed
-            }
+                // Generate receipt content
+                string receiptContent = GenerateReceiptContent();
+
+                // Create a new PDF document
+                PdfDocument document = new PdfDocument();
 
 
-            // Draw footer
-            string footerText1 = "Thank you for choosing Ferdin TubigHub :)";
-            XSize footerTextSize1 = gfx.MeasureString(footerText1, font);
-            double footerX1 = (page.Width - footerTextSize1.Width) / 2;
-            double footerY1 = page.Height - 60; // Adjust the value as needed for vertical position
-            gfx.DrawString(footerText1, font, brush, new XPoint(footerX1, footerY1));
+                // Add a page to the document with custom dimensions
+                // Here, I'm setting a very long height for demonstration purposes
+                PdfPage page = document.AddPage();
+                page.Width = XUnit.FromInch(8.5); // Standard letter size width
+                page.Height = XUnit.FromInch(20); // Custom height - adjust as needed
 
-            string footerText2 = "Please save this receipt for your reference.";
-            XSize footerTextSize2 = gfx.MeasureString(footerText2, font);
-            double footerX2 = (page.Width - footerTextSize2.Width) / 2;
-            double footerY2 = page.Height - 40; // Adjust the value as needed for vertical position
-            gfx.DrawString(footerText2, font, brush, new XPoint(footerX2, footerY2));
+                // Create XGraphics object from the PDF page
+                XGraphics gfx = XGraphics.FromPdfPage(page);
 
-            // Save the PDF document to a file
-            StorageFile pdfFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("Receipt.pdf", CreationCollisionOption.ReplaceExisting);
-            using (var fileStream = await pdfFile.OpenStreamForWriteAsync())
-            {
-                document.Save(fileStream, false);
-            }
+                // Load the image to use as the header
+                StorageFile imageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Icons/Title3.png")); // Replace "header_image.jpg" with the actual file name of your image
+                XImage headerImage = XImage.FromStream(() => imageFile.OpenStreamForReadAsync().Result);
 
-            // Show file picker for the user to save the PDF file
-            var savePicker = new Windows.Storage.Pickers.FileSavePicker();
-            savePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
-            savePicker.FileTypeChoices.Add("Adobe PDF Document", new List<string>() { ".pdf" });
-            savePicker.SuggestedFileName = "Receipt";
+                // Calculate the position for the top right corner of the header
+                double headerImageX = 450; // Adjust the value as needed for horizontal position
+                double headerImageY = 10; // Adjust the value as needed for vertical position
+                double headerImageWidth = 150; // Adjust the value as needed for image width
+                double headerImageHeight = 100; // Adjust the value as needed for image height
 
-            StorageFile file = await savePicker.PickSaveFileAsync();
-            if (file != null)
-            {
-                CachedFileManager.DeferUpdates(file);
-                await pdfFile.CopyAndReplaceAsync(file);
-                FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
-                if (status == FileUpdateStatus.Complete)
+                // Draw the image as the header at the calculated position
+                gfx.DrawImage(headerImage, new XRect(headerImageX, headerImageY, headerImageWidth, headerImageHeight));
+
+                // Set font and brush for drawing text
+                XFont font = new XFont("Courier New", 12, XFontStyle.Bold);
+                XBrush brush = XBrushes.Blue;
+
+                // Split receipt content into lines
+                string[] lines = receiptContent.Split('\n');
+
+                // Set starting position for drawing text
+                double textYPosition = 40;
+
+                // Draw each line of the receipt content
+                foreach (string line in lines)
                 {
-                    // File saved successfully
+                    gfx.DrawString(line, font, brush, new XPoint(40, textYPosition));
+                    textYPosition += 20; // Adjust line spacing as needed
+                }
+
+
+                // Draw footer
+                string footerText1 = "Thank you for choosing Ferdin TubigHub :)";
+                XSize footerTextSize1 = gfx.MeasureString(footerText1, font);
+                double footerX1 = (page.Width - footerTextSize1.Width) / 2;
+                double footerY1 = page.Height - 60; // Adjust the value as needed for vertical position
+                gfx.DrawString(footerText1, font, brush, new XPoint(footerX1, footerY1));
+
+                string footerText2 = "Please save this receipt for your reference.";
+                XSize footerTextSize2 = gfx.MeasureString(footerText2, font);
+                double footerX2 = (page.Width - footerTextSize2.Width) / 2;
+                double footerY2 = page.Height - 40; // Adjust the value as needed for vertical position
+                gfx.DrawString(footerText2, font, brush, new XPoint(footerX2, footerY2));
+
+                // Save the PDF document to a file
+                StorageFile pdfFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("Receipt.pdf", CreationCollisionOption.ReplaceExisting);
+                using (var fileStream = await pdfFile.OpenStreamForWriteAsync())
+                {
+                    document.Save(fileStream, false);
+                }
+
+                // Show file picker for the user to save the PDF file
+                var savePicker = new Windows.Storage.Pickers.FileSavePicker();
+                savePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
+                savePicker.FileTypeChoices.Add("Adobe PDF Document", new List<string>() { ".pdf" });
+                savePicker.SuggestedFileName = "Receipt";
+
+                StorageFile file = await savePicker.PickSaveFileAsync();
+                if (file != null)
+                {
+                    CachedFileManager.DeferUpdates(file);
+                    await pdfFile.CopyAndReplaceAsync(file);
+                    FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
+                    if (status == FileUpdateStatus.Complete)
+                    {
+                        Buttons.ShowMessage("Receipt saved successfully");
+                    }
+                    else
+                    {
+                        Buttons.ShowMessage("Receipt failed to save");
+                    }
                 }
                 else
                 {
-                    // Failed to save file
+                    Buttons.ShowMessage("User cancelled to save the receipt");
                 }
-            }
-            else
-            {
-                // User canceled the operation
-            }
 
-            // Clear the ProductCartList after the receipt dialog is closed
-            ProductCartList.Clear();
-            LoadCartItems(); // Refresh the cart UI
+                // Clear the ProductCartList after the receipt dialog is closed
+                ProductCartList.Clear();
+                LoadCartItems(); // Refresh the cart UI
+            }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+         
         }
 
 
@@ -529,43 +625,89 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            // If the user is typing
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            try
             {
-                string userInput = sender.Text.ToLower(); // Get the user input and convert it to lowercase
-
-                // Filter the ProductCartList based on the user input
-                var filteredList = ProductCartList.Where(item => item.ProductName.ToLower().Contains(userInput)).ToList();
-
-                // Assign the filtered list to the ItemsSource of the ListView
-                ListViewCart.ItemsSource = filteredList;
-
-                // If there's no user input, display all items
-                if (string.IsNullOrWhiteSpace(userInput))
+                // If the user is typing
+                if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
                 {
-                    ListViewCart.ItemsSource = ProductCartList;
+                    string userInput = sender.Text.ToLower(); // Get the user input and convert it to lowercase
+
+                    // Filter the ProductCartList based on the user input
+                    var filteredList = ProductCartList.Where(item => item.ProductName.ToLower().Contains(userInput)).ToList();
+
+                    // Assign the filtered list to the ItemsSource of the ListView
+                    ListViewCart.ItemsSource = filteredList;
+
+                    // If there's no user input, display all items
+                    if (string.IsNullOrWhiteSpace(userInput))
+                    {
+                        ListViewCart.ItemsSource = ProductCartList;
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+        
         }
 
         private void tbxGcash_TextChanged(object sender, TextChangedEventArgs e)
         {
-            UpdatePayButtonState();
+            try
+            {
+                UpdatePayButtonState();
+            }
+            catch(Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
         }
 
         private void tbxCard_TextChanged(object sender, TextChangedEventArgs e)
         {
-            UpdatePayButtonState();
+            try
+            {
+                UpdatePayButtonState();
+
+            }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
         }
 
         private void UpdatePayButtonState()
         {
-            // Check if GCash and Debit Card text boxes are not empty
-            bool gcashFilled = !string.IsNullOrWhiteSpace(tbxGcash.Text);
-            bool cardFilled = !string.IsNullOrWhiteSpace(tbxCard.Text);
+            try
+            {
+                // Check if GCash and Debit Card text boxes are not empty
+                bool gcashFilled = !string.IsNullOrWhiteSpace(tbxGcash.Text);
+                bool cardFilled = !string.IsNullOrWhiteSpace(tbxCard.Text);
 
-            // Enable the Pay button if both text boxes are filled, otherwise disable it
-            btnPay.IsEnabled = gcashFilled || cardFilled;
+                // Enable the Pay button if both text boxes are filled, otherwise disable it
+                btnPay.IsEnabled = gcashFilled || cardFilled;
+            }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+         
+        }
+
+           
+
+        private void tbxPhoneNumber_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            try
+            {
+                // Check if the pressed key is a numeric key (0-9) or a control key
+                Buttons.HandleNumericInput(e);
+            }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
         }
     }
 }

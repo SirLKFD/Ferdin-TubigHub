@@ -30,84 +30,122 @@ namespace Ferdin_TB_Hub
     {
 
         private List<Page> pageInstances = new List<Page>();
-
-        //PASSING DATABASE
         private BuyerDetails _buyer;
         private ProductDetails _productdetails;
 
 
         public HomePage()
         {
-            this.InitializeComponent();
+            try
+            {
+                this.InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
         }
 
         private void NavigationView_Loaded(object sender, RoutedEventArgs e)
         {
-            contentFrame.Navigate(typeof(Home));
+            try
+            {
+                contentFrame.Navigate(typeof(Home));
+            }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
         }
 
 
 
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            NavigationViewItem item = args.SelectedItem as NavigationViewItem;
-
-            switch (item.Tag.ToString())
+            try
             {
-                case "Locate":                  
-                    contentFrame.Navigate(typeof(Locate), _buyer);
-                    break;
-                case "Account":
-                    //THE BUYER INFO WILL BE PASSED TO THE ACCOUNT BUYER
-                    contentFrame.Navigate(typeof(AccountBuyer), _buyer);
-                    break;
-                case "Home":
-                    contentFrame.Navigate(typeof(Home), _buyer);
-                    break;               
-                case "Cart":
-                    contentFrame.Navigate(typeof(Cart), _buyer);
-                    break;
-                case "History":
-                    contentFrame.Navigate(typeof(OrderHistory), _buyer);
-                    break;
+                NavigationViewItem item = args.SelectedItem as NavigationViewItem;
 
-               
+                switch (item.Tag.ToString())
+                {
+                    case "Locate":
+                        contentFrame.Navigate(typeof(Locate), _buyer);
+                        break;
+                    case "Account":
+                        //THE BUYER INFO WILL BE PASSED TO THE ACCOUNT BUYER
+                        contentFrame.Navigate(typeof(AccountBuyer), _buyer);
+                        break;
+                    case "Home":
+                        contentFrame.Navigate(typeof(Home), _buyer);
+                        break;
+                    case "Cart":
+                        contentFrame.Navigate(typeof(Cart), _buyer);
+                        break;
+                    case "History":
+                        contentFrame.Navigate(typeof(OrderHistory), _buyer);
+                        break;
 
+                }
             }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+          
         }
         private void GoingBack(NavigationView sender, NavigationViewBackRequestedEventArgs args)
         {
-           // Create a logic that will go back to the previous page when the back button is clicked
-            if (contentFrame.CanGoBack)
+            try
             {
-                // Fix the code below
+                // Create a logic that will go back to the previous page when the back button is clicked
+                if (contentFrame.CanGoBack)
+                {
+                    // Fix the code below
 
-                contentFrame.GoBack();
+                    contentFrame.GoBack();
+                }
             }
-          
-           
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+                         
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            base.OnNavigatedTo(e);
-
-            if (e.Parameter != null && e.Parameter is BuyerDetails)
+            try
             {
-                _buyer = e.Parameter as BuyerDetails;
-            }
+                base.OnNavigatedTo(e);
 
-            // Add the current instance of the page to the collection
-            pageInstances.Add(this);
+                if (e.Parameter != null && e.Parameter is BuyerDetails)
+                {
+                    _buyer = e.Parameter as BuyerDetails;
+                }
+
+                // Add the current instance of the page to the collection
+                pageInstances.Add(this);
+            }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+          
 
         }
-
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            base.OnNavigatingFrom(e);
+            try
+            {
+                base.OnNavigatingFrom(e);
 
-            // Remove the current instance of the page from the collection
-            pageInstances.Remove(this);
+                // Remove the current instance of the page from the collection
+                pageInstances.Remove(this);
+            }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }      
         }
     }
 }

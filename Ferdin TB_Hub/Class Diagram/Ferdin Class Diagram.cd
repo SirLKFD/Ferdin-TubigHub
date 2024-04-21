@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Ferdin_TB_Hub.Classes.Buttons" Collapsed="true">
-    <Position X="14" Y="2" Width="1.5" />
+  <Class Name="Ferdin_TB_Hub.Classes.Buttons">
+    <Position X="13" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAgAAAAAAAAAAACBAAAAAAAABAAAAAAAAAAAAAA=</HashCode>
       <FileName>Classes\Buttons.cs</FileName>
@@ -12,7 +12,7 @@
     <TypeIdentifier />
   </Class>
   <Class Name="Ferdin_TB_Hub.HomePage_NavigationView.Cart">
-    <Position X="6" Y="5.75" Width="1.5" />
+    <Position X="4" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gEAAAgAAAQEAAAAAIxASAQQggQAUAAAAACAAAIEAAAQ=</HashCode>
       <FileName>HomePage_NavigationView\Cart.xaml.cs</FileName>

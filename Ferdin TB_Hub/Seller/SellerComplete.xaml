@@ -29,7 +29,7 @@
 
         <ComboBox x:Name="cbxTable" PlaceholderText="Query Table" Margin="835,60,0,0" Width="215" SelectionChanged="cbxTable_SelectionChanged">
             <ComboBoxItem Content="All"/>
-            <ComboBoxItem Content="Product Name / Product Category / Price"/>
+            <ComboBoxItem Content="Product"/>
             <ComboBoxItem Content="Customer Info"/>
             <ComboBoxItem Content="Addresses"/>
             <ComboBoxItem Content="Payment Details"/>

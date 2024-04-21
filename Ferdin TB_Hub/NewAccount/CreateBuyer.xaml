@@ -33,8 +33,7 @@
         <RelativePanel Grid.Column="1"/>
         <RelativePanel Grid.Column="2"/>
         <RelativePanel Grid.Column="3" Margin="50,0,0,0"/>
-        <ScrollViewer HorizontalScrollMode="Enabled" Grid.Column="1"
-                  Foreground="{ThemeResource SystemAccentColor}">
+        <ScrollViewer HorizontalScrollMode="Enabled" Grid.Column="1">
 
             <StackPanel>
                 <Grid>
@@ -192,7 +191,7 @@
                         Margin="50,0,50,0"
                          BorderThickness="0,0,0,3"
                          CornerRadius="5"
-                         MaxLength="11"
+                         MaxLength="12"
                          BorderBrush="SkyBlue" PreviewKeyDown="Phone_Numeric"/>
 
                     <TextBlock Grid.Row="15"

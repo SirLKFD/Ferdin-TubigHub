@@ -11,10 +11,7 @@
 
     <Grid>
 
-        <ScrollViewer
-
-Foreground="{ThemeResource SystemAccentColor}" Margin="0,0,-298,0">
-
+        <ScrollViewer>
             <StackPanel>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -36,7 +33,7 @@ Foreground="{ThemeResource SystemAccentColor}" Margin="0,0,-298,0">
 
 
                     <ScrollViewer Grid.Row="2" Margin="0,0,66,0">
-                        <RichTextBlock x:Name="TermsAndConditions" Grid.Row="2" Margin="60,0,51,-120" Grid.RowSpan="4" Height="1316" Width="606">
+                        <RichTextBlock  x:Name="TermsAndConditions" Grid.Row="2" Margin="60,0,51,-120" Grid.RowSpan="4" Height="1316" Width="606">
                            
                         </RichTextBlock>
 

@@ -11,13 +11,11 @@
 
     <Page.Resources>
         <Style x:Key="AccentButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonRevealStyle}">
-            <!-- Additional properties for your button style -->
-            <Setter Property="Background" Value="ForestGreen"/>
+            <!-- Additional properties for your button style -->        
             <Setter Property="CornerRadius" Value="10"/>
             <!-- Other setters for properties like Foreground, BorderBrush, etc. -->
         </Style>
     </Page.Resources>
-
 
 
     <Grid>
@@ -28,9 +26,7 @@
             <ColumnDefinition Width="700" />
         </Grid.ColumnDefinitions>
         <RelativePanel Grid.Column="0" Background="DeepSkyBlue"/>
-        <ScrollViewer Grid.Column="1"
-                      
-                  Foreground="{ThemeResource SystemAccentColor}">
+        <ScrollViewer Grid.Column="1">
 
 
 
@@ -208,7 +204,7 @@
                     <TextBox Grid.Row="17"
                       x:Name="tbxPhoneNumber"  
                       PreviewKeyDown='Phone_Numeric'
-                      MaxLength="11"
+                      MaxLength="12"
                         FontSize="25"
                           Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}"
                         Margin="50,0,50,0"

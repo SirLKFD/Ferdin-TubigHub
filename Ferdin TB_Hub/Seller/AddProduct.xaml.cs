@@ -34,49 +34,72 @@ namespace Ferdin_TB_Hub.Seller
     {
         private StorageFile selectedFile;
         private int currentSellerID;
-
         private ProductDetails _productdetails;
         public AddProduct()
         {
-            this.InitializeComponent();
+            try
+            {
+                this.InitializeComponent();
+
+            }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
          
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            base.OnNavigatedTo(e);
-
-            // Check if the parameter is not null and is of type string
-            if (e.Parameter != null && e.Parameter is string)
+            try
             {
-                // Cast the parameter to string and assign it to SellerID TextBox
-                tbxSellerID.Text = e.Parameter as string;
+                base.OnNavigatedTo(e);
+
+                // Check if the parameter is not null and is of type string
+                if (e.Parameter != null && e.Parameter is string)
+                {
+                    // Cast the parameter to string and assign it to SellerID TextBox
+                    tbxSellerID.Text = e.Parameter as string;
+                }
             }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+          
         }
 
         private async void InsertPicture_Click(object sender, RoutedEventArgs e)
         {
-            // Create file picker
-            var picker = new FileOpenPicker();
-            picker.ViewMode = PickerViewMode.Thumbnail;
-            picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-            picker.FileTypeFilter.Add(".jpg");
-            picker.FileTypeFilter.Add(".jpeg");
-            picker.FileTypeFilter.Add(".png");
-
-            // Show file picker
-            selectedFile = await picker.PickSingleFileAsync();
-            if (selectedFile != null)
+            try
             {
-                // Open a stream for the selected file
-                using (var stream = await selectedFile.OpenAsync(FileAccessMode.Read))
+                // Create file picker
+                var picker = new FileOpenPicker();
+                picker.ViewMode = PickerViewMode.Thumbnail;
+                picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+                picker.FileTypeFilter.Add(".jpg");
+                picker.FileTypeFilter.Add(".jpeg");
+                picker.FileTypeFilter.Add(".png");
+
+                // Show file picker
+                selectedFile = await picker.PickSingleFileAsync();
+                if (selectedFile != null)
                 {
-                    // Set the image source to the selected bitmap
-                    BitmapImage bitmapImage = new BitmapImage();
-                    await bitmapImage.SetSourceAsync(stream);
-                    ProductImage.Source = bitmapImage;
+                    // Open a stream for the selected file
+                    using (var stream = await selectedFile.OpenAsync(FileAccessMode.Read))
+                    {
+                        // Set the image source to the selected bitmap
+                        BitmapImage bitmapImage = new BitmapImage();
+                        await bitmapImage.SetSourceAsync(stream);
+                        ProductImage.Source = bitmapImage;
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+          
         }
 
         private async Task<byte[]> ConvertImageToByteArray(StorageFile file)
@@ -96,96 +119,104 @@ namespace Ferdin_TB_Hub.Seller
 
         private async void SubmitProduct_Click(object sender, RoutedEventArgs e)
         {
-            // Check if any of the textboxes are empty
-            if (string.IsNullOrWhiteSpace(tbxProductName.Text) ||
-                string.IsNullOrWhiteSpace(tbxProductPrice.Text) ||
-                string.IsNullOrWhiteSpace(tbxProductDescription.Text) ||
-                string.IsNullOrWhiteSpace(tbxProductQuantity.Text))
+            try
             {
-                // Prompt the user to reinput if any of the textboxes are empty
-                Buttons.ShowPrompt("Please fill in all fields before submitting.");
-                return;
+                // Check if any of the textboxes are empty
+                if (string.IsNullOrWhiteSpace(tbxProductName.Text) ||
+                    string.IsNullOrWhiteSpace(tbxProductPrice.Text) ||
+                    string.IsNullOrWhiteSpace(tbxProductDescription.Text) ||
+                    string.IsNullOrWhiteSpace(tbxProductQuantity.Text))
+                {
+                    // Prompt the user to reinput if any of the textboxes are empty
+                    Buttons.ShowPrompt("Please fill in all fields before submitting.");
+                    return;
+                }
+
+                // Check if product price is a valid number and not negative
+                if (!double.TryParse(tbxProductPrice.Text, out double productPrice) || productPrice < 0)
+                {
+                    // Prompt the user to reinput if product price is not a valid number or negative
+                    Buttons.ShowPrompt("Please enter a valid, non-negative price for the product.");
+                    return;
+                }
+
+                // Check if product quantity is a valid number and not negative
+                if (!int.TryParse(tbxProductQuantity.Text, out int productQuantity) || productQuantity < 0)
+                {
+                    // Prompt the user to reinput if product quantity is not a valid number or negative
+                    Buttons.ShowPrompt("Please enter a valid, non-negative quantity for the product.");
+                    return;
+                }
+
+                // Check if a category is selected
+                if (cbxProductCategory.SelectedItem == null)
+                {
+                    // Prompt the user to select a category
+                    Buttons.ShowPrompt("Please select a category for the product.");
+                    return;
+                }
+
+                // Check if an image is selected
+                if (selectedFile == null)
+                {
+                    // Prompt the user to select an image
+                    Buttons.ShowPrompt("Please select an image for the product.");
+                    return;
+                }
+
+                // Ask the user for confirmation
+                ContentDialog confirmDialog = new ContentDialog
+                {
+                    Title = "Confirmation",
+                    Content = "Are you sure you want to submit this product?",
+                    PrimaryButtonText = "Yes",
+                    CloseButtonText = "No"
+                };
+
+                ContentDialogResult result = await confirmDialog.ShowAsync();
+                if (result == ContentDialogResult.Primary)
+                {
+                    var seller = DataContext as SellerDetails;
+
+                    // If the user confirms, proceed to add the product
+                    string productName = tbxProductName.Text;
+                    string productCategory = (cbxProductCategory.SelectedItem as ComboBoxItem)?.Content.ToString();
+                    string productDescription = tbxProductDescription.Text;
+                    string sellerIDText = tbxSellerID.Text; // Get the text from the TextBox
+                    int ADDsellerID;
+                    int.TryParse(sellerIDText, out ADDsellerID); // Convert the text to an integer
+
+                    byte[] productPicture = await ConvertImageToByteArray(selectedFile);
+
+                    DatabaseAccess dbAccess = new DatabaseAccess();
+
+                    //  int sellerID = dbAccess.RetrieveSellerIDFromDatabase(ADDsellerID);
+
+                    Database.AddProduct(productName, productCategory, productPrice, productDescription, productQuantity, productPicture, ADDsellerID);
+
+                    // Clear the textboxes
+                    tbxProductName.Text = "";
+                    tbxProductPrice.Text = "";
+                    tbxProductDescription.Text = "";
+                    tbxProductQuantity.Text = "";
+                    cbxProductCategory.SelectedIndex = -1;
+                    ProductImage.Source = null;
+
+
+
+                    // Optionally, display a success message or navigate to another page
+                }
+                else
+                {
+                    // If the user cancels, do nothing
+                    return;
+                }
             }
-
-            // Check if product price is a valid number and not negative
-            if (!double.TryParse(tbxProductPrice.Text, out double productPrice) || productPrice < 0)
+            catch (Exception ex)
             {
-                // Prompt the user to reinput if product price is not a valid number or negative
-                Buttons.ShowPrompt("Please enter a valid, non-negative price for the product.");
-                return;
+                Buttons.ShowMessage(ex.Message);
             }
-
-            // Check if product quantity is a valid number and not negative
-            if (!int.TryParse(tbxProductQuantity.Text, out int productQuantity) || productQuantity < 0)
-            {
-                // Prompt the user to reinput if product quantity is not a valid number or negative
-                Buttons.ShowPrompt("Please enter a valid, non-negative quantity for the product.");
-                return;
-            }
-
-            // Check if a category is selected
-            if (cbxProductCategory.SelectedItem == null)
-            {
-                // Prompt the user to select a category
-                Buttons.ShowPrompt("Please select a category for the product.");
-                return;
-            }
-
-            // Check if an image is selected
-            if (selectedFile == null)
-            {
-                // Prompt the user to select an image
-                Buttons.ShowPrompt("Please select an image for the product.");
-                return;
-            }
-
-            // Ask the user for confirmation
-            ContentDialog confirmDialog = new ContentDialog
-            {
-                Title = "Confirmation",
-                Content = "Are you sure you want to submit this product?",
-                PrimaryButtonText = "Yes",
-                CloseButtonText = "No"
-            };
-
-            ContentDialogResult result = await confirmDialog.ShowAsync();
-            if (result == ContentDialogResult.Primary)
-            {
-                var seller = DataContext as SellerDetails;
-
-                // If the user confirms, proceed to add the product
-                string productName = tbxProductName.Text;
-                string productCategory = (cbxProductCategory.SelectedItem as ComboBoxItem)?.Content.ToString();
-                string productDescription = tbxProductDescription.Text;
-                string sellerIDText = tbxSellerID.Text; // Get the text from the TextBox
-                int ADDsellerID;
-                int.TryParse(sellerIDText, out ADDsellerID); // Convert the text to an integer
-
-                byte[] productPicture = await ConvertImageToByteArray(selectedFile);
-
-                DatabaseAccess dbAccess = new DatabaseAccess();
-
-              //  int sellerID = dbAccess.RetrieveSellerIDFromDatabase(ADDsellerID);
-
-                Database.AddProduct(productName, productCategory, productPrice, productDescription, productQuantity, productPicture, ADDsellerID);
-
-                // Clear the textboxes
-                tbxProductName.Text = "";
-                tbxProductPrice.Text = "";
-                tbxProductDescription.Text = "";
-                tbxProductQuantity.Text = "";
-                cbxProductCategory.SelectedIndex = -1;
-                ProductImage.Source = null;
-
-
-
-                // Optionally, display a success message or navigate to another page
-            }
-            else
-            {
-                // If the user cancels, do nothing
-                return;
-            }
+         
         }
 
 

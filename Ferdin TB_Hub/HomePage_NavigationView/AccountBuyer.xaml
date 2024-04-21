@@ -144,7 +144,7 @@
                 <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="299,770,0,0" TextWrapping="Wrap" Text="https://learn.microsoft.com/en-us/windows/uwp/" VerticalAlignment="Top"/>
 
 
-                <TextBlock HorizontalAlignment="Left" FontSize="20" FontStyle="Italic" Margin="170,839,0,0" TextWrapping="Wrap" Text="The app uses open-source source code through Microsoft Public License" VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" FontSize="20" FontStyle="Italic" Margin="170,839,0,0" TextWrapping="Wrap" Text="The app uses some open-source code through Microsoft Public License" VerticalAlignment="Top"/>
 
 
                 <TextBlock FontSize="15" Foreground="{ThemeResource SystemAccentColor}" Text="RELEASE BUILD 1.0.0" Margin="602,177,234,936" FontWeight="Bold"/>

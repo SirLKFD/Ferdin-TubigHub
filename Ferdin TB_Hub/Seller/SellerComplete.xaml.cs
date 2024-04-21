@@ -17,6 +17,7 @@ using static Ferdin_TB_Hub.Classes.Database;
 using Windows.Storage.Pickers;
 using OfficeOpenXml;
 using Windows.Storage;
+using Windows.Storage.Provider;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -55,6 +56,9 @@ namespace Ferdin_TB_Hub.Seller
                 receiptDataGrid.Columns["Email"].ColumnName = "Payment";
                 receiptDataGrid.Columns["PaymentMethod"].ColumnName = "Email";
                 receiptDataGrid.Columns["DatePurchased"].ColumnName = "Date Purchased";
+
+                receiptDataGrid.Columns["ProductQuantity"].Visible = false;
+
             }
             catch (Exception ex)
             {
@@ -204,7 +208,7 @@ namespace Ferdin_TB_Hub.Seller
                     column.Visible = true;
                 }
                 break;
-            case "Product Name / Product Category / Price":
+            case "Product":
                 // Show only the specified columns
                 receiptDataGrid.Columns["ProductName"].Visible = true;
                 receiptDataGrid.Columns["ProductCategory"].Visible = true;
@@ -246,6 +250,8 @@ namespace Ferdin_TB_Hub.Seller
 
         private async void ExportToExcel()
         {
+            bool isFileSaved = false;
+
             // Create a FileSavePicker
             FileSavePicker savePicker = new FileSavePicker();
             savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
@@ -318,6 +324,22 @@ namespace Ferdin_TB_Hub.Seller
                         await stream.FlushAsync();
                         stream.Position = 0;
                         await excelPackage.SaveAsAsync(stream);
+
+                        isFileSaved = true;
+
+                        // Check if the file was saved successfully
+                        if (isFileSaved)
+                        {
+                            // Notify the user about successful file saving
+                            Buttons.ShowMessage("File saved successfully.");
+                        }
+                        else
+                        {
+                            // Notify the user about unsuccessful file saving
+                            Buttons.ShowMessage("File failed to saved.");
+                        }
+
+
                     }
                 }
             }
