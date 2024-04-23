@@ -36,6 +36,7 @@
                         <StackPanel>
                             <TextBlock Text="{Binding ProductName}" FontSize="20" FontWeight="Bold"/>
                             <TextBlock Text="{Binding ProductCategory}" FontSize="16"/>
+
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>
@@ -78,7 +79,7 @@
                     <TextBox IsEnabled="False" Visibility="Collapsed" TextChanged="tbxSellerID_TextChanged" x:Name="tbxSellerID"  HorizontalAlignment="Left" Margin="368,554,0,0" TextWrapping="Wrap" Text="{Binding Seller.SELLER_ID, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="87"/>
                     <TextBlock Visibility="Collapsed" HorizontalAlignment="Left" Margin="302,561,0,0" TextWrapping="Wrap" Text="SellerID" VerticalAlignment="Top"/>
 
-                    <TextBox x:Name="tbxProductDescription" HorizontalAlignment="Left" Margin="212,303,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="344" Height="215"/>
+                    <RichEditBox x:Name="tbxProductDescription" HorizontalAlignment="Left" Margin="212,303,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="344" Height="215"/>
                     <TextBox x:Name="tbxProductQuantity" HorizontalAlignment="Left" Margin="212,554,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77"/>
 
                     <Button IsEnabled="False" x:Name="ChangePicture" Click="ChangePicture_Click" CornerRadius="5" Foreground="White" Background="{ThemeResource SystemAccentColor}" Content="Change Picture" Margin="68,708,0,0" VerticalAlignment="Top"/>

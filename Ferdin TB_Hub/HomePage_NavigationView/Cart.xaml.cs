@@ -322,7 +322,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
                     if (productDetails != null)
                     {
                         // Pass each item to the receipt with correct product category and buyer ID
-                        PassProductToReceipt(productCart, lastName, firstName, middleName, phoneNumber, productDetails.ProductCategory, addressLine1, addressLine2, email, paymentMethod, datePurchased, buyerID);
+                        PassProductToReceipt(productCart, lastName, firstName, middleName, phoneNumber, productDetails.ProductCategory, addressLine1, addressLine2, email, paymentMethod, datePurchased, Buyer.BUYER_ID, productDetails.Seller_ID);
                     }
                 }
 
@@ -379,6 +379,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
 
                 // Retrieve the product name and quantity of the selected product
                 string productName = selectedProduct.ProductName;
+              //  long productSKU = selectedProduct.ProductSKU;
                 int quantity = selectedProduct.ProductQuantity;
 
                 // Delete the product from the cart
@@ -388,7 +389,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
 
                 int sellerID = BuyerAndSellerID.SellerID;
 
-                Database.RestoreProductQuantity(productName, quantity + 1);
+                Database.RestoreProductQuantityByProductName(selectedProduct.ProductName, selectedProduct.ProductQuantity + 1);
 
                 // Refresh the cart items
                 LoadCartItems();
@@ -695,8 +696,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
          
         }
-
-           
+       
 
         private void tbxPhoneNumber_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {

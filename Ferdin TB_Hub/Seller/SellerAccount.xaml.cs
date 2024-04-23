@@ -152,7 +152,16 @@ namespace Ferdin_TB_Hub.Seller
                 if (!int.TryParse(tbxID.Text, out seller_id))
                 {
                     // Handle invalid input (e.g., display an error message)
+                    Buttons.ShowMessage("Invalid seller ID.");
                     return;
+                }
+
+                // Check if the username or email already exists
+                if (Database.IsSellerAlreadyExists(username, email, businessName))
+                {
+                    // Show an error message indicating that the username or email is already taken
+                    Buttons.ShowMessage("Username, email, and store already exists. Please choose another one.");
+                    return; // Exit the method without proceeding further
                 }
 
                 // Create a confirmation dialog

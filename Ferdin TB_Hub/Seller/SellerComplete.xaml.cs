@@ -53,11 +53,7 @@ namespace Ferdin_TB_Hub.Seller
                 receiptDataGrid.Columns["PhoneNumber"].ColumnName = "Phone Number";
                 receiptDataGrid.Columns["AddressLine1"].ColumnName = "Address Line 1";
                 receiptDataGrid.Columns["AddressLine2"].ColumnName = "Address Line 2";
-                receiptDataGrid.Columns["Email"].ColumnName = "Payment";
-                receiptDataGrid.Columns["PaymentMethod"].ColumnName = "Email";
                 receiptDataGrid.Columns["DatePurchased"].ColumnName = "Date Purchased";
-
-                receiptDataGrid.Columns["ProductQuantity"].Visible = false;
 
             }
             catch (Exception ex)
@@ -70,11 +66,7 @@ namespace Ferdin_TB_Hub.Seller
 
         private void LoadProductReceipts()
         {
-            // Fetch product receipts from the database
             ProductReceipts = Database.GetProductReceipts();
-
-            // Notify the UI that the data has changed
-            //ReceiptListView.ItemsSource = ProductReceipts;
         }
 
         private void SetTextValues()
@@ -143,16 +135,16 @@ namespace Ferdin_TB_Hub.Seller
                         tbxTotalPurchases.Visibility = Visibility.Visible;
                         lblTotalPurchases.Visibility = Visibility.Visible;
                         tbxMostPurchased.Visibility = Visibility.Collapsed;
-                        lblMostPurchased.Visibility = Visibility.Collapsed;               
+                        lblMostPurchased.Visibility = Visibility.Collapsed;
                         tbxBestSelling.Visibility = Visibility.Collapsed;
                         lblBestSelling.Visibility = Visibility.Collapsed;
                         break;
-                     
+
                     case "Best Selling Category":
                         tbxTotalPurchases.Visibility = Visibility.Collapsed;
                         lblTotalPurchases.Visibility = Visibility.Collapsed;
                         tbxMostPurchased.Visibility = Visibility.Collapsed;
-                        lblMostPurchased.Visibility = Visibility.Collapsed;                  
+                        lblMostPurchased.Visibility = Visibility.Collapsed;
                         tbxBestSelling.Visibility = Visibility.Visible;
                         lblBestSelling.Visibility = Visibility.Visible;
                         break;
@@ -160,7 +152,7 @@ namespace Ferdin_TB_Hub.Seller
                         tbxTotalPurchases.Visibility = Visibility.Collapsed;
                         lblTotalPurchases.Visibility = Visibility.Collapsed;
                         tbxMostPurchased.Visibility = Visibility.Visible;
-                        lblMostPurchased.Visibility = Visibility.Visible;      
+                        lblMostPurchased.Visibility = Visibility.Visible;
                         tbxBestSelling.Visibility = Visibility.Collapsed;
                         lblBestSelling.Visibility = Visibility.Collapsed;
                         break;
@@ -177,70 +169,106 @@ namespace Ferdin_TB_Hub.Seller
         }
 
         private void cbxTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
-{
-    // Get the selected item from the ComboBox
-    ComboBoxItem selectedItem = cbxTable.SelectedItem as ComboBoxItem;
-    if (selectedItem != null)
-    {
-
-          receiptDataGrid.Columns["Email"].ColumnName = "Payment";
-          receiptDataGrid.Columns["PaymentMethod"].ColumnName = "Email";
-
+        {
+            // Get the selected item from the ComboBox
+            ComboBoxItem selectedItem = cbxTable.SelectedItem as ComboBoxItem;
+            if (selectedItem != null)
+            {
                 // Get the content of the selected item
                 string selectedItemContent = selectedItem.Content.ToString();
 
-        // Hide all columns initially
-        foreach (var column in receiptDataGrid.Columns)
-        {
-            column.Visible = false;
-        }
-
-        // Always show the OrderNumber column
-        receiptDataGrid.Columns["OrderNumber"].Visible = true;
-
-        // Show columns based on the selected item
-        switch (selectedItemContent)
-        {
-            case "All":
-                // Show all columns
+                // Hide all columns initially
                 foreach (var column in receiptDataGrid.Columns)
                 {
-                    column.Visible = true;
+                    column.Visible = false;
                 }
-                break;
-            case "Product":
-                // Show only the specified columns
-                receiptDataGrid.Columns["ProductName"].Visible = true;
-                receiptDataGrid.Columns["ProductCategory"].Visible = true;
-                receiptDataGrid.Columns["ProductPrice"].Visible = true;
-                break;
-            case "Customer Info":
-                // Show only customer information columns
 
-                receiptDataGrid.Columns["LastName"].Visible = true;
-                receiptDataGrid.Columns["FirstName"].Visible = true;
-                receiptDataGrid.Columns["MiddleName"].Visible = true;
-                receiptDataGrid.Columns["PhoneNumber"].Visible = true;
-                receiptDataGrid.Columns["PaymentMethod"].ColumnName = "Email";
-                receiptDataGrid.Columns["PaymentMethod"].Visible = true;
-                break;
-            case "Addresses":
-                // Show only address columns
-                receiptDataGrid.Columns["AddressLine1"].Visible = true;
-                receiptDataGrid.Columns["AddressLine2"].Visible = true;
-                break;
-            case "Payment Details":
-                // Show only payment details columns
-                receiptDataGrid.Columns["Email"].ColumnName = "Payment";
-                receiptDataGrid.Columns["Email"].Visible = true;
-                receiptDataGrid.Columns["DatePurchased"].Visible = true;
+                // Always show the OrderNumber column
+                receiptDataGrid.Columns["OrderNumber"].Visible = true;
 
-                break;
-            default:
-                break;
+                // Show columns based on the selected item
+                switch (selectedItemContent)
+                {
+                    case "All":
+                        // Show all columns
+                        foreach (var column in receiptDataGrid.Columns)
+                        {
+                            column.Visible = true;
+                        }
+                        break;
+                    case "Product":
+                        // Show only the specified columns
+                        receiptDataGrid.Columns["ProductName"].Visible = true;
+                        receiptDataGrid.Columns["ProductCategory"].Visible = true;
+                        receiptDataGrid.Columns["ProductPrice"].Visible = true;
+                        break;
+                    case "Customer Info":
+                        // Show only customer information columns
+                        receiptDataGrid.Columns["LastName"].Visible = true;
+                        receiptDataGrid.Columns["FirstName"].Visible = true;
+                        receiptDataGrid.Columns["MiddleName"].Visible = true;
+                        receiptDataGrid.Columns["PhoneNumber"].Visible = true;
+                        receiptDataGrid.Columns["Email"].Visible = true;
+                        break;
+                    case "Addresses":
+                        // Show only address columns
+                        receiptDataGrid.Columns["AddressLine1"].Visible = true;
+                        receiptDataGrid.Columns["AddressLine2"].Visible = true;
+                        break;
+                    case "Payment Details":
+                        // Show only payment details columns
+                        receiptDataGrid.Columns["PaymentMethod"].Visible = true;
+                        receiptDataGrid.Columns["DatePurchased"].Visible = true;
+                        break;
+                    default:
+                        break;
+                }
+
+                // Apply ID sorting
+                ApplyIDSorting();
+            }
         }
-    }
-}
+
+
+
+        private void ApplyIDSorting()
+        {
+            string buyerID = tbxSortBuyerID.Text.Trim();
+            string sellerID = tbxSortSellerID.Text.Trim();
+
+            // If both text boxes are blank, show all
+            if (string.IsNullOrWhiteSpace(buyerID) && string.IsNullOrWhiteSpace(sellerID))
+            {
+                receiptDataGrid.ItemsSource = ProductReceipts;
+                return;
+            }
+
+            // Filter the ProductReceipts based on buyerID and sellerID
+            var filteredReceipts = ProductReceipts.Where(receipt =>
+            {
+                string buyerIDAsString = receipt.Buyer_ID.ToString();
+                string sellerIDAsString = receipt.Seller_ID.ToString();
+
+                bool matchBuyer = string.IsNullOrWhiteSpace(buyerID) || buyerIDAsString.Contains(buyerID, StringComparison.OrdinalIgnoreCase);
+                bool matchSeller = string.IsNullOrWhiteSpace(sellerID) || sellerIDAsString.Contains(sellerID, StringComparison.OrdinalIgnoreCase);
+                return matchBuyer && matchSeller;
+            }).ToList();
+
+            // Set the filtered list as the ItemsSource for your data grid
+            receiptDataGrid.ItemsSource = filteredReceipts;
+        }
+
+
+        private void tbxSortBuyerID_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ApplyIDSorting();
+        }
+
+        private void tbxSortSellerID_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ApplyIDSorting();
+        }
+
 
 
         private void btnExport_Click(object sender, RoutedEventArgs e)
@@ -248,10 +276,12 @@ namespace Ferdin_TB_Hub.Seller
             ExportToExcel();
         }
 
+
         private async void ExportToExcel()
         {
             bool isFileSaved = false;
 
+        
             // Create a FileSavePicker
             FileSavePicker savePicker = new FileSavePicker();
             savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
@@ -320,6 +350,9 @@ namespace Ferdin_TB_Hub.Seller
                         worksheet.Cells[10, 15].Value = "Generated Date:";
                         worksheet.Cells[10, 16].Value = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
 
+                        // Apply sorting before exporting
+                        ApplyIDSorting();
+
                         // Save the ExcelPackage to the selected file
                         await stream.FlushAsync();
                         stream.Position = 0;
@@ -338,14 +371,38 @@ namespace Ferdin_TB_Hub.Seller
                             // Notify the user about unsuccessful file saving
                             Buttons.ShowMessage("File failed to saved.");
                         }
-
-
                     }
-                }
+                }      
+            
             }
+
+
+
         }
 
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            // Clear Buyer ID and Seller ID text boxes
+            tbxSortBuyerID.Text = "";
+            tbxSortSellerID.Text = "";
+
+            // Reset ComboBoxes to their default values
+            cbxShowA.SelectedIndex = 0;
+            cbxTable.SelectedIndex = 0;
+
+            // Reload original ProductReceipts data
+            LoadProductReceipts();
+
+            // Reset visibility settings based on default selection
+            cbxShowA_SelectionChanged(null, null);
+
+            // Set receiptDataGrid's ItemsSource back to original ProductReceipts
+            receiptDataGrid.ItemsSource = ProductReceipts;
+        }
     }
 
+
 }
+
+
 

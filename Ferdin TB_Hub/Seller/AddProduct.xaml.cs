@@ -116,6 +116,21 @@ namespace Ferdin_TB_Hub.Seller
             }
         }
 
+        // Method to check if RichEditBox content is empty
+        private bool IsRichEditBoxEmpty(RichEditBox richEditBox)
+        {
+            string text;
+            richEditBox.Document.GetText(Windows.UI.Text.TextGetOptions.None, out text);
+            return string.IsNullOrWhiteSpace(text);
+        }
+
+        // Method to get the text from RichEditBox
+        private string GetRichEditBoxText(RichEditBox richEditBox)
+        {
+            string text;
+            richEditBox.Document.GetText(Windows.UI.Text.TextGetOptions.None, out text);
+            return text;
+        }
 
         private async void SubmitProduct_Click(object sender, RoutedEventArgs e)
         {
@@ -123,9 +138,9 @@ namespace Ferdin_TB_Hub.Seller
             {
                 // Check if any of the textboxes are empty
                 if (string.IsNullOrWhiteSpace(tbxProductName.Text) ||
-                    string.IsNullOrWhiteSpace(tbxProductPrice.Text) ||
-                    string.IsNullOrWhiteSpace(tbxProductDescription.Text) ||
-                    string.IsNullOrWhiteSpace(tbxProductQuantity.Text))
+                 string.IsNullOrWhiteSpace(tbxProductPrice.Text) ||
+                    string.IsNullOrWhiteSpace(tbxProductQuantity.Text) ||
+             IsRichEditBoxEmpty(tbxProductDescription))
                 {
                     // Prompt the user to reinput if any of the textboxes are empty
                     Buttons.ShowPrompt("Please fill in all fields before submitting.");
@@ -181,7 +196,7 @@ namespace Ferdin_TB_Hub.Seller
                     // If the user confirms, proceed to add the product
                     string productName = tbxProductName.Text;
                     string productCategory = (cbxProductCategory.SelectedItem as ComboBoxItem)?.Content.ToString();
-                    string productDescription = tbxProductDescription.Text;
+                    string productDescription = GetRichEditBoxText(tbxProductDescription);
                     string sellerIDText = tbxSellerID.Text; // Get the text from the TextBox
                     int ADDsellerID;
                     int.TryParse(sellerIDText, out ADDsellerID); // Convert the text to an integer
@@ -197,14 +212,13 @@ namespace Ferdin_TB_Hub.Seller
                     // Clear the textboxes
                     tbxProductName.Text = "";
                     tbxProductPrice.Text = "";
-                    tbxProductDescription.Text = "";
+                    tbxProductDescription.Document.SetText(Windows.UI.Text.TextSetOptions.None, "");
                     tbxProductQuantity.Text = "";
                     cbxProductCategory.SelectedIndex = -1;
                     ProductImage.Source = null;
 
 
-
-                    // Optionally, display a success message or navigate to another page
+                   // Optionally, display a success message or navigate to another page
                 }
                 else
                 {

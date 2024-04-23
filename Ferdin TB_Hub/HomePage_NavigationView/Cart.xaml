@@ -45,7 +45,7 @@
         <AutoSuggestBox TextChanged="AutoSuggestBox_TextChanged" QueryIcon="Find" PlaceholderText="Search Cart" Height="32" Margin="144,66,103,0"/>
 
 
-        <Border BorderBrush="{ThemeResource SystemAccentColor}" CornerRadius="5" BorderThickness="1" Margin="42,143,42,40">
+        <Border BorderBrush="{ThemeResource SystemAccentColor}" CornerRadius="5" BorderThickness="1" Margin="42,143,42,109">
             <ListView Grid.Row="0" x:Name="ListViewCart" Margin="0,26,0,27" HorizontalAlignment="Center" Width="373">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -55,6 +55,7 @@
                                 <StackPanel>
                                     <TextBlock Text="{Binding ProductName}" FontSize="20" FontWeight="Bold" Margin="0,0,0,5"/>
                                     <TextBlock Text="{Binding ProductPrice}" FontSize="16" Margin="0,0,0,5"/>
+                                    <TextBlock Text="{Binding ProductDescription}" FontSize="16" Margin="0,0,0,5"/>
                                     <Button Background="{ThemeResource SystemAccentColor}" CornerRadius="5" Content="Add to Cart" Click="RemoveButton_Click" Margin="0,0,0,5">
                                         <Button.ContentTemplate>
                                             <DataTemplate>

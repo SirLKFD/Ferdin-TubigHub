@@ -51,12 +51,23 @@ namespace Ferdin_TB_Hub
             try
             {
                 contentFrame.Navigate(typeof(Home));
+
+                // Select the "Home" NavigationViewItem
+                foreach (NavigationViewItemBase item in navigationView.MenuItems)
+                {
+                    if (item is NavigationViewItem && (item as NavigationViewItem).Tag.ToString() == "Home")
+                    {
+                        navigationView.SelectedItem = item;
+                        break;
+                    }
+                }
             }
             catch (Exception ex)
             {
                 Buttons.ShowMessage(ex.Message);
             }
         }
+
 
 
 

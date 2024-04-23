@@ -165,7 +165,16 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             if (!int.TryParse(tbxID.Text, out buyer_id))
             {
                 // Handle invalid input (e.g., display an error message)
+                Buttons.ShowMessage("Invalid buyer ID.");
                 return;
+            }
+
+            // Check if the username or email already exists
+            if (Database.IsBuyerAlreadyExists(username, ""))
+            {
+                // Show an error message indicating that the username or email is already taken
+                Buttons.ShowMessage("Username or email already exists. Please choose another one.");
+                return; // Exit the method without proceeding further
             }
 
             // Create a confirmation dialog
@@ -192,7 +201,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
         }
 
-     
+
         private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
             bool isToggleOn = (sender as ToggleSwitch).IsOn;

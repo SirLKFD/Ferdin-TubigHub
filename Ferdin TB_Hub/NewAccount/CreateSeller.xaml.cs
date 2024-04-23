@@ -68,7 +68,7 @@ namespace Ferdin_TB_Hub.NewAccount
             if (Database.IsSellerAlreadyExists(username, email, businessName))
             {
                 // Show an error message indicating that the username is already taken
-                Buttons.ShowMessage("Either Business name, username, and email already exists. Please choose another one.");
+                Buttons.ShowMessage("Either store, username, and email already exists. Please choose another one.");
                 return; // Exit the method without proceeding further
             }
 
@@ -85,6 +85,21 @@ namespace Ferdin_TB_Hub.NewAccount
 
             // Show success message (optional)
             Buttons.ShowMessage("Account created successfully!");
+
+            // Clear all form fields
+            tbxBusinessName.Text = "";
+            tbxEmail.Text = "";
+            tbxUsername.Text = "";
+            tbxLastName.Text = "";
+            tbxFirstName.Text = "";
+            tbxMiddleName.Text = "";
+            RevealPassMode.Password = "";
+            tbxPhoneNumber.Text = "";
+            tbxAddressLine1.Text = "";
+            tbxAddressLine2.Text = "";
+
+            
+
         }
 
 

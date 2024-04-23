@@ -84,7 +84,7 @@
                            FontWeight="Bold"/>
 
                     <TextBlock Grid.Row="1"
-                            Text="Business Name"
+                            Text="Store Name"
                             FontSize="25"
                             Margin="50,0,0,0"/>
 
@@ -251,7 +251,7 @@
 
         </ScrollViewer>
 
-        <ScrollViewer Grid.Column="2" Foreground="DeepSkyBlue" Margin="0,0,10,0">
+        <ScrollViewer Grid.Column="2" Margin="0,0,10,0">
             <Grid>
                 <RadioButton x:Name="acceptRadioButton" Content="I Accept" Margin="0,726,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
                 <Button Style="{StaticResource AccentButtonStyle}"

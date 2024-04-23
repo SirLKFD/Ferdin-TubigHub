@@ -95,6 +95,18 @@ namespace Ferdin_TB_Hub.NewAccount
                 // There was an issue adding the buyer
                 Buttons.ShowMessage("Failed to add buyer, check your fields, and please try again.");
             }
+
+            // Clear all the textboxes
+            tbxEmail.Text = "";
+            tbxUsername.Text = "";
+            tbxLastName.Text = "";
+            tbxFirstName.Text = "";
+            tbxMiddleName.Text = "";
+            RevealPassMode.Password = "";
+            tbxPhoneNumber.Text = "";
+            tbxAddressLine1.Text = "";
+            tbxAddressLine2.Text = "";
+
         }
 
 

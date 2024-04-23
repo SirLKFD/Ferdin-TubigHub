@@ -81,8 +81,11 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
                 // Notify the UI that the Buyer property has changed
                 OnPropertyChanged(nameof(Buyer));
 
+                // Update the tbxBuyerID text after setting the Buyer property
+                tbxBuyerID.Text = Buyer.BUYER_ID.ToString();
             }
         }
+
 
         private void InitializePriceSlider()
         {
@@ -179,40 +182,32 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
         // PASS THE SELECTED PRODUCT TO THE CART
         private void AddToCart_Click(object sender, RoutedEventArgs e)
         {
-            // Get the clicked button and its DataContext (which should be the ProductDetails object)
-            var button = sender as Button;
-            var product = button?.DataContext as ProductDetails;
-            var seller = DataContext as SellerDetails;
-
-            // Check if the product is not null
-            if (product != null)
+            try
             {
-                // Retrieve the buyer's ID using the DatabaseAccess class
-                DatabaseAccess dbAccess = new DatabaseAccess();
+                // Get the clicked button and its DataContext (which should be the ProductDetails object)
+                var button = sender as Button;
+                var product = button?.DataContext as ProductDetails;
+                var seller = DataContext as SellerDetails;
 
-
-                //int buyerID = dbAccess.RetrieveBuyerIDFromDatabase(ADDbuyerID); // Assuming email is used to uniquely identify the buyer
-                int sellerID = dbAccess.RetrieveSellerIDFromDatabase(product.ProductDescription); // Assuming ProductDescription is used to uniquely identify the seller
-
-                // Ensure that the IDs are valid
-                if (sellerID != 0)
+                // Check if the product is not null
+                if (product != null)
                 {
+                    // Retrieve the buyer's ID using the DatabaseAccess class
+                    DatabaseAccess dbAccess = new DatabaseAccess();
+
                     // Call the method to pass the product to the cart with default quantity of 1
-                    Database.PassProductToCart(product, quantity: 1);
+                    Database.PassProductToCart(product, quantity: 1, Buyer.BUYER_ID, product.Seller_ID, product.PRODUCTDETAILS_ID, product.ProductSKU);
 
                     RefreshGridView(); // Assuming you have a method to refresh the grid view
                     UpdateQuantityText(product); // Assuming you have a method to update the quantity text
-
-                    // Optionally, you can provide feedback to the user that the product has been added to the cart
-                    // For example, display a message or update UI elements
-                }
-                else
-                {
-                    // Handle the case where the IDs could not be retrieved (e.g., email not found)
-                    // You might want to display an error message or log the issue
                 }
             }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
         }
+
 
         private void RefreshGridView()
         {
@@ -234,7 +229,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             if (product != null)
             {
                 // Check if the product quantity is zero or less, then disable the button
-                if (Database.GetProductQuantity(product.ProductName) <= 0)
+                if (Database.GetProductQuantity(product.ProductSKU) <= 0)
                 {
                     button.IsEnabled = false;
                 }
@@ -274,7 +269,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
         private void UpdateQuantityText(ProductDetails product)
         {
             // Get the quantity of the selected product
-            int quantity = Database.GetProductQuantity(product.ProductName);
+            int quantity = Database.GetProductQuantity(product.ProductSKU);
 
             // Update the quantity text block
             lblQuanitity.Text = quantity.ToString();

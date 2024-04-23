@@ -10,6 +10,7 @@ using Microsoft.Data.Sqlite;
 using System.Security.Cryptography.X509Certificates;
 using Windows.UI.Xaml;
 using System.Net;
+using Ferdin_TB_Hub.HomePage_NavigationView;
 
 
 namespace Ferdin_TB_Hub.Classes
@@ -78,10 +79,13 @@ namespace Ferdin_TB_Hub.Classes
         {
             // Give me the properties of the ProductCart
             public int ProductCart_ID { get; set; }
-
             public int Buyer_ID { get; set; }
-
+          
             public int Seller_ID { get; set; }
+
+            public int ProductDetails_ID { get; set; }
+
+            public long ProductSKU { get; set; }
             public string ProductName { get; set; }
             public string ProductCategory { get; set; }
             public double ProductPrice { get; set; }
@@ -92,6 +96,10 @@ namespace Ferdin_TB_Hub.Classes
         public class ProductReceipt
         {
             public int PRODUCTRECEIPT_ID { get; set; }
+
+            public int Buyer_ID { get; set; }
+
+            public int Seller_ID { get; set; }
             public long OrderNumber { get; set; }
             public string ProductName { get; set; }
 
@@ -242,6 +250,7 @@ namespace Ferdin_TB_Hub.Classes
                 while (reader.Read())
                 {
                     BuyerDetails buyer = new BuyerDetails();
+                    buyer.BUYER_ID = reader.GetInt32(0);
                     buyer.Email = reader.GetString(1);
                     buyer.Username = reader.GetString(2);
                     buyer.LastName = reader.GetString(3);
@@ -327,14 +336,21 @@ namespace Ferdin_TB_Hub.Classes
         {
             try
             {
-                string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
+                // Check if the username or email already exists
+                if (IsBuyerExists(username, email))
+                {
+                    Buttons.ShowMessage("Username or Email already exists. Please choose a different one.");
+                    return;
+                }
 
+                // Proceed with updating the buyer info
+                string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
                 using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
                 {
                     con.Open();
                     string updateCMD = @"UPDATE Buyers SET Email = @Email, Username = @Username, LastName = @LastName, FirstName = @FirstName, 
-                            MiddleName = @MiddleName, Password = @Password, PhoneNumber = @PhoneNumber, AddressLine1 = @AddressLine1, AddressLine2 = @AddressLine2 
-                            WHERE BUYER_ID = @BUYER_ID";
+                    MiddleName = @MiddleName, Password = @Password, PhoneNumber = @PhoneNumber, AddressLine1 = @AddressLine1, AddressLine2 = @AddressLine2 
+                    WHERE BUYER_ID = @BUYER_ID";
 
                     SqliteCommand cmdUpdateRecord = new SqliteCommand(updateCMD, con);
                     cmdUpdateRecord.Parameters.AddWithValue("@BUYER_ID", buyer_id); // Add Id parameter
@@ -356,7 +372,6 @@ namespace Ferdin_TB_Hub.Classes
             {
                 Buttons.ShowMessage(ex.Message);
             }
-           
         }
 
         // Method to delete a buyer account from the database
@@ -661,6 +676,24 @@ namespace Ferdin_TB_Hub.Classes
                 {
                     con.Open();
 
+                    // Delete associated records from ProductReceipts table
+                    string deleteProductReceiptsCMD = "DELETE FROM ProductReceipts WHERE Seller_ID IN (SELECT SELLER_ID FROM Sellers WHERE Username = @Username OR Email = @Email)";
+                    using (SqliteCommand cmdDeleteProductReceipts = new SqliteCommand(deleteProductReceiptsCMD, con))
+                    {
+                        cmdDeleteProductReceipts.Parameters.AddWithValue("@Username", usernameOrEmail);
+                        cmdDeleteProductReceipts.Parameters.AddWithValue("@Email", usernameOrEmail);
+                        cmdDeleteProductReceipts.ExecuteNonQuery();
+                    }
+
+                    // Delete associated records from ProductCart table
+                    string deleteProductCartCMD = "DELETE FROM ProductCart WHERE Seller_ID IN (SELECT SELLER_ID FROM Sellers WHERE Username = @Username OR Email = @Email)";
+                    using (SqliteCommand cmdDeleteProductCart = new SqliteCommand(deleteProductCartCMD, con))
+                    {
+                        cmdDeleteProductCart.Parameters.AddWithValue("@Username", usernameOrEmail);
+                        cmdDeleteProductCart.Parameters.AddWithValue("@Email", usernameOrEmail);
+                        cmdDeleteProductCart.ExecuteNonQuery();
+                    }
+
                     // Delete associated records from ProductDetails table
                     string deleteProductDetailsCMD = "DELETE FROM ProductDetails WHERE Seller_ID IN (SELECT SELLER_ID FROM Sellers WHERE Username = @Username OR Email = @Email)";
                     using (SqliteCommand cmdDeleteProductDetails = new SqliteCommand(deleteProductDetailsCMD, con))
@@ -686,8 +719,9 @@ namespace Ferdin_TB_Hub.Classes
             {
                 Buttons.ShowMessage(ex.Message);
             }
-          
         }
+
+
 
 
         /// <summary>
@@ -814,6 +848,7 @@ namespace Ferdin_TB_Hub.Classes
                 {
                     ProductDetails product = new ProductDetails();
                     product.PRODUCTDETAILS_ID = reader.GetInt32(0);
+                    product.Seller_ID = seller_id;
                     product.ProductSKU = reader.GetInt64(1); // Retrieve ProductSKU from the reader
                     product.ProductName = reader.GetString(2);
                     product.ProductCategory = reader.IsDBNull(3) ? null : reader.GetString(3);
@@ -843,7 +878,7 @@ namespace Ferdin_TB_Hub.Classes
             using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
             {
                 con.Open();
-                string selectCMD = "SELECT PRODUCTDETAILS_ID, ProductSKU, ProductName, ProductCategory, ProductPrice, ProductDescription, ProductQuantity, ProductPicture FROM ProductDetails";
+                string selectCMD = "SELECT PRODUCTDETAILS_ID, ProductSKU, ProductName, ProductCategory, ProductPrice, ProductDescription, ProductQuantity, ProductPicture, Seller_ID FROM ProductDetails";
 
                 SqliteCommand cmdSelectRecords = new SqliteCommand(selectCMD, con);
                 SqliteDataReader reader = cmdSelectRecords.ExecuteReader();
@@ -859,16 +894,17 @@ namespace Ferdin_TB_Hub.Classes
                     product.ProductDescription = reader.GetString(5);
                     product.ProductQuantity = reader.GetInt32(6);
                     product.ProductPicture = reader.IsDBNull(7) ? null : GetByteArrayFromBlob(reader, 7); // Retrieve image data as byte array
+                    product.Seller_ID = reader.GetInt32(8); // Retrieve Seller_ID from the reader
 
                     productList.Add(product);
                 }
 
                 reader.Close();
-                con.Close();
             }
 
             return productList;
         }
+
 
 
 
@@ -962,12 +998,19 @@ namespace Ferdin_TB_Hub.Classes
                 {
                     con.Open();
                     string initCMD = @"CREATE TABLE IF NOT EXISTS ProductCart (
-                    ProductCart_ID INTEGER PRIMARY KEY AUTOINCREMENT,                   
+                    ProductCart_ID INTEGER PRIMARY KEY AUTOINCREMENT,                  
                     ProductName TEXT NOT NULL,
                     ProductPrice REAL NOT NULL,
                     ProductCategory TEXT NOT NULL,
                     ProductQuantity INTEGER NOT NULL,
-                    ProductPicture BLOB NOT NULL               
+                    ProductPicture BLOB NOT NULL,
+                    Buyer_ID INTEGER NOT NULL,
+                    Seller_ID INTEGER NOT NULL,   
+                    ProductDetails_ID INTEGER NOT NULL,
+                    ProductSKU INTEGER NOT NULL,
+                    FOREIGN KEY (Buyer_ID) REFERENCES Buyers (BUYER_ID),
+                    FOREIGN KEY (Seller_ID) REFERENCES Sellers (SELLER_ID),
+                    FOREIGN KEY (ProductDetails_ID) REFERENCES ProductDetails (PRODUCTDETAILS_ID)
                   )";
 
                     SqliteCommand CMDcreateTable = new SqliteCommand(initCMD, con);
@@ -984,7 +1027,7 @@ namespace Ferdin_TB_Hub.Classes
 
 
         // Method to add a product to the cart
-        public static void AddProductToCart(string productName, double productPrice, string productCategory, int productQuantity, byte[] productPicture)
+        public static void AddProductToCart(string productName, double productPrice, string productCategory, int productQuantity, byte[] productPicture, int buyer_ID, int seller_ID, int productdetails_ID, long productSKU)
         {
             try
             {
@@ -993,8 +1036,8 @@ namespace Ferdin_TB_Hub.Classes
                 using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
                 {
                     con.Open();
-                    string insertCMD = @"INSERT INTO ProductCart (ProductName, ProductPrice, ProductCategory, ProductQuantity, ProductPicture) 
-                     VALUES (@ProductName, @ProductPrice, @ProductCategory, @ProductQuantity, @ProductPicture)";
+                    string insertCMD = @"INSERT INTO ProductCart (ProductName, ProductPrice, ProductCategory, ProductQuantity, ProductPicture, Buyer_ID, Seller_ID, ProductDetails_ID, ProductSKU) 
+                     VALUES (@ProductName, @ProductPrice, @ProductCategory, @ProductQuantity, @ProductPicture, @Buyer_ID, @Seller_ID, @ProductDetails_ID, @ProductSKU)";
 
                     SqliteCommand cmdInsertRecord = new SqliteCommand(insertCMD, con);
                     cmdInsertRecord.Parameters.AddWithValue("@ProductName", productName);
@@ -1002,6 +1045,11 @@ namespace Ferdin_TB_Hub.Classes
                     cmdInsertRecord.Parameters.AddWithValue("@ProductQuantity", productQuantity);
                     cmdInsertRecord.Parameters.AddWithValue("@ProductCategory", productCategory);
                     cmdInsertRecord.Parameters.AddWithValue("@ProductPicture", productPicture);
+                    cmdInsertRecord.Parameters.AddWithValue("@Buyer_ID", buyer_ID);
+                    cmdInsertRecord.Parameters.AddWithValue("@Seller_ID", seller_ID);
+                    cmdInsertRecord.Parameters.AddWithValue("@ProductDetails_ID", productdetails_ID);
+                    cmdInsertRecord.Parameters.AddWithValue("@ProductSKU", productSKU);
+                    
 
                     cmdInsertRecord.ExecuteNonQuery();
                     con.Close();
@@ -1040,7 +1088,9 @@ namespace Ferdin_TB_Hub.Classes
             
         }
 
-        public static int GetProductQuantity(string productName)
+        // Method to get Product Quantity
+
+        public static int GetProductQuantity(long productSKU)
         {
             int productQuantity = 0;
             string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
@@ -1048,10 +1098,10 @@ namespace Ferdin_TB_Hub.Classes
             using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
             {
                 con.Open();
-                string selectCMD = "SELECT ProductQuantity FROM ProductDetails WHERE ProductName = @ProductName";
+                string selectCMD = "SELECT ProductQuantity FROM ProductDetails WHERE ProductSKU = @ProductSKU";
 
                 SqliteCommand cmdSelectRecords = new SqliteCommand(selectCMD, con);
-                cmdSelectRecords.Parameters.AddWithValue("@ProductName", productName);
+                cmdSelectRecords.Parameters.AddWithValue("@ProductSKU", productSKU);
 
                 SqliteDataReader reader = cmdSelectRecords.ExecuteReader();
 
@@ -1093,6 +1143,8 @@ namespace Ferdin_TB_Hub.Classes
                     productCart.ProductPrice = reader.GetDouble(2);
                     productCart.ProductQuantity = reader.GetInt32(3);
                     productCart.ProductCategory = reader.GetString(4);
+                    productCart.Buyer_ID = reader.GetInt32(5);
+                    productCart.Seller_ID = reader.GetInt32(6);
 
                     productCart.ProductPicture = reader.IsDBNull(5) ? null : GetByteArrayFromBlob(reader, 5); // Retrieve image data as byte array
 
@@ -1109,7 +1161,7 @@ namespace Ferdin_TB_Hub.Classes
 
 
         // Method to decrease the quantity of a product in the ProductDetails table
-        public static void DecreaseProductQuantity(string productName, int quantity)
+        public static void DecreaseProductQuantity(long productSKU, int quantity)
         {
             try
             {
@@ -1118,11 +1170,11 @@ namespace Ferdin_TB_Hub.Classes
                 using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
                 {
                     con.Open();
-                    string updateCMD = @"UPDATE ProductDetails SET ProductQuantity = ProductQuantity - @Quantity WHERE ProductName = @ProductName";
+                    string updateCMD = @"UPDATE ProductDetails SET ProductQuantity = ProductQuantity - @Quantity WHERE ProductSKU = @ProductSKU";
 
                     SqliteCommand cmdUpdateRecord = new SqliteCommand(updateCMD, con);
                     cmdUpdateRecord.Parameters.AddWithValue("@Quantity", quantity);
-                    cmdUpdateRecord.Parameters.AddWithValue("@ProductName", productName);
+                    cmdUpdateRecord.Parameters.AddWithValue("@ProductSKU", productSKU);
 
                     cmdUpdateRecord.ExecuteNonQuery(); // Use ExecuteNonQuery for UPDATE, INSERT, DELETE operations
                     con.Close();
@@ -1136,15 +1188,25 @@ namespace Ferdin_TB_Hub.Classes
         }
 
 
-        public static void PassProductToCart(ProductDetails productDetails, int quantity)
+        // Method to restore the quantity of a product in the ProductDetails table
+        public static void RestoreProductQuantity(long productSKU, int quantity)
         {
             try
             {
-                // Call the AddProductToCart method with the details from the ProductDetails object
-                AddProductToCart(productDetails.ProductName, productDetails.ProductPrice, productDetails.ProductCategory, quantity, productDetails.ProductPicture);
+                string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
 
-                // Decrease the quantity of the product in the ProductDetails table
-                DecreaseProductQuantity(productDetails.ProductName, quantity);
+                using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+                {
+                    con.Open();
+                    string updateCMD = @"UPDATE ProductDetails SET ProductQuantity = ProductQuantity + @Quantity WHERE ProductSKU = @ProductSKU";
+
+                    SqliteCommand cmdUpdateRecord = new SqliteCommand(updateCMD, con);
+                    cmdUpdateRecord.Parameters.AddWithValue("@Quantity", quantity);
+                    cmdUpdateRecord.Parameters.AddWithValue("@ProductSKU", productSKU);
+
+                    cmdUpdateRecord.ExecuteNonQuery();
+                    con.Close();
+                }
             }
             catch (Exception ex)
             {
@@ -1153,9 +1215,7 @@ namespace Ferdin_TB_Hub.Classes
            
         }
 
-
-        // Method to restore the quantity of a product in the ProductDetails table
-        public static void RestoreProductQuantity(string productName, int quantity)
+        public static void RestoreProductQuantityByProductName(string productName, int quantity)
         {
             try
             {
@@ -1178,7 +1238,27 @@ namespace Ferdin_TB_Hub.Classes
             {
                 Buttons.ShowMessage(ex.Message);
             }
-           
+        }
+
+
+
+        // Method to Pass Product to Cart
+
+        public static void PassProductToCart(ProductDetails productDetails, int quantity, int buyer_ID, int seller_ID, int productdetails_ID, long productSKU)
+        {
+            try
+            {
+                // Call the AddProductToCart method with the details from the ProductDetails object
+                AddProductToCart(productDetails.ProductName, productDetails.ProductPrice, productDetails.ProductCategory, quantity, productDetails.ProductPicture, buyer_ID, seller_ID, productdetails_ID, productSKU);
+
+                // Decrease the quantity of the product in the ProductDetails table
+                DecreaseProductQuantity(productDetails.ProductSKU, quantity);
+            }
+            catch (Exception ex)
+            {
+                Buttons.ShowMessage(ex.Message);
+            }
+
         }
 
 
@@ -1203,8 +1283,8 @@ namespace Ferdin_TB_Hub.Classes
             OrderNumber INTEGER NOT NULL,
             ProductName TEXT NOT NULL,                  
             ProductCategory TEXT NOT NULL,
-            ProductPrice REAL NOT NULL,
-            ProductQuantity INTEGER NOT NULL,
+            ProductPrice REAL,
+            ProductQuantity INTEGER,
             LastName TEXT NOT NULL, 
             FirstName TEXT NOT NULL,
             MiddleName TEXT NOT NULL,
@@ -1215,7 +1295,9 @@ namespace Ferdin_TB_Hub.Classes
             PaymentMethod TEXT NOT NULL,
             DatePurchased DATE NOT NULL,
             Buyer_ID INTEGER NOT NULL,
-            FOREIGN KEY (Buyer_ID) REFERENCES Buyers(BUYER_ID)
+            Seller_ID INTEGER NOT NULL,
+            FOREIGN KEY (Buyer_ID) REFERENCES Buyers(BUYER_ID),
+            FOREIGN KEY (Seller_ID) REFERENCES Sellers(SELLER_ID)
                     )";
 
                     SqliteCommand CMDcreateTable = new SqliteCommand(initCMD, con);
@@ -1232,7 +1314,7 @@ namespace Ferdin_TB_Hub.Classes
 
 
         // Method to add the cart items to the receipt with a random 12 digit order number
-        public static void AddProductToReceipt(string productName, string lastName, string firstName, string middleName, string phoneNumber, string productCategory, double productPrice, int productQuantity, string addressLine1, string addressLine2, string email, string paymentMethod, DateTime datePurchased, int buyer_ID)
+        public static void AddProductToReceipt(string productName, string lastName, string firstName, string middleName, string phoneNumber, string productCategory, double productPrice, int productQuantity, string addressLine1, string addressLine2, string email, string paymentMethod, DateTime datePurchased, int buyer_ID, int seller_ID)
         {
             try
             {
@@ -1263,8 +1345,8 @@ namespace Ferdin_TB_Hub.Classes
                         }
                     } while (!isUniqueOrderNumber);
 
-                    string insertCMD = @"INSERT INTO ProductReceipts (OrderNumber, ProductName, LastName, FirstName, MiddleName, PhoneNumber, ProductCategory, ProductPrice, ProductQuantity, AddressLine1, AddressLine2, Email, PaymentMethod, DatePurchased, Buyer_ID) 
-                             VALUES (@OrderNumber, @ProductName, @LastName, @FirstName, @MiddleName, @PhoneNumber, @ProductCategory, @ProductPrice, @ProductQuantity, @AddressLine1, @AddressLine2, @Email,  @PaymentMethod, @DatePurchased, @Buyer_ID)";
+                    string insertCMD = @"INSERT INTO ProductReceipts (OrderNumber, ProductName, LastName, FirstName, MiddleName, PhoneNumber, ProductCategory, ProductPrice, ProductQuantity, AddressLine1, AddressLine2, Email, PaymentMethod, DatePurchased, Buyer_ID, Seller_ID) 
+                             VALUES (@OrderNumber, @ProductName, @LastName, @FirstName, @MiddleName, @PhoneNumber, @ProductCategory, @ProductPrice, @ProductQuantity, @AddressLine1, @AddressLine2, @Email,  @PaymentMethod, @DatePurchased, @Buyer_ID, @Seller_ID)";
 
                     SqliteCommand cmdInsertRecord = new SqliteCommand(insertCMD, con);
                     cmdInsertRecord.Parameters.AddWithValue("@OrderNumber", orderNumber);
@@ -1282,6 +1364,7 @@ namespace Ferdin_TB_Hub.Classes
                     cmdInsertRecord.Parameters.AddWithValue("@Email", email);
                     cmdInsertRecord.Parameters.AddWithValue("@DatePurchased", datePurchased);
                     cmdInsertRecord.Parameters.AddWithValue("@Buyer_ID", buyer_ID);
+                    cmdInsertRecord.Parameters.AddWithValue("@Seller_ID", seller_ID);
 
 
 
@@ -1297,7 +1380,7 @@ namespace Ferdin_TB_Hub.Classes
           
         }
 
-        // Query to Retrieve Product Receipt by Order Number
+        // Query to Retrieve All Product Receipt by Order Number
         public static List<ProductReceipt> GetProductReceipts()
         {
             List<ProductReceipt> productReceiptList = new List<ProductReceipt>();
@@ -1314,7 +1397,7 @@ namespace Ferdin_TB_Hub.Classes
 
                 while (reader.Read())
                 {
-                    ProductReceipt productReceipt = new ProductReceipt();
+                    ProductReceipt productReceipt = new ProductReceipt();                
                     productReceipt.PRODUCTRECEIPT_ID = reader.GetInt32(0);
                     productReceipt.OrderNumber = reader.GetInt64(1);
                     productReceipt.ProductName = reader.GetString(2);
@@ -1327,9 +1410,163 @@ namespace Ferdin_TB_Hub.Classes
                     productReceipt.PhoneNumber = reader.GetString(9);
                     productReceipt.AddressLine1 = reader.GetString(10);
                     productReceipt.AddressLine2 = reader.GetString(11);
-                    productReceipt.PaymentMethod = reader.GetString(12);
-                    productReceipt.Email = reader.GetString(13);
+                    productReceipt.Email = reader.GetString(12);
+                    productReceipt.PaymentMethod = reader.GetString(13);
                     productReceipt.DatePurchased = reader.GetDateTime(14);
+                    productReceipt.Buyer_ID = reader.GetInt32(15);
+                    productReceipt.Seller_ID = reader.GetInt32(16);
+
+                    productReceiptList.Add(productReceipt);
+                }
+
+                reader.Close();
+                con.Close();
+            }
+
+            return productReceiptList;
+        }
+
+        // Query to Retrieve Only Product
+
+        public static List<ProductReceipt> GetProductOnlyReceipts()
+        {
+            List<ProductReceipt> productReceiptList = new List<ProductReceipt>();
+
+            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
+
+            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            {
+                con.Open();
+                string selectCMD = "SELECT PRODUCT_RECEIPT_ID, Buyer_ID, Seller_ID, OrderNumber, ProductName, ProductCategory, ProductPrice, ProductQuantity FROM ProductReceipts";
+
+                SqliteCommand cmdSelectRecords = new SqliteCommand(selectCMD, con);
+                SqliteDataReader reader = cmdSelectRecords.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    ProductReceipt productReceipt = new ProductReceipt();
+                    
+                    productReceipt.PRODUCTRECEIPT_ID = reader.GetInt32(0);
+                    productReceipt.Buyer_ID = reader.GetInt32(1);
+                    productReceipt.Seller_ID = reader.GetInt32(2);
+                    productReceipt.OrderNumber = reader.GetInt64(3);
+                    productReceipt.ProductName = reader.GetString(4);
+                    productReceipt.ProductCategory = reader.GetString(5);
+                    productReceipt.ProductPrice = reader.GetDouble(6);
+                    productReceipt.ProductQuantity = reader.GetInt32(7);
+                  
+
+                    productReceiptList.Add(productReceipt);
+                }
+
+                reader.Close();
+                con.Close();
+            }
+
+            return productReceiptList;
+        }
+
+        // Query to Retrieve Only Customer Info
+        public static List<ProductReceipt> GetCustomerInfoReceipts()
+        {
+            List<ProductReceipt> productReceiptList = new List<ProductReceipt>();
+
+            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
+
+            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            {
+                con.Open();
+                string selectCMD = "SELECT PRODUCT_RECEIPT_ID, Buyer_ID, Seller_ID, OrderNumber, LastName, FirstName, MiddleName, Email FROM ProductReceipts";
+
+                SqliteCommand cmdSelectRecords = new SqliteCommand(selectCMD, con);
+                SqliteDataReader reader = cmdSelectRecords.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    ProductReceipt productReceipt = new ProductReceipt();
+
+                    productReceipt.PRODUCTRECEIPT_ID = reader.GetInt32(0);
+                    productReceipt.Buyer_ID = reader.GetInt32(1);
+                    productReceipt.Seller_ID = reader.GetInt32(2);
+                    productReceipt.OrderNumber = reader.GetInt64(3);
+                    productReceipt.LastName = reader.GetString(4);
+                    productReceipt.FirstName = reader.GetString(5);
+                    productReceipt.MiddleName = reader.GetString(6);
+                    productReceipt.Email = reader.GetString(7);
+
+                    productReceiptList.Add(productReceipt);
+                }
+
+                reader.Close();
+                con.Close();
+            }
+
+            return productReceiptList;
+        }
+
+
+        // Query to Retrieve Only Customer Address
+        public static List<ProductReceipt> GetCustomerAddressReceipts()
+        {
+            List<ProductReceipt> productReceiptList = new List<ProductReceipt>();
+
+            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
+
+            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            {
+                con.Open();
+                string selectCMD = "SELECT PRODUCT_RECEIPT_ID, Buyer_ID, Seller_ID, OrderNumber, AddressLine1, AddressLine2 FROM ProductReceipts";
+
+                SqliteCommand cmdSelectRecords = new SqliteCommand(selectCMD, con);
+                SqliteDataReader reader = cmdSelectRecords.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    ProductReceipt productReceipt = new ProductReceipt();
+
+                    productReceipt.PRODUCTRECEIPT_ID = reader.GetInt32(0);
+                    productReceipt.Buyer_ID = reader.GetInt32(1);
+                    productReceipt.Seller_ID = reader.GetInt32(2);
+                    productReceipt.OrderNumber = reader.GetInt64(3);
+                    productReceipt.AddressLine1 = reader.GetString(4);
+                    productReceipt.AddressLine2 = reader.GetString(5);
+
+
+                    productReceiptList.Add(productReceipt);
+                }
+
+                reader.Close();
+                con.Close();
+            }
+
+            return productReceiptList;
+        }
+
+        // Query to Retrieve Only Customer Address
+        public static List<ProductReceipt> GetPaymentReceipts()
+        {
+            List<ProductReceipt> productReceiptList = new List<ProductReceipt>();
+
+            string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
+
+            using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
+            {
+                con.Open();
+                string selectCMD = "SELECT PRODUCT_RECEIPT_ID, Buyer_ID, Seller_ID, OrderNumber, PaymentMethod, DatePurchased FROM ProductReceipts";
+
+                SqliteCommand cmdSelectRecords = new SqliteCommand(selectCMD, con);
+                SqliteDataReader reader = cmdSelectRecords.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    ProductReceipt productReceipt = new ProductReceipt();
+
+                    productReceipt.PRODUCTRECEIPT_ID = reader.GetInt32(0);
+                    productReceipt.Buyer_ID = reader.GetInt32(1);
+                    productReceipt.Seller_ID = reader.GetInt32(2);
+                    productReceipt.OrderNumber = reader.GetInt64(3);
+                    productReceipt.PaymentMethod = reader.GetString(4);
+                    productReceipt.DatePurchased = reader.GetDateTime(5);
 
                     productReceiptList.Add(productReceipt);
                 }
@@ -1391,12 +1628,12 @@ namespace Ferdin_TB_Hub.Classes
 
 
         // Method to pass the cart items to the receipt with product category, address, and date purchased
-        public static void PassProductToReceipt(ProductCart productCart, string lastName, string firstName, string middleName, string phoneNumber, string productCategory, string addressLine1, string addressLine2, string email, string paymentMethod, DateTime datePurchased, int buyer_ID)
+        public static void PassProductToReceipt(ProductCart productCart, string lastName, string firstName, string middleName, string phoneNumber, string productCategory, string addressLine1, string addressLine2, string email, string paymentMethod, DateTime datePurchased, int buyer_ID, int seller_ID)
         {
             try
             {
                 // Call the AddProductToReceipt method with the details from the ProductCart object
-                AddProductToReceipt(productCart.ProductName, lastName, firstName, middleName, phoneNumber, productCategory, productCart.ProductPrice, productCart.ProductQuantity + 1, addressLine1, addressLine2, email, paymentMethod, datePurchased, buyer_ID);
+                AddProductToReceipt(productCart.ProductName, lastName, firstName, middleName, phoneNumber, productCategory, productCart.ProductPrice, productCart.ProductQuantity + 1, addressLine1, addressLine2, email, paymentMethod, datePurchased, buyer_ID, seller_ID);
 
                 // Delete the product from the cart
                 DeleteProductFromCart(productCart.ProductCart_ID);

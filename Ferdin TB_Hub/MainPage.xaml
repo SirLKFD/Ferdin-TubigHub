@@ -15,6 +15,26 @@
             <Setter Property="CornerRadius" Value="10"/>
             <!-- Other setters for properties like Foreground, BorderBrush, etc. -->
         </Style>
+
+         <Storyboard x:Name="ImageAnimation1" RepeatBehavior="Forever">
+        <!-- Animation from bottom to top -->
+        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ImageTranslateTransform"
+                                       Storyboard.TargetProperty="Y">
+            <LinearDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+            <LinearDoubleKeyFrame KeyTime="0:0:1" Value="-1000"/>
+        </DoubleAnimationUsingKeyFrames>
+    </Storyboard>
+        <Storyboard x:Name="ImageAnimation2" RepeatBehavior="Forever">
+            <!-- Animation from bottom to top -->
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ImageTranslateTransform"
+                                       Storyboard.TargetProperty="Y">
+                <LinearDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                <LinearDoubleKeyFrame KeyTime="0:0:1" Value="-500"/>
+                <LinearDoubleKeyFrame KeyTime="0:0:2" Value="-500"/>
+                <LinearDoubleKeyFrame KeyTime="0:0:3" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+
     </Page.Resources>
 
 
@@ -30,17 +50,15 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <RelativePanel Grid.Column="0" Background="PowderBlue">
-
-
-            <Image Source ="/Icons/Title3.png"
-                   MaxHeight="200"
-                   RelativePanel.AlignHorizontalCenterWithPanel="True"
-                   RelativePanel.AlignVerticalCenterWithPanel="True"                
-                   />
-
-
-
+        <RelativePanel x:Name="relativePanel" Grid.Column="0" Background="PowderBlue">
+            <Image Source="/Icons/Title3.png"
+               MaxHeight="200"
+               RelativePanel.AlignHorizontalCenterWithPanel="True"
+               RelativePanel.AlignVerticalCenterWithPanel="True">
+                <Image.RenderTransform>
+                    <TranslateTransform x:Name="ImageTranslateTransform"/>
+                </Image.RenderTransform>
+            </Image>
         </RelativePanel>
 
         <ScrollViewer Grid.Column="1"

@@ -157,6 +157,14 @@ namespace Ferdin_TB_Hub.Seller
             }
           
         }
+
+        // Method to check if RichEditBox content is empty
+        private string GetRichEditBoxText(RichEditBox richEditBox)
+        {
+            string text;
+            richEditBox.Document.GetText(Windows.UI.Text.TextGetOptions.None, out text);
+            return text;
+        }
         private async void UpdateProduct_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -178,8 +186,10 @@ namespace Ferdin_TB_Hub.Seller
                     ProductDetails selectedProduct = (ProductDetails)ListProducts.SelectedItem;
 
                     // Validate input
-                    if (string.IsNullOrWhiteSpace(tbxProductName.Text) || string.IsNullOrWhiteSpace(tbxProductDescription.Text) ||
-                        string.IsNullOrWhiteSpace(tbxProductPrice.Text) || string.IsNullOrWhiteSpace(tbxProductQuantity.Text))
+                    if (string.IsNullOrWhiteSpace(tbxProductName.Text) ||
+                     string.IsNullOrWhiteSpace(tbxProductPrice.Text) ||
+                     string.IsNullOrWhiteSpace(tbxProductQuantity.Text) ||
+                     (tbxProductDescription.Document == null || string.IsNullOrWhiteSpace(GetRichEditBoxText(tbxProductDescription))))
                     {
                         // Invalid input, ask the user to re-input
                         ShowMessageDialog("Please provide valid values for all fields.");
@@ -207,7 +217,7 @@ namespace Ferdin_TB_Hub.Seller
                     selectedProduct.ProductName = tbxProductName.Text;
                     selectedProduct.ProductCategory = ((ComboBoxItem)cbxProductCategory.SelectedItem).Content.ToString();
                     selectedProduct.ProductPrice = price;
-                    selectedProduct.ProductDescription = tbxProductDescription.Text;
+                    selectedProduct.ProductDescription = GetRichEditBoxText(tbxProductDescription);
                     selectedProduct.ProductQuantity = quantity;
 
                     // Update the product picture if a new picture is selected
@@ -241,7 +251,7 @@ namespace Ferdin_TB_Hub.Seller
                     // Clear textboxes
                     tbxProductName.Text = string.Empty;
                     tbxProductPrice.Text = string.Empty;
-                    tbxProductDescription.Text = string.Empty;
+                    tbxProductDescription.Document.SetText(Windows.UI.Text.TextSetOptions.None, string.Empty);
                     tbxProductQuantity.Text = string.Empty;
                     lblProductSKU.Text = string.Empty;
 
@@ -324,7 +334,7 @@ namespace Ferdin_TB_Hub.Seller
                     // Clear textboxes
                     tbxProductName.Text = string.Empty;
                     tbxProductPrice.Text = string.Empty;
-                    tbxProductDescription.Text = string.Empty;
+                    tbxProductDescription.Document.SetText(Windows.UI.Text.TextSetOptions.None, string.Empty);
                     tbxProductQuantity.Text = string.Empty;
                     lblProductSKU.Text = string.Empty;
 
@@ -399,6 +409,12 @@ namespace Ferdin_TB_Hub.Seller
           
         }
 
+        // Method to set text for RichEditBox
+        private void SetRichEditBoxText(RichEditBox richEditBox, string text)
+        {
+            richEditBox.Document.SetText(Windows.UI.Text.TextSetOptions.None, text);
+        }
+
         private void ListProducts_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -412,7 +428,7 @@ namespace Ferdin_TB_Hub.Seller
                     // Display the selected product's details in the textboxes, combobox, and image
                     tbxProductName.Text = selectedProduct.ProductName;
                     tbxProductPrice.Text = selectedProduct.ProductPrice.ToString();
-                    tbxProductDescription.Text = selectedProduct.ProductDescription;
+                    SetRichEditBoxText(tbxProductDescription, selectedProduct.ProductDescription);
                     tbxProductQuantity.Text = selectedProduct.ProductQuantity.ToString();
                     lblProductSKU.Text = selectedProduct.ProductSKU.ToString();
 
@@ -524,7 +540,7 @@ namespace Ferdin_TB_Hub.Seller
                 // Clear textboxes
                 tbxProductName.Text = string.Empty;
                 tbxProductPrice.Text = string.Empty;
-                tbxProductDescription.Text = string.Empty;
+                tbxProductDescription.Document.SetText(Windows.UI.Text.TextSetOptions.None, string.Empty);
                 tbxProductQuantity.Text = string.Empty;
                 lblProductSKU.Text = string.Empty;
 

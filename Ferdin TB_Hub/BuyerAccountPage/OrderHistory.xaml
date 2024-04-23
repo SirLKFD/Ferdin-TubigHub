@@ -29,6 +29,8 @@
 
         <mesius:C1FlexGrid x:Name="receiptDataGrid" FontFamily="Electronic Arts Text" Background="Transparent" Grid.Row="1" AllowDragging="Both" AllowResizing="Both" Margin="59,38,63,48">
             <mesius:C1FlexGrid.Columns>
+                
+                
 
             </mesius:C1FlexGrid.Columns>
         </mesius:C1FlexGrid>

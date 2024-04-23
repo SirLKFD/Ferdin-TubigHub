@@ -257,7 +257,7 @@
 
 
 
-        <ScrollViewer Grid.Column="2" Foreground="DeepSkyBlue" Margin="0,0,10,0">
+        <ScrollViewer Grid.Column="2" Margin="0,0,10,0">
             <Grid>
                 <RadioButton x:Name="acceptRadioButton" Content="I Accept" Margin="0,726,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
                 <Button Style="{StaticResource AccentButtonStyle}"
@@ -269,7 +269,7 @@
          Padding="15,5,15,5"
          Click="Proceed_Click"
          IsEnabled="{Binding IsChecked, ElementName=acceptRadioButton}" Margin="273,764,0,0" VerticalAlignment="Top"/>
-                <Custom:TermsandConditions HorizontalAlignment="Center" Margin="0,-12,0,0" VerticalAlignment="Top" Height="722" Width="690"/>
+                <Custom:TermsandConditions  HorizontalAlignment="Center" Margin="0,-12,0,0" VerticalAlignment="Top" Height="722" Width="690"/>
             </Grid>
         </ScrollViewer>
 

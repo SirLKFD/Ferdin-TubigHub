@@ -30,7 +30,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <TextBox Visibility="Collapsed" x:Name="tbxBuyerID"  HorizontalAlignment="Left" Margin="369,27,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="271" Text="{Binding Buyer.BUYER_ID, Mode=TwoWay}"/>
+        <TextBox IsReadOnly="True" Visibility="Collapsed" x:Name="tbxBuyerID" HorizontalAlignment="Left" Margin="369,27,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="271" Text="{x:Bind Buyer.BUYER_ID, Mode=OneWay}" />
 
         <TextBlock  Grid.Row="0" HorizontalAlignment="Left" Margin="178,48,0,0" TextWrapping="Wrap"  FontSize="35" Text="Home" VerticalAlignment="Top" Height="48" Width="119" FontWeight="Bold"/>
 

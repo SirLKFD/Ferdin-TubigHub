@@ -37,7 +37,7 @@
 
             </ComboBox>
 
-            <TextBox x:Name="tbxProductDescription" HorizontalAlignment="Left" Margin="149,269,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="562" Height="215"/>
+            <RichEditBox x:Name="tbxProductDescription" HorizontalAlignment="Left" Margin="149,269,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="562" Height="215"/>
             <TextBox x:Name="tbxProductQuantity" HorizontalAlignment="Left" Margin="149,521,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77"/>
 
             <Button x:Name="InsertPicture" Click="InsertPicture_Click" CornerRadius="5" Foreground="White" Background="{ThemeResource SystemAccentColor}" Content="Insert Picture" Margin="40,660,0,0" VerticalAlignment="Top"/>

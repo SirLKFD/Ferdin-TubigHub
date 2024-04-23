@@ -62,37 +62,42 @@ namespace Ferdin_TB_Hub.BuyerAccountPage
                 LoadProductReceipts();
                 this.DataContext = this; // Set the DataContext of the page to itself
 
+                receiptDataGrid.Columns["ProductQuantity"].Visible = false;
+                receiptDataGrid.Columns["Buyer_ID"].Visible = false;
+                receiptDataGrid.Columns["Product_ID"].Visible = false;
+                receiptDataGrid.Columns["ProductPrice"].Format = "₱0.00";
+                receiptDataGrid.Columns["OrderNumber"].Format = "000000000000";
+
                 // Initialize Buyer object before accessing its properties
                 Buyer = new BuyerDetails();
 
+  
                 // Check if Buyer object is not null before accessing its properties
                 if (Buyer != null)
                 {
+
                     // Set the initial buyer ID to the one entered in the TextBox
                     int.TryParse(tbxBuyerID.Text, out int initialBuyerID);
                     BuyerID = initialBuyerID;
+
 
                     // Call GetBuyerProductReceipts with the initial buyer ID
                     receiptDataGrid.ItemsSource = GetBuyerProductReceipts(BuyerID + 1);
                 }
 
-                receiptDataGrid.Columns["ProductPrice"].Format = "₱0.00";
-                receiptDataGrid.Columns["OrderNumber"].Format = "000000000000";
+           
             }
             catch (Exception ex)
             {
-          
+               
             }
         }
-
-
 
         private void LoadProductReceipts()
         {
             // Fetch product receipts from the database
-            ProductReceipts = Database.GetProductReceipts();
+            ProductReceipts = Database.GetProductReceipts();        
         }
-
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -118,9 +123,13 @@ namespace Ferdin_TB_Hub.BuyerAccountPage
             {
                 if (ProductReceipts != null) // Ensure ProductReceipts is not null
                 {
-                    // Filter the ProductReceipts based on user input
+                    // Parse the buyer ID from the text box
+                    int.TryParse(tbxBuyerID.Text, out int buyerID);
+
+                    // Filter the ProductReceipts based on user input and the parsed BuyerID
                     var filteredReceipts = ProductReceipts.Where(receipt =>
-                        receipt.OrderNumber.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
+                        receipt.Buyer_ID == buyerID &&
+                        (receipt.OrderNumber.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
                         receipt.ProductName.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
                         receipt.ProductCategory.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
                         receipt.LastName.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
@@ -129,7 +138,7 @@ namespace Ferdin_TB_Hub.BuyerAccountPage
                         receipt.Email.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
                         receipt.AddressLine1.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
                         receipt.AddressLine2.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
-                        receipt.PaymentMethod.Contains(sender.Text, StringComparison.OrdinalIgnoreCase)
+                        receipt.PaymentMethod.Contains(sender.Text, StringComparison.OrdinalIgnoreCase))
                     // Add more properties to search as needed
                     ).ToList();
 
@@ -138,6 +147,8 @@ namespace Ferdin_TB_Hub.BuyerAccountPage
                 }
             }
         }
+
+
 
         private void tbxBuyerID_TextChanged(object sender, TextChangedEventArgs e)
         {

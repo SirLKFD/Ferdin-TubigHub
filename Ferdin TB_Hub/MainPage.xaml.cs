@@ -31,10 +31,28 @@ namespace Ferdin_TB_Hub
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private DispatcherTimer timer;
+        private int colorIndex = 0;
+        private SolidColorBrush[] colors = { new SolidColorBrush(Windows.UI.Colors.PowderBlue), new SolidColorBrush(Windows.UI.Colors.CornflowerBlue), new SolidColorBrush(Windows.UI.Colors.SkyBlue), new SolidColorBrush(Windows.UI.Colors.Aquamarine), new SolidColorBrush(Windows.UI.Colors.BlueViolet) };
         public MainPage()
         {
             this.InitializeComponent();
             LoadMainPageImages();
+            ImageAnimation1.Begin();
+            ImageAnimation2.Begin();
+
+            // Initialize and start the timer
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1); // Change the interval as needed
+            timer.Tick += Timer_Tick;
+            timer.Start();
+        }
+
+        private void Timer_Tick(object sender, object e)
+        {
+            // Change the background color of the RelativePanel
+            relativePanel.Background = colors[colorIndex];
+            colorIndex = (colorIndex + 1) % colors.Length;
         }
 
         private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
