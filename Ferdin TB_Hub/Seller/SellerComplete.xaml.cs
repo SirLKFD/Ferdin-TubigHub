@@ -444,14 +444,14 @@ namespace Ferdin_TB_Hub.Seller
                             worksheet.Cells[row, 2].Value = receipt.ProductName;
                             worksheet.Cells[row, 3].Value = receipt.ProductCategory;
                             worksheet.Cells[row, 4].Value = receipt.ProductPrice;
-                            worksheet.Cells[row, 6].Value = receipt.LastName;
-                            worksheet.Cells[row, 5].Value = receipt.FirstName;
+                            worksheet.Cells[row, 6].Value = receipt.FirstName;
+                            worksheet.Cells[row, 5].Value = receipt.LastName;
                             worksheet.Cells[row, 7].Value = receipt.MiddleName;
                             worksheet.Cells[row, 8].Value = receipt.PhoneNumber;
                             worksheet.Cells[row, 9].Value = receipt.AddressLine1;
                             worksheet.Cells[row, 10].Value = receipt.AddressLine2;
-                            worksheet.Cells[row, 11].Value = receipt.Email;
-                            worksheet.Cells[row, 12].Value = receipt.PaymentMethod;
+                            worksheet.Cells[row, 11].Value = receipt.PaymentMethod;
+                            worksheet.Cells[row, 12].Value = receipt.Email;
                             worksheet.Cells[row, 13].Value = receipt.DatePurchased;
 
                             worksheet.Cells[row, 13].Style.Numberformat.Format = "yyyy/mm/dd hh:mm:ss";
