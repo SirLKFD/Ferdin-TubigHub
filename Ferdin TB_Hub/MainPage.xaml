@@ -103,13 +103,13 @@
 
                     <PasswordBox Grid.Row="4"
                                  x:Name="RevealPassMode"
-                                 AutomationProperties.Name="Sample password box"
+                                 AutomationProperties.Name="Your Password"
                                  PlaceholderText="password"
                                  PasswordRevealMode="Hidden"                                 
                                  FontSize="25"
                                  Margin="50,0,50,20"
                                  BorderThickness="0,0,0,3"
-                                 Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}"
+                                 Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}"                               
                                  CornerRadius="5"
                                 BorderBrush="SkyBlue"
                                />
@@ -175,7 +175,7 @@
             </StackPanel>
         </ScrollViewer>
 
-        <FlipView x:Name="MainPage_FlipView" Grid.Column="2" MaxWidth="700" Height="670"/>
+        <FlipView x:Name="MainPage_FlipView" Grid.Column="2" CornerRadius="10" MaxWidth="700" Height="670"/>
 
 
 

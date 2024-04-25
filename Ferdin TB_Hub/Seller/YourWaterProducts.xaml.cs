@@ -97,7 +97,7 @@ namespace Ferdin_TB_Hub.Seller
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
           
         }
@@ -119,7 +119,7 @@ namespace Ferdin_TB_Hub.Seller
             }
            catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
 
           
@@ -153,7 +153,7 @@ namespace Ferdin_TB_Hub.Seller
             }
             catch
             {
-                Buttons.ShowMessage("An error occurred while changing the picture.");
+                Buttons.ShowPrompt("An error occurred while changing the picture.");
             }
           
         }
@@ -271,7 +271,7 @@ namespace Ferdin_TB_Hub.Seller
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
 
         }
@@ -354,7 +354,7 @@ namespace Ferdin_TB_Hub.Seller
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
          
         }
@@ -404,7 +404,7 @@ namespace Ferdin_TB_Hub.Seller
             catch
             (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
           
         }
@@ -455,7 +455,7 @@ namespace Ferdin_TB_Hub.Seller
             catch
             (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
           
         }
@@ -488,7 +488,7 @@ namespace Ferdin_TB_Hub.Seller
             catch
             (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
 
           
@@ -510,7 +510,7 @@ namespace Ferdin_TB_Hub.Seller
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
        
         }
@@ -524,7 +524,7 @@ namespace Ferdin_TB_Hub.Seller
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
          
         }
@@ -566,7 +566,7 @@ namespace Ferdin_TB_Hub.Seller
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
           
         }

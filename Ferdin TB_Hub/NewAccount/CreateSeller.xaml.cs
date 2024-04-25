@@ -60,7 +60,7 @@ namespace Ferdin_TB_Hub.NewAccount
                 string.IsNullOrWhiteSpace(addressLine2))
             {
                 // Show an error message indicating that all fields are required
-                Buttons.ShowMessage("All fields are required. Please fill in all the fields.");
+                Buttons.ShowPrompt("All fields are required. Please fill in all the fields.");
                 return; // Exit the method without proceeding further
             }
 
@@ -68,7 +68,7 @@ namespace Ferdin_TB_Hub.NewAccount
             if (Database.IsSellerAlreadyExists(username, email, businessName))
             {
                 // Show an error message indicating that the username is already taken
-                Buttons.ShowMessage("Either store, username, and email already exists. Please choose another one.");
+                Buttons.ShowPrompt("Either store, username, and email already exists. Please choose another one.");
                 return; // Exit the method without proceeding further
             }
 
@@ -84,7 +84,7 @@ namespace Ferdin_TB_Hub.NewAccount
             // List<Database.BuyerDetails> buyers = Database.GetBuyerRecords();
 
             // Show success message (optional)
-            Buttons.ShowMessage("Account created successfully!");
+            Buttons.ShowPrompt("Account created successfully!");
 
             // Clear all form fields
             tbxBusinessName.Text = "";

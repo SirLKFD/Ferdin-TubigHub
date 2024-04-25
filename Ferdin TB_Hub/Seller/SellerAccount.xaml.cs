@@ -57,7 +57,7 @@ namespace Ferdin_TB_Hub.Seller
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
            
         }
@@ -114,7 +114,7 @@ namespace Ferdin_TB_Hub.Seller
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
           
         }
@@ -131,7 +131,7 @@ namespace Ferdin_TB_Hub.Seller
                     string.IsNullOrWhiteSpace(tbxAddressLine1.Text) || string.IsNullOrWhiteSpace(tbxAddressLine2.Text))
                 {
                     // Display error message
-                    Buttons.ShowMessage("Please fill in all fields.");
+                    Buttons.ShowPrompt("Please fill in all fields.");
                     return;
                 }
 
@@ -152,17 +152,18 @@ namespace Ferdin_TB_Hub.Seller
                 if (!int.TryParse(tbxID.Text, out seller_id))
                 {
                     // Handle invalid input (e.g., display an error message)
-                    Buttons.ShowMessage("Invalid seller ID.");
+                    Buttons.ShowPrompt("Invalid seller ID.");
                     return;
                 }
 
+                /*
                 // Check if the username or email already exists
                 if (Database.IsSellerAlreadyExists(username, email, businessName))
                 {
                     // Show an error message indicating that the username or email is already taken
-                    Buttons.ShowMessage("Username, email, and store already exists. Please choose another one.");
+                    Buttons.ShowPrompt("Username, email, and store already exists. Please choose another one.");
                     return; // Exit the method without proceeding further
-                }
+                }*/
 
                 // Create a confirmation dialog
                 ContentDialog confirmDialog = new ContentDialog
@@ -189,7 +190,7 @@ namespace Ferdin_TB_Hub.Seller
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
         
         }
@@ -224,7 +225,7 @@ namespace Ferdin_TB_Hub.Seller
             catch
             (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
           
         }
@@ -239,7 +240,7 @@ namespace Ferdin_TB_Hub.Seller
             catch
             (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
            
         }
@@ -267,7 +268,7 @@ namespace Ferdin_TB_Hub.Seller
             catch
             (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
            
           
@@ -282,7 +283,7 @@ namespace Ferdin_TB_Hub.Seller
             }
             catch (Exception ex)
             {
-                   Buttons.ShowMessage(ex.Message);
+                   Buttons.ShowPrompt(ex.Message);
             }
        
         }
@@ -296,7 +297,7 @@ namespace Ferdin_TB_Hub.Seller
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
         }
 
@@ -327,7 +328,7 @@ namespace Ferdin_TB_Hub.Seller
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
            
         }

@@ -22,13 +22,13 @@
         <ScrollViewer Grid.Row="0">
             <!-- Your existing layout -->
             <Grid Margin="20" Height="130">
-                <ComboBox Grid.Row="0" x:Name="cbxShowA" Loaded="cbxShowA_Loaded" PlaceholderText="Select Summary" Width="215" SelectionChanged="cbxShowA_SelectionChanged" Margin="282,84,0,0">
+                <ComboBox CornerRadius="5"  Grid.Row="0" x:Name="cbxShowA" Loaded="cbxShowA_Loaded" PlaceholderText="Select Summary" Width="215" SelectionChanged="cbxShowA_SelectionChanged" Margin="282,84,0,0">
                     <ComboBoxItem Content="Total Purchases"/>
                     <ComboBoxItem Content="Best Selling Category"/>
                     <ComboBoxItem Content="Most Purchased Product"/>
                 </ComboBox>
 
-                <ComboBox Grid.Row="0" x:Name="cbxTable" PlaceholderText="Query Table" Margin="42,84,0,0" Width="215" SelectionChanged="cbxTable_SelectionChanged">
+                <ComboBox CornerRadius="5"  Grid.Row="0" x:Name="cbxTable" PlaceholderText="Query Table" Margin="42,84,0,0" Width="215" SelectionChanged="cbxTable_SelectionChanged">
                     <ComboBoxItem Content="All"/>
                     <ComboBoxItem Content="Product"/>
                     <ComboBoxItem Content="Customer Info"/>
@@ -52,17 +52,17 @@
         <TextBlock Visibility="Collapsed" x:Name="lblTotalPurchases" HorizontalAlignment="Left"  Margin="533,112,0,0" TextWrapping="Wrap" Text="Total Purchases: " VerticalAlignment="Top"/>
         <TextBlock Visibility="Visible" x:Name="lblMostPurchased" HorizontalAlignment="Left"  Margin="534,111,0,0" TextWrapping="Wrap" Text="Most Purchased Product: " VerticalAlignment="Top"/>
 
-        <TextBox Visibility="Collapsed" x:Name="tbxTotalPurchases" IsReadOnly="True" HorizontalAlignment="Left" Margin="647,105,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="69"/>
-        <TextBox Visibility="Visible" x:Name="tbxMostPurchased" IsReadOnly="true" HorizontalAlignment="Left" Margin="706,104,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="284"/>
-        <TextBox  x:Name="tbxTotalSales" IsReadOnly="true" HorizontalAlignment="Left" Margin="1032,44,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="135"/>
-        <TextBox Visibility="Collapsed" x:Name="tbxBestSelling" IsReadOnly="true" HorizontalAlignment="Left" Margin="690,105,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="236"/>
+        <TextBox CornerRadius="5"  Visibility="Collapsed" x:Name="tbxTotalPurchases" IsReadOnly="True" HorizontalAlignment="Left" Margin="647,105,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="69"/>
+        <TextBox CornerRadius="5"  Visibility="Visible" x:Name="tbxMostPurchased" IsReadOnly="true" HorizontalAlignment="Left" Margin="706,104,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="284"/>
+        <TextBox CornerRadius="5"   x:Name="tbxTotalSales" IsReadOnly="true" HorizontalAlignment="Left" Margin="1032,44,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="135"/>
+        <TextBox CornerRadius="5"  Visibility="Collapsed" x:Name="tbxBestSelling" IsReadOnly="true" HorizontalAlignment="Left" Margin="690,105,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="236"/>
 
         <TextBlock x:Name="lblSortBuyerID" Grid.Row="0" HorizontalAlignment="Left"  Margin="517,50,0,0" TextWrapping="Wrap" Text="Sort Buyer ID:" VerticalAlignment="Top"/>
-        <TextBox  x:Name="tbxSortBuyerID" TextChanged="tbxSortBuyerID_TextChanged"  HorizontalAlignment="Left" Margin="615,44,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="86"/>
+        <TextBox CornerRadius="5"   x:Name="tbxSortBuyerID" TextChanged="tbxSortBuyerID_TextChanged"  HorizontalAlignment="Left" Margin="615,44,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="86"/>
 
 
         <TextBlock x:Name="lblSortSellerID" Grid.Row="0" HorizontalAlignment="Left"  Margin="723,50,0,0" TextWrapping="Wrap" Text="Sort Seller ID:" VerticalAlignment="Top"/>
-        <TextBox  x:Name="tbxSortSellerID" TextChanged="tbxSortSellerID_TextChanged"  HorizontalAlignment="Left" Margin="823,44,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="86"/>
+        <TextBox CornerRadius="5"   x:Name="tbxSortSellerID" TextChanged="tbxSortSellerID_TextChanged"  HorizontalAlignment="Left" Margin="823,44,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="86"/>
 
         <Button x:Name="btnRefresh" Click="btnRefresh_Click" CornerRadius="5" Foreground="White" Background="{ThemeResource SystemAccentColor}" Content="Refresh" Margin="1013,100,0,0" Height="36" Width="86" VerticalAlignment="Top" />
         <Button x:Name="btnExport" Background="{ThemeResource SystemAccentColor}" CornerRadius="5" Click="btnExport_Click" Content="Export to Excel" Margin="1114,100,0,0" VerticalAlignment="Top" Height="36" Width="113"/>

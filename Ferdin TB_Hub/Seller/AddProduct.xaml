@@ -21,10 +21,10 @@
 
 
 
-            <TextBox x:Name="tbxProductName" HorizontalAlignment="Left" Margin="149,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="344"/>
-            <TextBox x:Name="tbxProductPrice" HorizontalAlignment="Left" Margin="149,201,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172"/>
+            <TextBox CornerRadius="5"  x:Name="tbxProductName" HorizontalAlignment="Left" Margin="149,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="344"/>
+            <TextBox CornerRadius="5"  x:Name="tbxProductPrice" HorizontalAlignment="Left" Margin="149,201,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172"/>
 
-            <ComboBox x:Name="cbxProductCategory" Margin="149,143,0,0" Width="312">
+            <ComboBox CornerRadius="5"  x:Name="cbxProductCategory" Margin="149,143,0,0" Width="312">
                 <ComboBoxItem Content="Electrolyte Water"/>
                 <ComboBoxItem Content="Mineral Water"/>
                 <ComboBoxItem Content="Distilled Water"/>
@@ -37,8 +37,8 @@
 
             </ComboBox>
 
-            <RichEditBox x:Name="tbxProductDescription" HorizontalAlignment="Left" Margin="149,269,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="562" Height="215"/>
-            <TextBox x:Name="tbxProductQuantity" HorizontalAlignment="Left" Margin="149,521,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77"/>
+            <RichEditBox CornerRadius="5"  x:Name="tbxProductDescription" HorizontalAlignment="Left" Margin="149,269,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="562" Height="215"/>
+            <TextBox CornerRadius="5"  x:Name="tbxProductQuantity" HorizontalAlignment="Left" Margin="149,521,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77"/>
 
             <Button x:Name="InsertPicture" Click="InsertPicture_Click" CornerRadius="5" Foreground="White" Background="{ThemeResource SystemAccentColor}" Content="Insert Picture" Margin="40,660,0,0" VerticalAlignment="Top"/>
             <Button x:Name="SubmitProduct" CornerRadius="5" Foreground="White" Background="{ThemeResource SystemAccentColor}" Content="Submit Product" Margin="207,828,0,0" VerticalAlignment="Top" Click="SubmitProduct_Click"/>

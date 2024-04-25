@@ -75,7 +75,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
             catch (Exception ex)
             {
-               Buttons.ShowMessage(ex.Message);
+               Buttons.ShowPrompt(ex.Message);
             }
            
            
@@ -105,17 +105,17 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
                 double shippingFee = 50;
 
                 // Update the textboxes
-                tbxPrice.Text = (totalPriceWithTax + shippingFee).ToString("Php 0.00"); // Including shipping fee
+                tbxPrice.Text = (totalPriceWithTax + shippingFee).ToString("₱ 0.00"); // Including shipping fee
                 tbxQuantity.Text = ProductCartList.Count.ToString(); // Total quantity is the count of items in the cart
-                tbxTax.Text = tax.ToString("Php 0.00");
-                tbxShippingFee.Text = shippingFee.ToString("Php 0.00"); // Display shipping fee
+                tbxTax.Text = tax.ToString("₱ 0.00");
+                tbxShippingFee.Text = shippingFee.ToString("₱ 0.00"); // Display shipping fee
 
                 // Update the ListView
                 ListViewCart.ItemsSource = ProductCartList;
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
 
 
@@ -151,7 +151,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
          
         }
@@ -194,7 +194,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
            
         }
@@ -210,7 +210,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
            catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
        
         }
@@ -224,7 +224,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
          
         }
@@ -241,7 +241,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
           
         }
@@ -322,7 +322,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
                     if (productDetails != null)
                     {
                         // Pass each item to the receipt with correct product category and buyer ID
-                        PassProductToReceipt(productCart, lastName, firstName, middleName, phoneNumber, productDetails.ProductCategory, addressLine1, addressLine2, email, paymentMethod, datePurchased, Buyer.BUYER_ID, productDetails.Seller_ID);
+                        PassProductToReceipt(productCart, lastName, firstName, middleName, phoneNumber, productDetails.ProductCategory, addressLine1, addressLine2, email, paymentMethod, datePurchased,  Buyer.BUYER_ID, productDetails.Seller_ID);
                     }
                 }
 
@@ -336,7 +336,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
          
         }
@@ -361,7 +361,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
         
         }
@@ -396,7 +396,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
           
         }
@@ -418,7 +418,19 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             double shippingFee = 50;
 
             // Prepare receipt content
-            string receiptContent = "ORDER RECEIPT\n\n";
+            string receiptContent = "";
+
+         
+            receiptContent = "ORDER RECEIPT\n";
+
+            // Add buyer information to the receipt
+            receiptContent += $"\n\n\nVAT REG. TIN #. 032-143-323 469\n";
+            receiptContent += $"Serial # DF43J1232Z\n";
+            receiptContent += $"Permit # 0234-458-76436-123\n";
+            receiptContent += $"\nDate Generated: {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}\n\n";
+
+
+
 
             // Loop through the items in the cart and add them to the receipt
             foreach (var productCart in ProductCartList)
@@ -426,7 +438,6 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
                 receiptContent += $"{productCart.ProductName}: ₱{productCart.ProductPrice:n2}\n";
             }
 
-            // Add buyer information to the receipt
             receiptContent += $"\nBUYER INFO\n";
             receiptContent += $"NAME: {tbxFirstName.Text} {tbxMiddleName.Text} {tbxLastName.Text}\n";
             receiptContent += $"PHONE NUMBER: {tbxPhoneNumber.Text}\n";
@@ -435,7 +446,6 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
 
             // Add payment method to the receipt
             receiptContent += $"\nPAYMENT METHOD: {((ComboBoxItem)cbxBuyerPayment.SelectedItem)?.Content}\n";
-
 
             // Add total price, tax, and shipping fee to the receipt
             receiptContent += $"TOTAL QUANTITY: {ProductCartList.Count}\n";
@@ -465,7 +475,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
            
         }
@@ -507,7 +517,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
          
         }
@@ -548,8 +558,8 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
                 gfx.DrawImage(headerImage, new XRect(headerImageX, headerImageY, headerImageWidth, headerImageHeight));
 
                 // Set font and brush for drawing text
-                XFont font = new XFont("Courier New", 12, XFontStyle.Bold);
-                XBrush brush = XBrushes.Blue;
+                XFont font = new XFont("Verdana", 8, XFontStyle.Bold);
+                XBrush brush = XBrushes.Black;
 
                 // Split receipt content into lines
                 string[] lines = receiptContent.Split('\n');
@@ -599,16 +609,16 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
                     FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
                     if (status == FileUpdateStatus.Complete)
                     {
-                        Buttons.ShowMessage("Receipt saved successfully");
+                        Buttons.ShowPrompt("Receipt saved successfully");
                     }
                     else
                     {
-                        Buttons.ShowMessage("Receipt failed to save");
+                        Buttons.ShowPrompt("Receipt failed to save");
                     }
                 }
                 else
                 {
-                    Buttons.ShowMessage("User cancelled to save the receipt");
+                    Buttons.ShowPrompt("User cancelled to save the receipt");
                 }
 
                 // Clear the ProductCartList after the receipt dialog is closed
@@ -617,7 +627,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
          
         }
@@ -649,7 +659,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
         
         }
@@ -662,7 +672,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
             catch(Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
         }
 
@@ -675,7 +685,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
         }
 
@@ -692,7 +702,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
          
         }
@@ -707,7 +717,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
         }
     }

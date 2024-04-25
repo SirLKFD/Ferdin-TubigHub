@@ -21,7 +21,7 @@
     <Grid>
 
         <NavigationView x:Name="navigationView"
-                        IsBackEnabled="True"                           
+                        IsBackEnabled="True"                            
                         IsSettingsVisible="False"     
                         Loaded="NavigationView_Loaded"                       
                         SelectionChanged="NavigationView_SelectionChanged" BackRequested="GoingBack">

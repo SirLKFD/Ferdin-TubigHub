@@ -99,13 +99,13 @@
 
 
 
-        <TextBox x:Name="tbxFirstName" HorizontalAlignment="Left"  Margin="227,494,0,0" TextWrapping="Wrap" Text="{Binding Buyer.FirstName, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="236" Height="32" Grid.Column="1"/>
-        <TextBox Grid.Column="1" x:Name="tbxMiddleName" HorizontalAlignment="Left" Margin="225,559,0,0" TextWrapping="Wrap" Text="{Binding Buyer.MiddleName, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="236" Height="32"/>
-        <TextBox Grid.Column="1" x:Name="tbxLastName" HorizontalAlignment="Left" Margin="225,429,0,0" TextWrapping="Wrap" Text="{Binding Buyer.LastName, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="236" Height="32"/>
-        <TextBox Grid.Column="1" PreviewKeyDown="tbxPhoneNumber_PreviewKeyDown"  MaxLength="12"  x:Name="tbxPhoneNumber" HorizontalAlignment="Left" Margin="227,624,0,0" TextWrapping="Wrap" Text="{Binding Buyer.PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="236" Height="32"/>
-        <TextBox Grid.Column="1" x:Name="tbxAddressLine1" HorizontalAlignment="Left" Margin="225,692,0,0" TextWrapping="Wrap" Text="{Binding Buyer.AddressLine1, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="236" Height="32"/>
-        <TextBox Grid.Column="1" x:Name="tbxAddressLine2" HorizontalAlignment="Left" Margin="225,765,0,0" TextWrapping="Wrap" Text="{Binding Buyer.AddressLine2, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="236" Height="32"/>
-        <TextBox Grid.Column="1" x:Name="tbxEmail" HorizontalAlignment="Left" Margin="648,430,0,0" TextWrapping="Wrap" Text="{Binding Buyer.Email, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="236" Height="32"/>
+        <TextBox CornerRadius="5"  x:Name="tbxFirstName" HorizontalAlignment="Left"  Margin="227,494,0,0" TextWrapping="Wrap" Text="{Binding Buyer.FirstName, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="236" Height="32" Grid.Column="1"/>
+        <TextBox CornerRadius="5"  Grid.Column="1" x:Name="tbxMiddleName" HorizontalAlignment="Left" Margin="225,559,0,0" TextWrapping="Wrap" Text="{Binding Buyer.MiddleName, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="236" Height="32"/>
+        <TextBox CornerRadius="5"  Grid.Column="1" x:Name="tbxLastName" HorizontalAlignment="Left" Margin="225,429,0,0" TextWrapping="Wrap" Text="{Binding Buyer.LastName, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="236" Height="32"/>
+        <TextBox CornerRadius="5"  Grid.Column="1" PreviewKeyDown="tbxPhoneNumber_PreviewKeyDown"  MaxLength="12"  x:Name="tbxPhoneNumber" HorizontalAlignment="Left" Margin="227,624,0,0" TextWrapping="Wrap" Text="{Binding Buyer.PhoneNumber, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="236" Height="32"/>
+        <TextBox CornerRadius="5"  Grid.Column="1" x:Name="tbxAddressLine1" HorizontalAlignment="Left" Margin="225,692,0,0" TextWrapping="Wrap" Text="{Binding Buyer.AddressLine1, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="236" Height="32"/>
+        <TextBox CornerRadius="5"  Grid.Column="1" x:Name="tbxAddressLine2" HorizontalAlignment="Left" Margin="225,765,0,0" TextWrapping="Wrap" Text="{Binding Buyer.AddressLine2, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="236" Height="32"/>
+        <TextBox CornerRadius="5"  Grid.Column="1" x:Name="tbxEmail" HorizontalAlignment="Left" Margin="648,430,0,0" TextWrapping="Wrap" Text="{Binding Buyer.Email, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="236" Height="32"/>
 
 
 

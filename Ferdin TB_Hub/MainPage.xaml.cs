@@ -75,7 +75,7 @@ namespace Ferdin_TB_Hub
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
           
         }
@@ -89,7 +89,7 @@ namespace Ferdin_TB_Hub
 
                 if (string.IsNullOrEmpty(usernameOrEmail) || string.IsNullOrEmpty(password))
                 {
-                    Buttons.ShowMessage("Please complete the fields.");
+                    Buttons.ShowPrompt("Please complete the fields.");
                     return;
                 }
 
@@ -108,13 +108,13 @@ namespace Ferdin_TB_Hub
                         else
                         {
                             // Buyer not found in the database
-                            Buttons.ShowMessage("Buyer doesn't exist, please try again, or create an account.");
+                            Buttons.ShowPrompt("Buyer doesn't exist, please try again, or create an account.");
                         }
                     }
                     else
                     {
                         // Buyer does not exist or invalid credentials, show an error message or handle it accordingly
-                        Buttons.ShowMessage("Buyer doesn't exist, please try again, or create an account.");
+                        Buttons.ShowPrompt("Buyer doesn't exist, please try again, or create an account.");
                     }
                 }
 
@@ -134,24 +134,24 @@ namespace Ferdin_TB_Hub
                         else
                         {
                             // Seller not found in the database
-                            Buttons.ShowMessage("Seller doesn't exist, please try again, or create an account.");
+                            Buttons.ShowPrompt("Seller doesn't exist, please try again, or create an account.");
                         }
                     }
                     else
                     {
                         // Seller does not exist or invalid credentials, show an error message or handle it accordingly
-                        Buttons.ShowMessage("Seller doesn't exist, please try again, or create an account.");
+                        Buttons.ShowPrompt("Seller doesn't exist, please try again, or create an account.");
                     }
                 }
                 else
                 {
                     // Seller not found in the database
-                    Buttons.ShowMessage("Seller doesn't exist, please try again, or create an account.");
+                    Buttons.ShowPrompt("Seller doesn't exist, please try again, or create an account.");
                 }
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
       
             }
@@ -167,7 +167,7 @@ namespace Ferdin_TB_Hub
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
         }
 
@@ -199,7 +199,7 @@ namespace Ferdin_TB_Hub
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
             }
                   

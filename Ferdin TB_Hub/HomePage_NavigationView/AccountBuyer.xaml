@@ -58,16 +58,16 @@
                         <TextBlock x:Name="ID" FontSize="20" Text="ID" HorizontalAlignment="Left" Margin="25,644,0,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.854,1.11"/>
 
 
-                        <TextBox IsEnabled="False"  x:Name="tbxUsername" Text="{Binding Buyer.Username, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239"/>
-                        <TextBox  IsEnabled="False" x:Name="tbxFirstName" Text="{Binding Buyer.FirstName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239"/>
-                        <TextBox  IsEnabled="False" x:Name="tbxMiddleName" Text="{Binding Buyer.MiddleName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,111,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239"/>
-                        <TextBox  IsEnabled="False"  x:Name="tbxLastName" Text="{Binding Buyer.LastName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239"/>
-                        <TextBox  IsEnabled="False"  x:Name="tbxPhoneNumber" Text="{Binding Buyer.PhoneNumber, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,213,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="239"/>
-                        <TextBox  IsEnabled="False" x:Name="tbxAddressLine1" Text="{Binding Buyer.AddressLine1, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,268,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239" Height="33"/>
-                        <TextBox  IsEnabled="False"  x:Name="tbxAddressLine2" Text="{Binding Buyer.AddressLine2, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,320,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239" Height="33"/>
-                        <TextBox  IsEnabled="False"  x:Name="tbxEmail" Text="{Binding Buyer.Email, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,370,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="239"/>
-                        <PasswordBox  IsEnabled="False" x:Name="tbxPassword" Password="{Binding Buyer.Password, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,423,0,0" VerticalAlignment="Top" Width="239"/>
-                        <TextBox  x:Name="tbxID" Text="{Binding Buyer.BUYER_ID, Mode=TwoWay}" HorizontalAlignment="Left" Margin="59,641,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="46" IsReadOnly="True" IsEnabled="False"/>
+                        <TextBox CornerRadius="5"  IsEnabled="False"  x:Name="tbxUsername" Text="{Binding Buyer.Username, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239"/>
+                        <TextBox CornerRadius="5"   IsEnabled="False" x:Name="tbxFirstName" Text="{Binding Buyer.FirstName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239"/>
+                        <TextBox CornerRadius="5"   IsEnabled="False" x:Name="tbxMiddleName" Text="{Binding Buyer.MiddleName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,111,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239"/>
+                        <TextBox CornerRadius="5"   IsEnabled="False"  x:Name="tbxLastName" Text="{Binding Buyer.LastName, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239"/>
+                        <TextBox CornerRadius="5"   IsEnabled="False"  x:Name="tbxPhoneNumber" Text="{Binding Buyer.PhoneNumber, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,213,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="239"/>
+                        <TextBox CornerRadius="5"   IsEnabled="False" x:Name="tbxAddressLine1" Text="{Binding Buyer.AddressLine1, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,268,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239" Height="33"/>
+                        <TextBox CornerRadius="5"   IsEnabled="False"  x:Name="tbxAddressLine2" Text="{Binding Buyer.AddressLine2, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,320,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239" Height="33"/>
+                        <TextBox CornerRadius="5"   IsEnabled="False"  x:Name="tbxEmail" Text="{Binding Buyer.Email, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,370,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="239"/>
+                        <PasswordBox CornerRadius="5"   IsEnabled="False" x:Name="tbxPassword" Password="{Binding Buyer.Password, Mode=TwoWay}" HorizontalAlignment="Left" Margin="170,423,0,0" VerticalAlignment="Top" Width="239"/>
+                        <TextBox CornerRadius="5"   x:Name="tbxID" Text="{Binding Buyer.BUYER_ID, Mode=TwoWay}" HorizontalAlignment="Left" Margin="59,641,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="69" IsReadOnly="True" IsEnabled="False"/>
 
 
 
@@ -101,7 +101,7 @@
                         Foreground="White"
                         Background="{ThemeResource SystemAccentColor}"
                         CornerRadius="5"
-                        Padding="15,5,15,5" VerticalAlignment="Top" Margin="128,641,0,0" Click="DeleteBuyerAccount_Click"/>
+                        Padding="15,5,15,5" VerticalAlignment="Top" Margin="144,640,0,0" Click="DeleteBuyerAccount_Click"/>
 
 
                     </Grid>
@@ -140,8 +140,8 @@
                 <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="210,652,0,0" TextWrapping="Wrap" Text="WinUI 2.0" VerticalAlignment="Top"/>
                 <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="210,683,0,0" TextWrapping="Wrap" Text=".NET Core 8.0" VerticalAlignment="Top"/>
 
-                <TextBlock HorizontalAlignment="Left" FontSize="20" FontWeight="ExtraBold" Margin="170,744,0,0" TextWrapping="Wrap" Text="UWP Documentation can be found at " VerticalAlignment="Top"/>
-                <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="299,770,0,0" TextWrapping="Wrap" Text="https://learn.microsoft.com/en-us/windows/uwp/" VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" FontSize="20" FontWeight="ExtraBold" Margin="170,744,0,0" TextWrapping="Wrap" Text="WinUI Documentation can be found at " VerticalAlignment="Top"/>
+                <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="299,770,0,0" TextWrapping="Wrap" Text="https://learn.microsoft.com/en-us/windows/apps/winui/" VerticalAlignment="Top"/>
 
 
                 <TextBlock HorizontalAlignment="Left" FontSize="20" FontStyle="Italic" Margin="170,839,0,0" TextWrapping="Wrap" Text="The app uses some open-source code through Microsoft Public License" VerticalAlignment="Top"/>

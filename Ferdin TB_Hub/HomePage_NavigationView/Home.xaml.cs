@@ -204,7 +204,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
         }
 

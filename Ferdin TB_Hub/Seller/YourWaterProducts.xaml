@@ -57,13 +57,13 @@
                     <TextBlock HorizontalAlignment="Left" Margin="235,799,0,0" TextWrapping="Wrap" Text="Supported file types: JPEG, PNG" VerticalAlignment="Top" FontStyle="Italic"/>
                     <TextBlock HorizontalAlignment="Left" Margin="68,865,0,0" TextWrapping="Wrap" Text="SKU: " VerticalAlignment="Top" FontStyle="Italic"/>
 
-                    <TextBox x:Name="tbxProductName" HorizontalAlignment="Left" Margin="212,108,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="344"/>
-                    <TextBox x:Name="tbxProductPrice" HorizontalAlignment="Left" Margin="212,241,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="172"/>
+                    <TextBox CornerRadius="5" x:Name="tbxProductName" HorizontalAlignment="Left" Margin="212,108,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="344"/>
+                    <TextBox CornerRadius="5"  x:Name="tbxProductPrice" HorizontalAlignment="Left" Margin="212,241,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="172"/>
                     <TextBlock x:Name="lblProductSKU" HorizontalAlignment="Left" Margin="111,865,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" FontStyle="Italic"/>
 
 
 
-                    <ComboBox x:Name="cbxProductCategory" Margin="212,173,0,0" Width="312">
+                    <ComboBox CornerRadius="5"  x:Name="cbxProductCategory" Margin="212,173,0,0" Width="312">
                         <ComboBoxItem Content="Electrolyte Water"/>
                         <ComboBoxItem Content="Mineral Water"/>
                         <ComboBoxItem Content="Distilled Water"/>
@@ -79,10 +79,10 @@
                     <TextBox IsEnabled="False" Visibility="Collapsed" TextChanged="tbxSellerID_TextChanged" x:Name="tbxSellerID"  HorizontalAlignment="Left" Margin="368,554,0,0" TextWrapping="Wrap" Text="{Binding Seller.SELLER_ID, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Top" Width="87"/>
                     <TextBlock Visibility="Collapsed" HorizontalAlignment="Left" Margin="302,561,0,0" TextWrapping="Wrap" Text="SellerID" VerticalAlignment="Top"/>
 
-                    <RichEditBox x:Name="tbxProductDescription" HorizontalAlignment="Left" Margin="212,303,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="344" Height="215"/>
-                    <TextBox x:Name="tbxProductQuantity" HorizontalAlignment="Left" Margin="212,554,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77"/>
+                    <RichEditBox CornerRadius="5"  x:Name="tbxProductDescription" HorizontalAlignment="Left" Margin="212,303,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="344" Height="215"/>
+                    <TextBox CornerRadius="5"  x:Name="tbxProductQuantity" HorizontalAlignment="Left" Margin="212,554,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77"/>
 
-                    <Button IsEnabled="False" x:Name="ChangePicture" Click="ChangePicture_Click" CornerRadius="5" Foreground="White" Background="{ThemeResource SystemAccentColor}" Content="Change Picture" Margin="68,708,0,0" VerticalAlignment="Top"/>
+                    <Button  IsEnabled="False" x:Name="ChangePicture" Click="ChangePicture_Click" CornerRadius="5" Foreground="White" Background="{ThemeResource SystemAccentColor}" Content="Change Picture" Margin="68,708,0,0" VerticalAlignment="Top"/>
                     <Button IsEnabled="False" x:Name="UpdateProduct" CornerRadius="5" Foreground="White" Background="{ThemeResource SystemAccentColor}" Content="Update Product" VerticalAlignment="Top" Click="UpdateProduct_Click" Margin="469,610,0,0"/>
                     <Button IsEnabled="False" x:Name="DeleteProduct" CornerRadius="5" Foreground="White" Background="{ThemeResource SystemAccentColor}" Content="Delete Product"  VerticalAlignment="Top" Click="DeleteProduct_Click" Margin="468,760,0,0"/>
 

@@ -145,7 +145,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
                 string.IsNullOrWhiteSpace(tbxAddressLine1.Text) || string.IsNullOrWhiteSpace(tbxAddressLine2.Text))
             {
                 // Display error message
-                Buttons.ShowMessage("Please fill in all fields.");
+                Buttons.ShowPrompt("Please fill in all fields.");
                 return;
             }
 
@@ -165,17 +165,18 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             if (!int.TryParse(tbxID.Text, out buyer_id))
             {
                 // Handle invalid input (e.g., display an error message)
-                Buttons.ShowMessage("Invalid buyer ID.");
+                Buttons.ShowPrompt("Invalid buyer ID.");
                 return;
             }
 
+            /*
             // Check if the username or email already exists
             if (Database.IsBuyerAlreadyExists(username, ""))
             {
                 // Show an error message indicating that the username or email is already taken
-                Buttons.ShowMessage("Username or email already exists. Please choose another one.");
+                Buttons.ShowPrompt("Username already exists. Please choose another one.");
                 return; // Exit the method without proceeding further
-            }
+            }*/
 
             // Create a confirmation dialog
             ContentDialog confirmDialog = new ContentDialog

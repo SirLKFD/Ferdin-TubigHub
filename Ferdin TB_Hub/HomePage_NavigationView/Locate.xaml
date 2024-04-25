@@ -51,7 +51,7 @@
             </ListView>
 
 
-            <ListView  Grid.Column="1" x:Name="SellersProductsListView" Margin="72,133,-279,61" ItemsSource="{x:Bind Products}">
+            <ListView  Grid.Column="1" x:Name="SellersProductsListView" Margin="72,133,-453,61" ItemsSource="{x:Bind Products}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
 

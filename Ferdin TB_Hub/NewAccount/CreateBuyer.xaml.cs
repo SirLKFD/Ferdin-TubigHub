@@ -65,7 +65,7 @@ namespace Ferdin_TB_Hub.NewAccount
                 string.IsNullOrWhiteSpace(addressLine2))
             {
                 // Show an error message indicating that all fields are required
-                Buttons.ShowMessage("All fields are required. Please fill in all the fields.");
+                Buttons.ShowPrompt("All fields are required. Please fill in all the fields.");
                 return; // Exit the method without proceeding further
             }
 
@@ -73,7 +73,7 @@ namespace Ferdin_TB_Hub.NewAccount
             if (Database.IsBuyerAlreadyExists(username, email))
             {
                 // Show an error message indicating that the username is already taken
-                Buttons.ShowMessage("Username or email already exists. Please choose another one.");
+                Buttons.ShowPrompt("Username or email already exists. Please choose another one.");
                 return; // Exit the method without proceeding further
             }
 
@@ -88,12 +88,12 @@ namespace Ferdin_TB_Hub.NewAccount
             if (isAdded)
             {
                 // The buyer has been successfully added
-                Buttons.ShowMessage("Buyer details added successfully!");
+                Buttons.ShowPrompt("Buyer details added successfully!");
             }
             else
             {
                 // There was an issue adding the buyer
-                Buttons.ShowMessage("Failed to add buyer, check your fields, and please try again.");
+                Buttons.ShowPrompt("Failed to add buyer, check your fields, and please try again.");
             }
 
             // Clear all the textboxes

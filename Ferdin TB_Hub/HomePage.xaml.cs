@@ -32,6 +32,7 @@ namespace Ferdin_TB_Hub
         private List<Page> pageInstances = new List<Page>();
         private BuyerDetails _buyer;
         private ProductDetails _productdetails;
+        
 
 
         public HomePage()
@@ -42,7 +43,7 @@ namespace Ferdin_TB_Hub
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
         }
 
@@ -64,7 +65,7 @@ namespace Ferdin_TB_Hub
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
         }
 
@@ -100,7 +101,7 @@ namespace Ferdin_TB_Hub
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
           
         }
@@ -110,15 +111,14 @@ namespace Ferdin_TB_Hub
             {
                 // Create a logic that will go back to the previous page when the back button is clicked
                 if (contentFrame.CanGoBack)
-                {
-                    // Fix the code below
-
+                {                  
                     contentFrame.GoBack();
                 }
+               
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
                          
         }
@@ -139,7 +139,7 @@ namespace Ferdin_TB_Hub
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
           
 
@@ -155,7 +155,7 @@ namespace Ferdin_TB_Hub
             }
             catch (Exception ex)
             {
-                Buttons.ShowMessage(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }      
         }
     }

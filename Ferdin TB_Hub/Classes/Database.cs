@@ -80,7 +80,7 @@ namespace Ferdin_TB_Hub.Classes
             // Give me the properties of the ProductCart
             public int ProductCart_ID { get; set; }
             public int Buyer_ID { get; set; }
-          
+
             public int Seller_ID { get; set; }
 
             public int ProductDetails_ID { get; set; }
@@ -124,7 +124,7 @@ namespace Ferdin_TB_Hub.Classes
 
         }
 
- 
+
 
 
 
@@ -165,7 +165,7 @@ namespace Ferdin_TB_Hub.Classes
             {
                 Buttons.ShowMessage(ex.Message);
             }
-          
+
         }
 
         // Method to check if the buyer username already exists
@@ -229,7 +229,7 @@ namespace Ferdin_TB_Hub.Classes
             {
                 Buttons.ShowMessage(ex.Message);
             }
-         
+
         }
 
         // Query to Retreive Buyer Account
@@ -410,7 +410,7 @@ namespace Ferdin_TB_Hub.Classes
             {
                 Buttons.ShowMessage(ex.Message);
             }
-          
+
         }
 
 
@@ -452,10 +452,10 @@ namespace Ferdin_TB_Hub.Classes
             {
 
             }
-         
+
         }
 
-      
+
 
 
         // Method to check if the seller username, email, or business name already exists
@@ -520,7 +520,7 @@ namespace Ferdin_TB_Hub.Classes
             {
                 Buttons.ShowMessage(ex.Message);
             }
-          
+
         }
 
         // Query to Retrieve Seller Account
@@ -657,11 +657,11 @@ namespace Ferdin_TB_Hub.Classes
                     con.Close();
                 }
             }
-           catch (Exception ex)
+            catch (Exception ex)
             {
                 Buttons.ShowMessage(ex.Message);
             }
-           
+
         }
 
 
@@ -765,7 +765,7 @@ namespace Ferdin_TB_Hub.Classes
             {
                 Buttons.ShowMessage(ex.Message);
             }
-                 
+
         }
 
 
@@ -822,15 +822,15 @@ namespace Ferdin_TB_Hub.Classes
             {
                 Buttons.ShowMessage(ex.Message);
             }
-          
-          
+
+
         }
 
 
         // Query to Retrieve Seller's product details
         public static List<ProductDetails> GetProductDetails(int seller_id)
         {
-           
+
             List<ProductDetails> productList = new List<ProductDetails>();
 
             string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
@@ -941,7 +941,7 @@ namespace Ferdin_TB_Hub.Classes
             {
                 Buttons.ShowMessage(ex.Message);
             }
-           
+
         }
 
 
@@ -969,17 +969,17 @@ namespace Ferdin_TB_Hub.Classes
             {
                 Buttons.ShowMessage(ex.Message);
             }
-        
+
         }
-          
+
         private static byte[] GetByteArrayFromBlob(SqliteDataReader reader, int columnIndex)
         {
-                 byte[] buffer = new byte[reader.GetBytes(columnIndex, 0, null, 0, int.MaxValue)];
-                reader.GetBytes(columnIndex, 0, buffer, 0, buffer.Length);
-                return buffer;
+            byte[] buffer = new byte[reader.GetBytes(columnIndex, 0, null, 0, int.MaxValue)];
+            reader.GetBytes(columnIndex, 0, buffer, 0, buffer.Length);
+            return buffer;
         }
-         
-       
+
+
         /// <summary>
         /// PRODUCT CART
         /// </summary>
@@ -1022,7 +1022,7 @@ namespace Ferdin_TB_Hub.Classes
             {
                 Buttons.ShowMessage(ex.Message);
             }
-          
+
         }
 
 
@@ -1049,7 +1049,7 @@ namespace Ferdin_TB_Hub.Classes
                     cmdInsertRecord.Parameters.AddWithValue("@Seller_ID", seller_ID);
                     cmdInsertRecord.Parameters.AddWithValue("@ProductDetails_ID", productdetails_ID);
                     cmdInsertRecord.Parameters.AddWithValue("@ProductSKU", productSKU);
-                    
+
 
                     cmdInsertRecord.ExecuteNonQuery();
                     con.Close();
@@ -1059,7 +1059,7 @@ namespace Ferdin_TB_Hub.Classes
             {
                 Buttons.ShowMessage(ex.Message);
             }
-           
+
         }
 
         // Method to delete a product from the cart
@@ -1085,7 +1085,7 @@ namespace Ferdin_TB_Hub.Classes
             {
                 Buttons.ShowMessage(ex.Message);
             }
-            
+
         }
 
         // Method to get Product Quantity
@@ -1184,7 +1184,7 @@ namespace Ferdin_TB_Hub.Classes
             {
                 Buttons.ShowMessage(ex.Message);
             }
-           
+
         }
 
 
@@ -1212,7 +1212,7 @@ namespace Ferdin_TB_Hub.Classes
             {
                 Buttons.ShowMessage(ex.Message);
             }
-           
+
         }
 
         public static void RestoreProductQuantityByProductName(string productName, int quantity)
@@ -1309,7 +1309,7 @@ namespace Ferdin_TB_Hub.Classes
             {
                 Buttons.ShowMessage(ex.Message);
             }
-          
+
         }
 
 
@@ -1372,12 +1372,12 @@ namespace Ferdin_TB_Hub.Classes
                     con.Close();
                 }
             }
-           catch (Exception ex)
+            catch (Exception ex)
             {
                 Buttons.ShowMessage(ex.Message);
             }
 
-          
+
         }
 
         // Query to Retrieve All Product Receipt by Order Number
@@ -1397,7 +1397,7 @@ namespace Ferdin_TB_Hub.Classes
 
                 while (reader.Read())
                 {
-                    ProductReceipt productReceipt = new ProductReceipt();                
+                    ProductReceipt productReceipt = new ProductReceipt();
                     productReceipt.PRODUCTRECEIPT_ID = reader.GetInt32(0);
                     productReceipt.OrderNumber = reader.GetInt64(1);
                     productReceipt.ProductName = reader.GetString(2);
@@ -1445,7 +1445,7 @@ namespace Ferdin_TB_Hub.Classes
                 while (reader.Read())
                 {
                     ProductReceipt productReceipt = new ProductReceipt();
-                    
+
                     productReceipt.PRODUCTRECEIPT_ID = reader.GetInt32(0);
                     productReceipt.Buyer_ID = reader.GetInt32(1);
                     productReceipt.Seller_ID = reader.GetInt32(2);
@@ -1454,7 +1454,7 @@ namespace Ferdin_TB_Hub.Classes
                     productReceipt.ProductCategory = reader.GetString(5);
                     productReceipt.ProductPrice = reader.GetDouble(6);
                     productReceipt.ProductQuantity = reader.GetInt32(7);
-                  
+
 
                     productReceiptList.Add(productReceipt);
                 }
@@ -1626,7 +1626,6 @@ namespace Ferdin_TB_Hub.Classes
         }
 
 
-
         // Method to pass the cart items to the receipt with product category, address, and date purchased
         public static void PassProductToReceipt(ProductCart productCart, string lastName, string firstName, string middleName, string phoneNumber, string productCategory, string addressLine1, string addressLine2, string email, string paymentMethod, DateTime datePurchased, int buyer_ID, int seller_ID)
         {
@@ -1638,12 +1637,12 @@ namespace Ferdin_TB_Hub.Classes
                 // Delete the product from the cart
                 DeleteProductFromCart(productCart.ProductCart_ID);
             }
-           catch (Exception ex)
+            catch (Exception ex)
             {
                 Buttons.ShowMessage(ex.Message);
             }
-        
-        }     
+
+        }
 
     }
 }
