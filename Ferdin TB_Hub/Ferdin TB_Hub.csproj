@@ -148,7 +148,6 @@
     <Compile Include="Classes\Buttons.cs" />
     <Compile Include="Classes\BuyerAndSellerID.cs" />
     <Compile Include="Classes\ByteArrayToImageSourceConverter.cs" />
-    <Compile Include="Classes\ChatGPTIntegration.cs" />
     <Compile Include="Classes\Database.cs" />
     <Compile Include="Classes\Methods.cs" />
     <Compile Include="Classes\SellerAuthentication.cs" />
