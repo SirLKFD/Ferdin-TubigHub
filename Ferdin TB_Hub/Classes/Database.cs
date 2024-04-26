@@ -10,8 +10,6 @@ namespace Ferdin_TB_Hub.Classes
     public class Database
     {
 
-        // THIS IS FROM THE DATABASE.CS
-
         public Database()
         {
             InitializeDB_BUYERACCOUNTS();
@@ -49,9 +47,6 @@ namespace Ferdin_TB_Hub.Classes
             public string AddressLine2 { get; set; }
         }
 
-
-
-        // THIS IS FROM THE DATABASE.CS
 
         public class ProductDetails
         {
