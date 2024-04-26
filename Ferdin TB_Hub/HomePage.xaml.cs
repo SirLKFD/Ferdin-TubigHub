@@ -1,21 +1,10 @@
 ﻿using Ferdin_TB_Hub.BuyerAccountPage;
 using Ferdin_TB_Hub.Classes;
 using Ferdin_TB_Hub.HomePage_NavigationView;
-using Ferdin_TB_Hub.NewAccount;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using static Ferdin_TB_Hub.Classes.Database;
 
@@ -29,17 +18,16 @@ namespace Ferdin_TB_Hub
     public sealed partial class HomePage : Page
     {
 
-        private List<Page> pageInstances = new List<Page>();
+        private readonly List<Page> pageInstances = new List<Page>();
         private BuyerDetails _buyer;
-        private ProductDetails _productdetails;
-        
+
 
 
         public HomePage()
         {
             try
             {
-                this.InitializeComponent();
+                InitializeComponent();
             }
             catch (Exception ex)
             {
@@ -51,7 +39,7 @@ namespace Ferdin_TB_Hub
         {
             try
             {
-                contentFrame.Navigate(typeof(Home));
+                _ = contentFrame.Navigate(typeof(Home));
 
                 // Select the "Home" NavigationViewItem
                 foreach (NavigationViewItemBase item in navigationView.MenuItems)
@@ -81,20 +69,20 @@ namespace Ferdin_TB_Hub
                 switch (item.Tag.ToString())
                 {
                     case "Locate":
-                        contentFrame.Navigate(typeof(Locate), _buyer);
+                        _ = contentFrame.Navigate(typeof(Locate), _buyer);
                         break;
                     case "Account":
                         //THE BUYER INFO WILL BE PASSED TO THE ACCOUNT BUYER
-                        contentFrame.Navigate(typeof(AccountBuyer), _buyer);
+                        _ = contentFrame.Navigate(typeof(AccountBuyer), _buyer);
                         break;
                     case "Home":
-                        contentFrame.Navigate(typeof(Home), _buyer);
+                        _ = contentFrame.Navigate(typeof(Home), _buyer);
                         break;
                     case "Cart":
-                        contentFrame.Navigate(typeof(Cart), _buyer);
+                        _ = contentFrame.Navigate(typeof(Cart), _buyer);
                         break;
                     case "History":
-                        contentFrame.Navigate(typeof(OrderHistory), _buyer);
+                        _ = contentFrame.Navigate(typeof(OrderHistory), _buyer);
                         break;
 
                 }
@@ -103,7 +91,7 @@ namespace Ferdin_TB_Hub
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-          
+
         }
         private void GoingBack(NavigationView sender, NavigationViewBackRequestedEventArgs args)
         {
@@ -111,16 +99,16 @@ namespace Ferdin_TB_Hub
             {
                 // Create a logic that will go back to the previous page when the back button is clicked
                 if (contentFrame.CanGoBack)
-                {                  
+                {
                     contentFrame.GoBack();
                 }
-               
+
             }
             catch (Exception ex)
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-                         
+
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -141,7 +129,7 @@ namespace Ferdin_TB_Hub
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-          
+
 
         }
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -151,12 +139,12 @@ namespace Ferdin_TB_Hub
                 base.OnNavigatingFrom(e);
 
                 // Remove the current instance of the page from the collection
-                pageInstances.Remove(this);
+                _ = pageInstances.Remove(this);
             }
             catch (Exception ex)
             {
                 Buttons.ShowPrompt(ex.Message);
-            }      
+            }
         }
     }
 }

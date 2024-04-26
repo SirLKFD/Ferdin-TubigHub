@@ -1,20 +1,9 @@
 ﻿using Ferdin_TB_Hub.Classes;
 using Ferdin_TB_Hub.HomePage_NavigationView;
-using Ferdin_TB_Hub.NewAccount;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using static Ferdin_TB_Hub.Classes.Database;
@@ -31,7 +20,7 @@ namespace Ferdin_TB_Hub.Seller
         private SellerDetails _seller;
         public SellerDetails Seller
         {
-            get { return _seller; }
+            get => _seller;
             set
             {
                 if (_seller != value)
@@ -52,14 +41,14 @@ namespace Ferdin_TB_Hub.Seller
         {
             try
             {
-                this.InitializeComponent();
-                this.DataContext = this; // Set the DataContext of the page to itself
+                InitializeComponent();
+                DataContext = this; // Set the DataContext of the page to itself
             }
             catch (Exception ex)
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-           
+
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -81,7 +70,7 @@ namespace Ferdin_TB_Hub.Seller
             {
 
             }
-         
+
         }
 
         private async void Logout_Click(object sender, RoutedEventArgs e)
@@ -105,7 +94,7 @@ namespace Ferdin_TB_Hub.Seller
                 {
                     // Navigate back to the MainPage to logout
                     _seller = null;
-                    Frame.Navigate(typeof(MainPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromLeft });
+                    _ = Frame.Navigate(typeof(MainPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromLeft });
                 }
                 else
                 {
@@ -116,7 +105,7 @@ namespace Ferdin_TB_Hub.Seller
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-          
+
         }
 
         private async void UpdateSellerInfo_Click(object sender, RoutedEventArgs e)
@@ -148,8 +137,7 @@ namespace Ferdin_TB_Hub.Seller
                 string addressLine2 = tbxAddressLine2.Text;
 
                 // Retrieve the seller's Id from the text box
-                int seller_id;
-                if (!int.TryParse(tbxID.Text, out seller_id))
+                if (!int.TryParse(tbxID.Text, out int seller_id))
                 {
                     // Handle invalid input (e.g., display an error message)
                     Buttons.ShowPrompt("Invalid seller ID.");
@@ -192,7 +180,7 @@ namespace Ferdin_TB_Hub.Seller
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-        
+
         }
 
 
@@ -219,7 +207,7 @@ namespace Ferdin_TB_Hub.Seller
                     Database.DeleteSellerAccountFromDatabase(tbxUsername.Text); // Assuming tbxUsername contains the seller's username
 
                     // Navigate back to the main page
-                    Frame.Navigate(typeof(MainPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromLeft });
+                    _ = Frame.Navigate(typeof(MainPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromLeft });
                 }
             }
             catch
@@ -227,7 +215,7 @@ namespace Ferdin_TB_Hub.Seller
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-          
+
         }
 
         private void NavigateToLocatePage()
@@ -235,14 +223,14 @@ namespace Ferdin_TB_Hub.Seller
             try
             {
                 // Pass the Seller object to the Locate page when navigating
-                Frame.Navigate(typeof(Locate), Seller);
+                _ = Frame.Navigate(typeof(Locate), Seller);
             }
             catch
             (Exception ex)
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-           
+
         }
 
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -254,14 +242,14 @@ namespace Ferdin_TB_Hub.Seller
                 switch (item.Tag.ToString())
                 {
                     case "ProductPage":
-                        contentFrame.Navigate(typeof(YourWaterProducts));
+                        _ = contentFrame.Navigate(typeof(YourWaterProducts));
                         break;
 
                     case "AddPage":
-                        contentFrame.Navigate(typeof(AddProduct));
+                        _ = contentFrame.Navigate(typeof(AddProduct));
                         break;
                     case "SellerCompletePage":
-                        contentFrame.Navigate(typeof(SellerComplete));
+                        _ = contentFrame.Navigate(typeof(SellerComplete));
                         break;
                 }
             }
@@ -270,8 +258,8 @@ namespace Ferdin_TB_Hub.Seller
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-           
-          
+
+
         }
 
         private void NavigateToAddProduct()
@@ -279,13 +267,13 @@ namespace Ferdin_TB_Hub.Seller
             try
             {
                 // Pass SellerID as parameter when navigating to AddProduct page
-                Frame.Navigate(typeof(AddProduct), tbxID.Text);
+                _ = Frame.Navigate(typeof(AddProduct), tbxID.Text);
             }
             catch (Exception ex)
             {
-                   Buttons.ShowPrompt(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
-       
+
         }
 
 
@@ -293,7 +281,7 @@ namespace Ferdin_TB_Hub.Seller
         {
             try
             {
-                contentFrame.Navigate(typeof(YourWaterProducts));
+                _ = contentFrame.Navigate(typeof(YourWaterProducts));
             }
             catch (Exception ex)
             {
@@ -330,7 +318,7 @@ namespace Ferdin_TB_Hub.Seller
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-           
+
         }
     }
 }

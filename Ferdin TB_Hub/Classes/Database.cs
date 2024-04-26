@@ -1,16 +1,8 @@
-﻿using System;
+﻿using Microsoft.Data.Sqlite;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SQLitePCL;
-using Windows.Storage;
 using System.IO;
-using Microsoft.Data.Sqlite;
-using System.Security.Cryptography.X509Certificates;
-using Windows.UI.Xaml;
-using System.Net;
-using Ferdin_TB_Hub.HomePage_NavigationView;
+using Windows.Storage;
 
 
 namespace Ferdin_TB_Hub.Classes
@@ -133,11 +125,11 @@ namespace Ferdin_TB_Hub.Classes
         /// </summary>
 
         //Initializing for Buyer Accounts Database
-        public async static void InitializeDB_BUYERACCOUNTS()
+        public static async void InitializeDB_BUYERACCOUNTS()
         {
             try
             {
-                await ApplicationData.Current.LocalFolder.CreateFileAsync("MyDatabase.db", CreationCollisionOption.OpenIfExists);
+                _ = await ApplicationData.Current.LocalFolder.CreateFileAsync("MyDatabase.db", CreationCollisionOption.OpenIfExists);
                 string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
 
                 using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
@@ -157,7 +149,7 @@ namespace Ferdin_TB_Hub.Classes
                           )";
 
                     SqliteCommand CMDcreateTable = new SqliteCommand(initCMD, con);
-                    CMDcreateTable.ExecuteReader();
+                    _ = CMDcreateTable.ExecuteReader();
                     con.Close();
                 }
             }
@@ -179,8 +171,8 @@ namespace Ferdin_TB_Hub.Classes
                 string selectCMD = "SELECT COUNT(*) FROM Buyers WHERE Username = @Username OR Email = @Email";
 
                 SqliteCommand cmdSelectRecords = new SqliteCommand(selectCMD, con);
-                cmdSelectRecords.Parameters.AddWithValue("@Username", username);
-                cmdSelectRecords.Parameters.AddWithValue("@Email", email);
+                _ = cmdSelectRecords.Parameters.AddWithValue("@Username", username);
+                _ = cmdSelectRecords.Parameters.AddWithValue("@Email", email);
                 int count = Convert.ToInt32(cmdSelectRecords.ExecuteScalar());
 
                 con.Close();
@@ -211,17 +203,17 @@ namespace Ferdin_TB_Hub.Classes
                             VALUES (@Email, @Username, @LastName, @FirstName, @MiddleName, @Password, @PhoneNumber, @AddressLine1, @AddressLine2)";
 
                     SqliteCommand cmdInsertRecord = new SqliteCommand(insertCMD, con);
-                    cmdInsertRecord.Parameters.AddWithValue("@Email", email);
-                    cmdInsertRecord.Parameters.AddWithValue("@Username", username);
-                    cmdInsertRecord.Parameters.AddWithValue("@LastName", lastName);
-                    cmdInsertRecord.Parameters.AddWithValue("@FirstName", firstName);
-                    cmdInsertRecord.Parameters.AddWithValue("@MiddleName", middleName);
-                    cmdInsertRecord.Parameters.AddWithValue("@Password", password);
-                    cmdInsertRecord.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
-                    cmdInsertRecord.Parameters.AddWithValue("@AddressLine1", addressLine1);
-                    cmdInsertRecord.Parameters.AddWithValue("@AddressLine2", addressLine2);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@Email", email);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@Username", username);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@LastName", lastName);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@FirstName", firstName);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@MiddleName", middleName);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@Password", password);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@AddressLine1", addressLine1);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@AddressLine2", addressLine2);
 
-                    cmdInsertRecord.ExecuteReader();
+                    _ = cmdInsertRecord.ExecuteReader();
                     con.Close();
                 }
             }
@@ -249,17 +241,19 @@ namespace Ferdin_TB_Hub.Classes
 
                 while (reader.Read())
                 {
-                    BuyerDetails buyer = new BuyerDetails();
-                    buyer.BUYER_ID = reader.GetInt32(0);
-                    buyer.Email = reader.GetString(1);
-                    buyer.Username = reader.GetString(2);
-                    buyer.LastName = reader.GetString(3);
-                    buyer.FirstName = reader.GetString(4);
-                    buyer.MiddleName = reader.GetString(5);
-                    buyer.Password = reader.GetString(6);
-                    buyer.PhoneNumber = reader.GetString(7);
-                    buyer.AddressLine1 = reader.GetString(8);
-                    buyer.AddressLine2 = reader.GetString(9);
+                    BuyerDetails buyer = new BuyerDetails
+                    {
+                        BUYER_ID = reader.GetInt32(0),
+                        Email = reader.GetString(1),
+                        Username = reader.GetString(2),
+                        LastName = reader.GetString(3),
+                        FirstName = reader.GetString(4),
+                        MiddleName = reader.GetString(5),
+                        Password = reader.GetString(6),
+                        PhoneNumber = reader.GetString(7),
+                        AddressLine1 = reader.GetString(8),
+                        AddressLine2 = reader.GetString(9)
+                    };
 
                     buyerList.Add(buyer);
                 }
@@ -282,8 +276,8 @@ namespace Ferdin_TB_Hub.Classes
                 string selectCMD = "SELECT COUNT(*) FROM Buyers WHERE Username = @Username AND Password = @Password";
 
                 SqliteCommand cmdSelectRecords = new SqliteCommand(selectCMD, con);
-                cmdSelectRecords.Parameters.AddWithValue("@Username", username);
-                cmdSelectRecords.Parameters.AddWithValue("@Password", password);
+                _ = cmdSelectRecords.Parameters.AddWithValue("@Username", username);
+                _ = cmdSelectRecords.Parameters.AddWithValue("@Password", password);
                 int count = Convert.ToInt32(cmdSelectRecords.ExecuteScalar());
 
                 con.Close();
@@ -304,24 +298,26 @@ namespace Ferdin_TB_Hub.Classes
                 string selectCMD = "SELECT BUYER_ID, Email, Username, LastName, FirstName, MiddleName, Password, PhoneNumber, AddressLine1, AddressLine2 FROM Buyers WHERE Username = @Username OR Email = @Email";
 
                 SqliteCommand cmdSelectRecords = new SqliteCommand(selectCMD, con);
-                cmdSelectRecords.Parameters.AddWithValue("@Username", usernameOrEmail);
-                cmdSelectRecords.Parameters.AddWithValue("@Email", usernameOrEmail);
+                _ = cmdSelectRecords.Parameters.AddWithValue("@Username", usernameOrEmail);
+                _ = cmdSelectRecords.Parameters.AddWithValue("@Email", usernameOrEmail);
 
                 SqliteDataReader reader = cmdSelectRecords.ExecuteReader();
 
                 if (reader.Read())
                 {
-                    buyer = new BuyerDetails();
-                    buyer.BUYER_ID = reader.GetInt32(0); // Assuming the ID is the first column in the result set
-                    buyer.Email = reader.GetString(1);
-                    buyer.Username = reader.GetString(2);
-                    buyer.LastName = reader.GetString(3);
-                    buyer.FirstName = reader.GetString(4);
-                    buyer.MiddleName = reader.GetString(5);
-                    buyer.Password = reader.GetString(6);
-                    buyer.PhoneNumber = reader.GetString(7);
-                    buyer.AddressLine1 = reader.GetString(8);
-                    buyer.AddressLine2 = reader.GetString(9);
+                    buyer = new BuyerDetails
+                    {
+                        BUYER_ID = reader.GetInt32(0), // Assuming the ID is the first column in the result set
+                        Email = reader.GetString(1),
+                        Username = reader.GetString(2),
+                        LastName = reader.GetString(3),
+                        FirstName = reader.GetString(4),
+                        MiddleName = reader.GetString(5),
+                        Password = reader.GetString(6),
+                        PhoneNumber = reader.GetString(7),
+                        AddressLine1 = reader.GetString(8),
+                        AddressLine2 = reader.GetString(9)
+                    };
                 }
 
                 reader.Close();
@@ -353,18 +349,18 @@ namespace Ferdin_TB_Hub.Classes
                     WHERE BUYER_ID = @BUYER_ID";
 
                     SqliteCommand cmdUpdateRecord = new SqliteCommand(updateCMD, con);
-                    cmdUpdateRecord.Parameters.AddWithValue("@BUYER_ID", buyer_id); // Add Id parameter
-                    cmdUpdateRecord.Parameters.AddWithValue("@Email", email);
-                    cmdUpdateRecord.Parameters.AddWithValue("@Username", username);
-                    cmdUpdateRecord.Parameters.AddWithValue("@LastName", lastName);
-                    cmdUpdateRecord.Parameters.AddWithValue("@FirstName", firstName);
-                    cmdUpdateRecord.Parameters.AddWithValue("@MiddleName", middleName);
-                    cmdUpdateRecord.Parameters.AddWithValue("@Password", password);
-                    cmdUpdateRecord.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
-                    cmdUpdateRecord.Parameters.AddWithValue("@AddressLine1", addressLine1);
-                    cmdUpdateRecord.Parameters.AddWithValue("@AddressLine2", addressLine2);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@BUYER_ID", buyer_id); // Add Id parameter
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@Email", email);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@Username", username);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@LastName", lastName);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@FirstName", firstName);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@MiddleName", middleName);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@Password", password);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@AddressLine1", addressLine1);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@AddressLine2", addressLine2);
 
-                    cmdUpdateRecord.ExecuteReader();
+                    _ = cmdUpdateRecord.ExecuteReader();
                     con.Close();
                 }
             }
@@ -390,17 +386,17 @@ namespace Ferdin_TB_Hub.Classes
                     // Delete associated records from ProductReceipts table
                     using (SqliteCommand cmdDeleteReceipts = new SqliteCommand(deleteReceiptsCMD, con))
                     {
-                        cmdDeleteReceipts.Parameters.AddWithValue("@Username", usernameOrEmail);
-                        cmdDeleteReceipts.Parameters.AddWithValue("@Email", usernameOrEmail);
-                        cmdDeleteReceipts.ExecuteNonQuery();
+                        _ = cmdDeleteReceipts.Parameters.AddWithValue("@Username", usernameOrEmail);
+                        _ = cmdDeleteReceipts.Parameters.AddWithValue("@Email", usernameOrEmail);
+                        _ = cmdDeleteReceipts.ExecuteNonQuery();
                     }
 
                     // Delete the buyer account from the Buyers table
                     using (SqliteCommand cmdDeleteBuyer = new SqliteCommand(deleteBuyerCMD, con))
                     {
-                        cmdDeleteBuyer.Parameters.AddWithValue("@Username", usernameOrEmail);
-                        cmdDeleteBuyer.Parameters.AddWithValue("@Email", usernameOrEmail);
-                        cmdDeleteBuyer.ExecuteNonQuery();
+                        _ = cmdDeleteBuyer.Parameters.AddWithValue("@Username", usernameOrEmail);
+                        _ = cmdDeleteBuyer.Parameters.AddWithValue("@Email", usernameOrEmail);
+                        _ = cmdDeleteBuyer.ExecuteNonQuery();
                     }
 
                     con.Close();
@@ -419,11 +415,11 @@ namespace Ferdin_TB_Hub.Classes
         /// </summary>
 
         //Initializing for Seller Accounts Database
-        public async static void InitializeDB_SELLERACCOUNTS()
+        public static async void InitializeDB_SELLERACCOUNTS()
         {
             try
             {
-                await ApplicationData.Current.LocalFolder.CreateFileAsync("MyDatabase.db", CreationCollisionOption.OpenIfExists);
+                _ = await ApplicationData.Current.LocalFolder.CreateFileAsync("MyDatabase.db", CreationCollisionOption.OpenIfExists);
                 string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
 
                 using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
@@ -444,7 +440,7 @@ namespace Ferdin_TB_Hub.Classes
                           )";
 
                     SqliteCommand CMDcreateTable = new SqliteCommand(initCMD, con);
-                    CMDcreateTable.ExecuteReader();
+                    _ = CMDcreateTable.ExecuteReader();
                     con.Close();
                 }
             }
@@ -469,9 +465,9 @@ namespace Ferdin_TB_Hub.Classes
                 string selectCMD = "SELECT COUNT(*) FROM Sellers WHERE Username = @Username OR Email = @Email OR BusinessName = @BusinessName";
 
                 SqliteCommand cmdSelectRecords = new SqliteCommand(selectCMD, con);
-                cmdSelectRecords.Parameters.AddWithValue("@Username", username);
-                cmdSelectRecords.Parameters.AddWithValue("@Email", email);
-                cmdSelectRecords.Parameters.AddWithValue("@BusinessName", businessName);
+                _ = cmdSelectRecords.Parameters.AddWithValue("@Username", username);
+                _ = cmdSelectRecords.Parameters.AddWithValue("@Email", email);
+                _ = cmdSelectRecords.Parameters.AddWithValue("@BusinessName", businessName);
                 int count = Convert.ToInt32(cmdSelectRecords.ExecuteScalar());
 
                 con.Close();
@@ -501,18 +497,18 @@ namespace Ferdin_TB_Hub.Classes
                                     VALUES (@BusinessName, @Email, @Username, @LastName, @FirstName, @MiddleName, @Password, @PhoneNumber, @AddressLine1, @AddressLine2)";
 
                     SqliteCommand cmdInsertRecord = new SqliteCommand(insertCMD, con);
-                    cmdInsertRecord.Parameters.AddWithValue("@BusinessName", businessName);
-                    cmdInsertRecord.Parameters.AddWithValue("@Email", email);
-                    cmdInsertRecord.Parameters.AddWithValue("@Username", username);
-                    cmdInsertRecord.Parameters.AddWithValue("@LastName", lastName);
-                    cmdInsertRecord.Parameters.AddWithValue("@FirstName", firstName);
-                    cmdInsertRecord.Parameters.AddWithValue("@MiddleName", middleName);
-                    cmdInsertRecord.Parameters.AddWithValue("@Password", password);
-                    cmdInsertRecord.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
-                    cmdInsertRecord.Parameters.AddWithValue("@AddressLine1", addressLine1);
-                    cmdInsertRecord.Parameters.AddWithValue("@AddressLine2", addressLine2);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@BusinessName", businessName);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@Email", email);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@Username", username);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@LastName", lastName);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@FirstName", firstName);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@MiddleName", middleName);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@Password", password);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@AddressLine1", addressLine1);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@AddressLine2", addressLine2);
 
-                    cmdInsertRecord.ExecuteReader();
+                    _ = cmdInsertRecord.ExecuteReader();
                     con.Close();
                 }
             }
@@ -540,18 +536,20 @@ namespace Ferdin_TB_Hub.Classes
 
                 while (reader.Read())
                 {
-                    SellerDetails seller = new SellerDetails();
-                    seller.SELLER_ID = reader.GetInt32(0);
-                    seller.BusinessName = reader.GetString(1);
-                    seller.Email = reader.GetString(2);
-                    seller.Username = reader.GetString(3);
-                    seller.LastName = reader.GetString(4);
-                    seller.FirstName = reader.GetString(5);
-                    seller.MiddleName = reader.GetString(6);
-                    seller.Password = reader.GetString(7);
-                    seller.PhoneNumber = reader.GetString(8);
-                    seller.AddressLine1 = reader.GetString(9);
-                    seller.AddressLine2 = reader.GetString(10);
+                    SellerDetails seller = new SellerDetails
+                    {
+                        SELLER_ID = reader.GetInt32(0),
+                        BusinessName = reader.GetString(1),
+                        Email = reader.GetString(2),
+                        Username = reader.GetString(3),
+                        LastName = reader.GetString(4),
+                        FirstName = reader.GetString(5),
+                        MiddleName = reader.GetString(6),
+                        Password = reader.GetString(7),
+                        PhoneNumber = reader.GetString(8),
+                        AddressLine1 = reader.GetString(9),
+                        AddressLine2 = reader.GetString(10)
+                    };
 
                     sellerList.Add(seller);
                 }
@@ -575,8 +573,8 @@ namespace Ferdin_TB_Hub.Classes
                 string selectCMD = "SELECT COUNT(*) FROM Sellers WHERE Username = @Username AND Password = @Password";
 
                 SqliteCommand cmdSelectRecords = new SqliteCommand(selectCMD, con);
-                cmdSelectRecords.Parameters.AddWithValue("@Username", username);
-                cmdSelectRecords.Parameters.AddWithValue("@Password", password);
+                _ = cmdSelectRecords.Parameters.AddWithValue("@Username", username);
+                _ = cmdSelectRecords.Parameters.AddWithValue("@Password", password);
                 int count = Convert.ToInt32(cmdSelectRecords.ExecuteScalar());
 
                 con.Close();
@@ -597,25 +595,27 @@ namespace Ferdin_TB_Hub.Classes
                 string selectCMD = "SELECT SELLER_ID, BusinessName, Email, Username, LastName, FirstName, MiddleName, Password, PhoneNumber, AddressLine1, AddressLine2 FROM Sellers WHERE Username = @Username OR Email = @Email";
 
                 SqliteCommand cmdSelectRecords = new SqliteCommand(selectCMD, con);
-                cmdSelectRecords.Parameters.AddWithValue("@Username", usernameOrEmail);
-                cmdSelectRecords.Parameters.AddWithValue("@Email", usernameOrEmail);
+                _ = cmdSelectRecords.Parameters.AddWithValue("@Username", usernameOrEmail);
+                _ = cmdSelectRecords.Parameters.AddWithValue("@Email", usernameOrEmail);
 
                 SqliteDataReader reader = cmdSelectRecords.ExecuteReader();
 
                 if (reader.Read())
                 {
-                    seller = new SellerDetails();
-                    seller.SELLER_ID = reader.GetInt32(0); // Assuming the ID is the first column in the result set
-                    seller.BusinessName = reader.GetString(1);
-                    seller.Email = reader.GetString(2);
-                    seller.Username = reader.GetString(3);
-                    seller.LastName = reader.GetString(4);
-                    seller.FirstName = reader.GetString(5);
-                    seller.MiddleName = reader.GetString(6);
-                    seller.Password = reader.GetString(7);
-                    seller.PhoneNumber = reader.GetString(8);
-                    seller.AddressLine1 = reader.GetString(9);
-                    seller.AddressLine2 = reader.GetString(10);
+                    seller = new SellerDetails
+                    {
+                        SELLER_ID = reader.GetInt32(0), // Assuming the ID is the first column in the result set
+                        BusinessName = reader.GetString(1),
+                        Email = reader.GetString(2),
+                        Username = reader.GetString(3),
+                        LastName = reader.GetString(4),
+                        FirstName = reader.GetString(5),
+                        MiddleName = reader.GetString(6),
+                        Password = reader.GetString(7),
+                        PhoneNumber = reader.GetString(8),
+                        AddressLine1 = reader.GetString(9),
+                        AddressLine2 = reader.GetString(10)
+                    };
                 }
 
                 reader.Close();
@@ -641,19 +641,19 @@ namespace Ferdin_TB_Hub.Classes
                             WHERE SELLER_ID = @SELLER_ID";
 
                     SqliteCommand cmdUpdateRecord = new SqliteCommand(updateCMD, con);
-                    cmdUpdateRecord.Parameters.AddWithValue("@SELLER_ID", seller_id); // Add Id parameter
-                    cmdUpdateRecord.Parameters.AddWithValue("@BusinessName", businessName);
-                    cmdUpdateRecord.Parameters.AddWithValue("@Email", email);
-                    cmdUpdateRecord.Parameters.AddWithValue("@Username", username);
-                    cmdUpdateRecord.Parameters.AddWithValue("@LastName", lastName);
-                    cmdUpdateRecord.Parameters.AddWithValue("@FirstName", firstName);
-                    cmdUpdateRecord.Parameters.AddWithValue("@MiddleName", middleName);
-                    cmdUpdateRecord.Parameters.AddWithValue("@Password", password);
-                    cmdUpdateRecord.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
-                    cmdUpdateRecord.Parameters.AddWithValue("@AddressLine1", addressLine1);
-                    cmdUpdateRecord.Parameters.AddWithValue("@AddressLine2", addressLine2);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@SELLER_ID", seller_id); // Add Id parameter
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@BusinessName", businessName);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@Email", email);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@Username", username);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@LastName", lastName);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@FirstName", firstName);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@MiddleName", middleName);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@Password", password);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@AddressLine1", addressLine1);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@AddressLine2", addressLine2);
 
-                    cmdUpdateRecord.ExecuteReader();
+                    _ = cmdUpdateRecord.ExecuteReader();
                     con.Close();
                 }
             }
@@ -680,36 +680,36 @@ namespace Ferdin_TB_Hub.Classes
                     string deleteProductReceiptsCMD = "DELETE FROM ProductReceipts WHERE Seller_ID IN (SELECT SELLER_ID FROM Sellers WHERE Username = @Username OR Email = @Email)";
                     using (SqliteCommand cmdDeleteProductReceipts = new SqliteCommand(deleteProductReceiptsCMD, con))
                     {
-                        cmdDeleteProductReceipts.Parameters.AddWithValue("@Username", usernameOrEmail);
-                        cmdDeleteProductReceipts.Parameters.AddWithValue("@Email", usernameOrEmail);
-                        cmdDeleteProductReceipts.ExecuteNonQuery();
+                        _ = cmdDeleteProductReceipts.Parameters.AddWithValue("@Username", usernameOrEmail);
+                        _ = cmdDeleteProductReceipts.Parameters.AddWithValue("@Email", usernameOrEmail);
+                        _ = cmdDeleteProductReceipts.ExecuteNonQuery();
                     }
 
                     // Delete associated records from ProductCart table
                     string deleteProductCartCMD = "DELETE FROM ProductCart WHERE Seller_ID IN (SELECT SELLER_ID FROM Sellers WHERE Username = @Username OR Email = @Email)";
                     using (SqliteCommand cmdDeleteProductCart = new SqliteCommand(deleteProductCartCMD, con))
                     {
-                        cmdDeleteProductCart.Parameters.AddWithValue("@Username", usernameOrEmail);
-                        cmdDeleteProductCart.Parameters.AddWithValue("@Email", usernameOrEmail);
-                        cmdDeleteProductCart.ExecuteNonQuery();
+                        _ = cmdDeleteProductCart.Parameters.AddWithValue("@Username", usernameOrEmail);
+                        _ = cmdDeleteProductCart.Parameters.AddWithValue("@Email", usernameOrEmail);
+                        _ = cmdDeleteProductCart.ExecuteNonQuery();
                     }
 
                     // Delete associated records from ProductDetails table
                     string deleteProductDetailsCMD = "DELETE FROM ProductDetails WHERE Seller_ID IN (SELECT SELLER_ID FROM Sellers WHERE Username = @Username OR Email = @Email)";
                     using (SqliteCommand cmdDeleteProductDetails = new SqliteCommand(deleteProductDetailsCMD, con))
                     {
-                        cmdDeleteProductDetails.Parameters.AddWithValue("@Username", usernameOrEmail);
-                        cmdDeleteProductDetails.Parameters.AddWithValue("@Email", usernameOrEmail);
-                        cmdDeleteProductDetails.ExecuteNonQuery();
+                        _ = cmdDeleteProductDetails.Parameters.AddWithValue("@Username", usernameOrEmail);
+                        _ = cmdDeleteProductDetails.Parameters.AddWithValue("@Email", usernameOrEmail);
+                        _ = cmdDeleteProductDetails.ExecuteNonQuery();
                     }
 
                     // Delete the seller account from the Sellers table
                     string deleteSellerCMD = "DELETE FROM Sellers WHERE Username = @Username OR Email = @Email";
                     using (SqliteCommand cmdDeleteSeller = new SqliteCommand(deleteSellerCMD, con))
                     {
-                        cmdDeleteSeller.Parameters.AddWithValue("@Username", usernameOrEmail);
-                        cmdDeleteSeller.Parameters.AddWithValue("@Email", usernameOrEmail);
-                        cmdDeleteSeller.ExecuteNonQuery();
+                        _ = cmdDeleteSeller.Parameters.AddWithValue("@Username", usernameOrEmail);
+                        _ = cmdDeleteSeller.Parameters.AddWithValue("@Email", usernameOrEmail);
+                        _ = cmdDeleteSeller.ExecuteNonQuery();
                     }
 
                     con.Close();
@@ -732,11 +732,11 @@ namespace Ferdin_TB_Hub.Classes
 
 
         //Initializing for Product Details Database
-        public async static void InitializeDB_PRODUCTDETAILS()
+        public static async void InitializeDB_PRODUCTDETAILS()
         {
             try
             {
-                await ApplicationData.Current.LocalFolder.CreateFileAsync("MyDatabase.db", CreationCollisionOption.OpenIfExists);
+                _ = await ApplicationData.Current.LocalFolder.CreateFileAsync("MyDatabase.db", CreationCollisionOption.OpenIfExists);
                 string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
 
                 using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
@@ -757,7 +757,7 @@ namespace Ferdin_TB_Hub.Classes
                         )";
 
                     SqliteCommand CMDcreateTable = new SqliteCommand(initCMD, con);
-                    CMDcreateTable.ExecuteReader();
+                    _ = CMDcreateTable.ExecuteReader();
                     con.Close();
                 }
             }
@@ -788,16 +788,18 @@ namespace Ferdin_TB_Hub.Classes
                     // Loop until a unique SKU is generated
                     do
                     {
-                        productSKU = (long)(random.NextDouble() * (999999999999L - 100000000000L) + 100000000000L);
+                        productSKU = (long)((random.NextDouble() * (999999999999L - 100000000000L)) + 100000000000L);
                         string checkSKUQuery = "SELECT COUNT(*) FROM ProductDetails WHERE ProductSKU = @ProductSKU";
 
                         using (SqliteCommand cmdCheckSKU = new SqliteCommand(checkSKUQuery, con))
                         {
-                            cmdCheckSKU.Parameters.AddWithValue("@ProductSKU", productSKU);
+                            _ = cmdCheckSKU.Parameters.AddWithValue("@ProductSKU", productSKU);
                             long existingCount = (long)cmdCheckSKU.ExecuteScalar();
 
                             if (existingCount == 0)
+                            {
                                 isUniqueSKU = true;
+                            }
                         }
                     } while (!isUniqueSKU);
 
@@ -805,16 +807,16 @@ namespace Ferdin_TB_Hub.Classes
                              VALUES (@ProductSKU, @ProductName, @ProductCategory, @ProductPrice, @ProductDescription, @ProductQuantity, @ProductPicture, @Seller_ID)";
 
                     SqliteCommand cmdInsertRecord = new SqliteCommand(insertCMD, con);
-                    cmdInsertRecord.Parameters.AddWithValue("@Seller_ID", seller_id);
-                    cmdInsertRecord.Parameters.AddWithValue("@ProductName", productname);
-                    cmdInsertRecord.Parameters.AddWithValue("@ProductCategory", productcategory);
-                    cmdInsertRecord.Parameters.AddWithValue("@ProductPrice", productprice);
-                    cmdInsertRecord.Parameters.AddWithValue("@ProductDescription", productdescription);
-                    cmdInsertRecord.Parameters.AddWithValue("@ProductQuantity", productquantity);
-                    cmdInsertRecord.Parameters.AddWithValue("@ProductPicture", productpicture);
-                    cmdInsertRecord.Parameters.AddWithValue("@ProductSKU", productSKU);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@Seller_ID", seller_id);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@ProductName", productname);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@ProductCategory", productcategory);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@ProductPrice", productprice);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@ProductDescription", productdescription);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@ProductQuantity", productquantity);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@ProductPicture", productpicture);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@ProductSKU", productSKU);
 
-                    cmdInsertRecord.ExecuteNonQuery();
+                    _ = cmdInsertRecord.ExecuteNonQuery();
                     con.Close();
                 }
             }
@@ -841,21 +843,23 @@ namespace Ferdin_TB_Hub.Classes
                 string selectCMD = "SELECT PRODUCTDETAILS_ID, ProductSKU, ProductName, ProductCategory, ProductPrice, ProductDescription, ProductQuantity, ProductPicture FROM ProductDetails WHERE Seller_ID = @Seller_ID";
 
                 SqliteCommand cmdSelectRecords = new SqliteCommand(selectCMD, con);
-                cmdSelectRecords.Parameters.AddWithValue("@Seller_ID", seller_id); // Add parameter for seller ID
+                _ = cmdSelectRecords.Parameters.AddWithValue("@Seller_ID", seller_id); // Add parameter for seller ID
                 SqliteDataReader reader = cmdSelectRecords.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    ProductDetails product = new ProductDetails();
-                    product.PRODUCTDETAILS_ID = reader.GetInt32(0);
-                    product.Seller_ID = seller_id;
-                    product.ProductSKU = reader.GetInt64(1); // Retrieve ProductSKU from the reader
-                    product.ProductName = reader.GetString(2);
-                    product.ProductCategory = reader.IsDBNull(3) ? null : reader.GetString(3);
-                    product.ProductPrice = reader.GetDouble(4);
-                    product.ProductDescription = reader.GetString(5);
-                    product.ProductQuantity = reader.GetInt32(6);
-                    product.ProductPicture = reader.IsDBNull(7) ? null : GetByteArrayFromBlob(reader, 7); // Retrieve image data as byte array
+                    ProductDetails product = new ProductDetails
+                    {
+                        PRODUCTDETAILS_ID = reader.GetInt32(0),
+                        Seller_ID = seller_id,
+                        ProductSKU = reader.GetInt64(1), // Retrieve ProductSKU from the reader
+                        ProductName = reader.GetString(2),
+                        ProductCategory = reader.IsDBNull(3) ? null : reader.GetString(3),
+                        ProductPrice = reader.GetDouble(4),
+                        ProductDescription = reader.GetString(5),
+                        ProductQuantity = reader.GetInt32(6),
+                        ProductPicture = reader.IsDBNull(7) ? null : GetByteArrayFromBlob(reader, 7) // Retrieve image data as byte array
+                    };
 
                     productList.Add(product);
                 }
@@ -885,16 +889,18 @@ namespace Ferdin_TB_Hub.Classes
 
                 while (reader.Read())
                 {
-                    ProductDetails product = new ProductDetails();
-                    product.PRODUCTDETAILS_ID = reader.GetInt32(0);
-                    product.ProductSKU = reader.GetInt64(1); // Retrieve ProductSKU from the reader
-                    product.ProductName = reader.GetString(2);
-                    product.ProductCategory = reader.IsDBNull(3) ? null : reader.GetString(3);
-                    product.ProductPrice = reader.GetDouble(4);
-                    product.ProductDescription = reader.GetString(5);
-                    product.ProductQuantity = reader.GetInt32(6);
-                    product.ProductPicture = reader.IsDBNull(7) ? null : GetByteArrayFromBlob(reader, 7); // Retrieve image data as byte array
-                    product.Seller_ID = reader.GetInt32(8); // Retrieve Seller_ID from the reader
+                    ProductDetails product = new ProductDetails
+                    {
+                        PRODUCTDETAILS_ID = reader.GetInt32(0),
+                        ProductSKU = reader.GetInt64(1), // Retrieve ProductSKU from the reader
+                        ProductName = reader.GetString(2),
+                        ProductCategory = reader.IsDBNull(3) ? null : reader.GetString(3),
+                        ProductPrice = reader.GetDouble(4),
+                        ProductDescription = reader.GetString(5),
+                        ProductQuantity = reader.GetInt32(6),
+                        ProductPicture = reader.IsDBNull(7) ? null : GetByteArrayFromBlob(reader, 7), // Retrieve image data as byte array
+                        Seller_ID = reader.GetInt32(8) // Retrieve Seller_ID from the reader
+                    };
 
                     productList.Add(product);
                 }
@@ -925,15 +931,15 @@ namespace Ferdin_TB_Hub.Classes
                     WHERE ProductSKU = @ProductSKU";
 
                     SqliteCommand cmdUpdateRecord = new SqliteCommand(updateCMD, con);
-                    cmdUpdateRecord.Parameters.AddWithValue("@ProductSKU", productSKU);
-                    cmdUpdateRecord.Parameters.AddWithValue("@ProductName", productname);
-                    cmdUpdateRecord.Parameters.AddWithValue("@ProductCategory", productcategory);
-                    cmdUpdateRecord.Parameters.AddWithValue("@ProductPrice", productprice);
-                    cmdUpdateRecord.Parameters.AddWithValue("@ProductDescription", productdescription);
-                    cmdUpdateRecord.Parameters.AddWithValue("@ProductQuantity", productquantity);
-                    cmdUpdateRecord.Parameters.AddWithValue("@ProductPicture", productpicture);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@ProductSKU", productSKU);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@ProductName", productname);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@ProductCategory", productcategory);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@ProductPrice", productprice);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@ProductDescription", productdescription);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@ProductQuantity", productquantity);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@ProductPicture", productpicture);
 
-                    cmdUpdateRecord.ExecuteReader();
+                    _ = cmdUpdateRecord.ExecuteReader();
                     con.Close();
                 }
             }
@@ -959,9 +965,9 @@ namespace Ferdin_TB_Hub.Classes
                     string deleteCMD = "DELETE FROM ProductDetails WHERE ProductSKU = @ProductSKU";
 
                     SqliteCommand cmdDeleteRecord = new SqliteCommand(deleteCMD, con);
-                    cmdDeleteRecord.Parameters.AddWithValue("@ProductSKU", productSKU);
+                    _ = cmdDeleteRecord.Parameters.AddWithValue("@ProductSKU", productSKU);
 
-                    cmdDeleteRecord.ExecuteNonQuery();
+                    _ = cmdDeleteRecord.ExecuteNonQuery();
                     con.Close();
                 }
             }
@@ -975,7 +981,7 @@ namespace Ferdin_TB_Hub.Classes
         private static byte[] GetByteArrayFromBlob(SqliteDataReader reader, int columnIndex)
         {
             byte[] buffer = new byte[reader.GetBytes(columnIndex, 0, null, 0, int.MaxValue)];
-            reader.GetBytes(columnIndex, 0, buffer, 0, buffer.Length);
+            _ = reader.GetBytes(columnIndex, 0, buffer, 0, buffer.Length);
             return buffer;
         }
 
@@ -987,11 +993,11 @@ namespace Ferdin_TB_Hub.Classes
         // Initializing for Product Cart Database
 
 
-        public async static void InitializeDB_PRODUCTCART()
+        public static async void InitializeDB_PRODUCTCART()
         {
             try
             {
-                await ApplicationData.Current.LocalFolder.CreateFileAsync("MyDatabase.db", CreationCollisionOption.OpenIfExists);
+                _ = await ApplicationData.Current.LocalFolder.CreateFileAsync("MyDatabase.db", CreationCollisionOption.OpenIfExists);
                 string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
 
                 using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
@@ -1014,7 +1020,7 @@ namespace Ferdin_TB_Hub.Classes
                   )";
 
                     SqliteCommand CMDcreateTable = new SqliteCommand(initCMD, con);
-                    CMDcreateTable.ExecuteReader();
+                    _ = CMDcreateTable.ExecuteReader();
                     con.Close();
                 }
             }
@@ -1040,18 +1046,18 @@ namespace Ferdin_TB_Hub.Classes
                      VALUES (@ProductName, @ProductPrice, @ProductCategory, @ProductQuantity, @ProductPicture, @Buyer_ID, @Seller_ID, @ProductDetails_ID, @ProductSKU)";
 
                     SqliteCommand cmdInsertRecord = new SqliteCommand(insertCMD, con);
-                    cmdInsertRecord.Parameters.AddWithValue("@ProductName", productName);
-                    cmdInsertRecord.Parameters.AddWithValue("@ProductPrice", productPrice);
-                    cmdInsertRecord.Parameters.AddWithValue("@ProductQuantity", productQuantity);
-                    cmdInsertRecord.Parameters.AddWithValue("@ProductCategory", productCategory);
-                    cmdInsertRecord.Parameters.AddWithValue("@ProductPicture", productPicture);
-                    cmdInsertRecord.Parameters.AddWithValue("@Buyer_ID", buyer_ID);
-                    cmdInsertRecord.Parameters.AddWithValue("@Seller_ID", seller_ID);
-                    cmdInsertRecord.Parameters.AddWithValue("@ProductDetails_ID", productdetails_ID);
-                    cmdInsertRecord.Parameters.AddWithValue("@ProductSKU", productSKU);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@ProductName", productName);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@ProductPrice", productPrice);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@ProductQuantity", productQuantity);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@ProductCategory", productCategory);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@ProductPicture", productPicture);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@Buyer_ID", buyer_ID);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@Seller_ID", seller_ID);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@ProductDetails_ID", productdetails_ID);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@ProductSKU", productSKU);
 
 
-                    cmdInsertRecord.ExecuteNonQuery();
+                    _ = cmdInsertRecord.ExecuteNonQuery();
                     con.Close();
                 }
             }
@@ -1075,9 +1081,9 @@ namespace Ferdin_TB_Hub.Classes
                     string deleteCMD = "DELETE FROM ProductCart WHERE ProductCart_ID = @ProductCart_ID";
 
                     SqliteCommand cmdDeleteRecord = new SqliteCommand(deleteCMD, con);
-                    cmdDeleteRecord.Parameters.AddWithValue("@ProductCart_ID", productCart_ID);
+                    _ = cmdDeleteRecord.Parameters.AddWithValue("@ProductCart_ID", productCart_ID);
 
-                    cmdDeleteRecord.ExecuteReader();
+                    _ = cmdDeleteRecord.ExecuteReader();
                     con.Close();
                 }
             }
@@ -1101,7 +1107,7 @@ namespace Ferdin_TB_Hub.Classes
                 string selectCMD = "SELECT ProductQuantity FROM ProductDetails WHERE ProductSKU = @ProductSKU";
 
                 SqliteCommand cmdSelectRecords = new SqliteCommand(selectCMD, con);
-                cmdSelectRecords.Parameters.AddWithValue("@ProductSKU", productSKU);
+                _ = cmdSelectRecords.Parameters.AddWithValue("@ProductSKU", productSKU);
 
                 SqliteDataReader reader = cmdSelectRecords.ExecuteReader();
 
@@ -1137,16 +1143,18 @@ namespace Ferdin_TB_Hub.Classes
 
                 while (reader.Read())
                 {
-                    ProductCart productCart = new ProductCart();
-                    productCart.ProductCart_ID = reader.GetInt32(0);
-                    productCart.ProductName = reader.GetString(1);
-                    productCart.ProductPrice = reader.GetDouble(2);
-                    productCart.ProductQuantity = reader.GetInt32(3);
-                    productCart.ProductCategory = reader.GetString(4);
-                    productCart.Buyer_ID = reader.GetInt32(5);
-                    productCart.Seller_ID = reader.GetInt32(6);
+                    ProductCart productCart = new ProductCart
+                    {
+                        ProductCart_ID = reader.GetInt32(0),
+                        ProductName = reader.GetString(1),
+                        ProductPrice = reader.GetDouble(2),
+                        ProductQuantity = reader.GetInt32(3),
+                        ProductCategory = reader.GetString(4),
+                        Buyer_ID = reader.GetInt32(5),
+                        Seller_ID = reader.GetInt32(6),
 
-                    productCart.ProductPicture = reader.IsDBNull(5) ? null : GetByteArrayFromBlob(reader, 5); // Retrieve image data as byte array
+                        ProductPicture = reader.IsDBNull(5) ? null : GetByteArrayFromBlob(reader, 5) // Retrieve image data as byte array
+                    };
 
 
                     productCartList.Add(productCart);
@@ -1173,10 +1181,10 @@ namespace Ferdin_TB_Hub.Classes
                     string updateCMD = @"UPDATE ProductDetails SET ProductQuantity = ProductQuantity - @Quantity WHERE ProductSKU = @ProductSKU";
 
                     SqliteCommand cmdUpdateRecord = new SqliteCommand(updateCMD, con);
-                    cmdUpdateRecord.Parameters.AddWithValue("@Quantity", quantity);
-                    cmdUpdateRecord.Parameters.AddWithValue("@ProductSKU", productSKU);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@Quantity", quantity);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@ProductSKU", productSKU);
 
-                    cmdUpdateRecord.ExecuteNonQuery(); // Use ExecuteNonQuery for UPDATE, INSERT, DELETE operations
+                    _ = cmdUpdateRecord.ExecuteNonQuery(); // Use ExecuteNonQuery for UPDATE, INSERT, DELETE operations
                     con.Close();
                 }
             }
@@ -1201,10 +1209,10 @@ namespace Ferdin_TB_Hub.Classes
                     string updateCMD = @"UPDATE ProductDetails SET ProductQuantity = ProductQuantity + @Quantity WHERE ProductSKU = @ProductSKU";
 
                     SqliteCommand cmdUpdateRecord = new SqliteCommand(updateCMD, con);
-                    cmdUpdateRecord.Parameters.AddWithValue("@Quantity", quantity);
-                    cmdUpdateRecord.Parameters.AddWithValue("@ProductSKU", productSKU);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@Quantity", quantity);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@ProductSKU", productSKU);
 
-                    cmdUpdateRecord.ExecuteNonQuery();
+                    _ = cmdUpdateRecord.ExecuteNonQuery();
                     con.Close();
                 }
             }
@@ -1227,10 +1235,10 @@ namespace Ferdin_TB_Hub.Classes
                     string updateCMD = @"UPDATE ProductDetails SET ProductQuantity = ProductQuantity + @Quantity WHERE ProductName = @ProductName";
 
                     SqliteCommand cmdUpdateRecord = new SqliteCommand(updateCMD, con);
-                    cmdUpdateRecord.Parameters.AddWithValue("@Quantity", quantity);
-                    cmdUpdateRecord.Parameters.AddWithValue("@ProductName", productName);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@Quantity", quantity);
+                    _ = cmdUpdateRecord.Parameters.AddWithValue("@ProductName", productName);
 
-                    cmdUpdateRecord.ExecuteNonQuery();
+                    _ = cmdUpdateRecord.ExecuteNonQuery();
                     con.Close();
                 }
             }
@@ -1268,11 +1276,11 @@ namespace Ferdin_TB_Hub.Classes
 
         //Initializing for Product Receipt Database
 
-        public async static void InitializeDB_PRODUCTRECEIPT()
+        public static async void InitializeDB_PRODUCTRECEIPT()
         {
             try
             {
-                await ApplicationData.Current.LocalFolder.CreateFileAsync("MyDatabase.db", CreationCollisionOption.OpenIfExists);
+                _ = await ApplicationData.Current.LocalFolder.CreateFileAsync("MyDatabase.db", CreationCollisionOption.OpenIfExists);
                 string pathtoDB = Path.Combine(ApplicationData.Current.LocalFolder.Path, "MyDatabase.db");
 
                 using (SqliteConnection con = new SqliteConnection($"Filename={pathtoDB}"))
@@ -1301,7 +1309,7 @@ namespace Ferdin_TB_Hub.Classes
                     )";
 
                     SqliteCommand CMDcreateTable = new SqliteCommand(initCMD, con);
-                    CMDcreateTable.ExecuteReader();
+                    _ = CMDcreateTable.ExecuteReader();
                     con.Close();
                 }
             }
@@ -1332,16 +1340,18 @@ namespace Ferdin_TB_Hub.Classes
                     // Loop until a unique order number is generated
                     do
                     {
-                        orderNumber = (long)(random.NextDouble() * (999999999999L - 100000000000L) + 100000000000L);
+                        orderNumber = (long)((random.NextDouble() * (999999999999L - 100000000000L)) + 100000000000L);
                         string checkOrderNumberQuery = "SELECT COUNT(*) FROM ProductReceipts WHERE OrderNumber = @OrderNumber";
 
                         using (SqliteCommand cmdCheckOrderNumber = new SqliteCommand(checkOrderNumberQuery, con))
                         {
-                            cmdCheckOrderNumber.Parameters.AddWithValue("@OrderNumber", orderNumber);
+                            _ = cmdCheckOrderNumber.Parameters.AddWithValue("@OrderNumber", orderNumber);
                             long existingCount = (long)cmdCheckOrderNumber.ExecuteScalar();
 
                             if (existingCount == 0)
+                            {
                                 isUniqueOrderNumber = true;
+                            }
                         }
                     } while (!isUniqueOrderNumber);
 
@@ -1349,26 +1359,26 @@ namespace Ferdin_TB_Hub.Classes
                              VALUES (@OrderNumber, @ProductName, @LastName, @FirstName, @MiddleName, @PhoneNumber, @ProductCategory, @ProductPrice, @ProductQuantity, @AddressLine1, @AddressLine2, @Email,  @PaymentMethod, @DatePurchased, @Buyer_ID, @Seller_ID)";
 
                     SqliteCommand cmdInsertRecord = new SqliteCommand(insertCMD, con);
-                    cmdInsertRecord.Parameters.AddWithValue("@OrderNumber", orderNumber);
-                    cmdInsertRecord.Parameters.AddWithValue("@ProductName", productName);
-                    cmdInsertRecord.Parameters.AddWithValue("@LastName", lastName);
-                    cmdInsertRecord.Parameters.AddWithValue("@FirstName", firstName);
-                    cmdInsertRecord.Parameters.AddWithValue("@MiddleName", middleName);
-                    cmdInsertRecord.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
-                    cmdInsertRecord.Parameters.AddWithValue("@ProductCategory", productCategory);
-                    cmdInsertRecord.Parameters.AddWithValue("@ProductPrice", productPrice);
-                    cmdInsertRecord.Parameters.AddWithValue("@ProductQuantity", productQuantity);
-                    cmdInsertRecord.Parameters.AddWithValue("@AddressLine1", addressLine1);
-                    cmdInsertRecord.Parameters.AddWithValue("@AddressLine2", addressLine2);
-                    cmdInsertRecord.Parameters.AddWithValue("@PaymentMethod", paymentMethod);
-                    cmdInsertRecord.Parameters.AddWithValue("@Email", email);
-                    cmdInsertRecord.Parameters.AddWithValue("@DatePurchased", datePurchased);
-                    cmdInsertRecord.Parameters.AddWithValue("@Buyer_ID", buyer_ID);
-                    cmdInsertRecord.Parameters.AddWithValue("@Seller_ID", seller_ID);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@OrderNumber", orderNumber);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@ProductName", productName);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@LastName", lastName);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@FirstName", firstName);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@MiddleName", middleName);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@ProductCategory", productCategory);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@ProductPrice", productPrice);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@ProductQuantity", productQuantity);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@AddressLine1", addressLine1);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@AddressLine2", addressLine2);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@PaymentMethod", paymentMethod);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@Email", email);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@DatePurchased", datePurchased);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@Buyer_ID", buyer_ID);
+                    _ = cmdInsertRecord.Parameters.AddWithValue("@Seller_ID", seller_ID);
 
 
 
-                    cmdInsertRecord.ExecuteNonQuery();
+                    _ = cmdInsertRecord.ExecuteNonQuery();
                     con.Close();
                 }
             }
@@ -1397,24 +1407,26 @@ namespace Ferdin_TB_Hub.Classes
 
                 while (reader.Read())
                 {
-                    ProductReceipt productReceipt = new ProductReceipt();
-                    productReceipt.PRODUCTRECEIPT_ID = reader.GetInt32(0);
-                    productReceipt.OrderNumber = reader.GetInt64(1);
-                    productReceipt.ProductName = reader.GetString(2);
-                    productReceipt.ProductCategory = reader.GetString(3);
-                    productReceipt.ProductPrice = reader.GetDouble(4);
-                    productReceipt.ProductQuantity = reader.GetInt32(5);
-                    productReceipt.LastName = reader.GetString(6);
-                    productReceipt.FirstName = reader.GetString(7);
-                    productReceipt.MiddleName = reader.GetString(8);
-                    productReceipt.PhoneNumber = reader.GetString(9);
-                    productReceipt.AddressLine1 = reader.GetString(10);
-                    productReceipt.AddressLine2 = reader.GetString(11);
-                    productReceipt.Email = reader.GetString(12);
-                    productReceipt.PaymentMethod = reader.GetString(13);
-                    productReceipt.DatePurchased = reader.GetDateTime(14);
-                    productReceipt.Buyer_ID = reader.GetInt32(15);
-                    productReceipt.Seller_ID = reader.GetInt32(16);
+                    ProductReceipt productReceipt = new ProductReceipt
+                    {
+                        PRODUCTRECEIPT_ID = reader.GetInt32(0),
+                        OrderNumber = reader.GetInt64(1),
+                        ProductName = reader.GetString(2),
+                        ProductCategory = reader.GetString(3),
+                        ProductPrice = reader.GetDouble(4),
+                        ProductQuantity = reader.GetInt32(5),
+                        LastName = reader.GetString(6),
+                        FirstName = reader.GetString(7),
+                        MiddleName = reader.GetString(8),
+                        PhoneNumber = reader.GetString(9),
+                        AddressLine1 = reader.GetString(10),
+                        AddressLine2 = reader.GetString(11),
+                        Email = reader.GetString(12),
+                        PaymentMethod = reader.GetString(13),
+                        DatePurchased = reader.GetDateTime(14),
+                        Buyer_ID = reader.GetInt32(15),
+                        Seller_ID = reader.GetInt32(16)
+                    };
 
                     productReceiptList.Add(productReceipt);
                 }
@@ -1444,16 +1456,17 @@ namespace Ferdin_TB_Hub.Classes
 
                 while (reader.Read())
                 {
-                    ProductReceipt productReceipt = new ProductReceipt();
-
-                    productReceipt.PRODUCTRECEIPT_ID = reader.GetInt32(0);
-                    productReceipt.Buyer_ID = reader.GetInt32(1);
-                    productReceipt.Seller_ID = reader.GetInt32(2);
-                    productReceipt.OrderNumber = reader.GetInt64(3);
-                    productReceipt.ProductName = reader.GetString(4);
-                    productReceipt.ProductCategory = reader.GetString(5);
-                    productReceipt.ProductPrice = reader.GetDouble(6);
-                    productReceipt.ProductQuantity = reader.GetInt32(7);
+                    ProductReceipt productReceipt = new ProductReceipt
+                    {
+                        PRODUCTRECEIPT_ID = reader.GetInt32(0),
+                        Buyer_ID = reader.GetInt32(1),
+                        Seller_ID = reader.GetInt32(2),
+                        OrderNumber = reader.GetInt64(3),
+                        ProductName = reader.GetString(4),
+                        ProductCategory = reader.GetString(5),
+                        ProductPrice = reader.GetDouble(6),
+                        ProductQuantity = reader.GetInt32(7)
+                    };
 
 
                     productReceiptList.Add(productReceipt);
@@ -1483,16 +1496,17 @@ namespace Ferdin_TB_Hub.Classes
 
                 while (reader.Read())
                 {
-                    ProductReceipt productReceipt = new ProductReceipt();
-
-                    productReceipt.PRODUCTRECEIPT_ID = reader.GetInt32(0);
-                    productReceipt.Buyer_ID = reader.GetInt32(1);
-                    productReceipt.Seller_ID = reader.GetInt32(2);
-                    productReceipt.OrderNumber = reader.GetInt64(3);
-                    productReceipt.LastName = reader.GetString(4);
-                    productReceipt.FirstName = reader.GetString(5);
-                    productReceipt.MiddleName = reader.GetString(6);
-                    productReceipt.Email = reader.GetString(7);
+                    ProductReceipt productReceipt = new ProductReceipt
+                    {
+                        PRODUCTRECEIPT_ID = reader.GetInt32(0),
+                        Buyer_ID = reader.GetInt32(1),
+                        Seller_ID = reader.GetInt32(2),
+                        OrderNumber = reader.GetInt64(3),
+                        LastName = reader.GetString(4),
+                        FirstName = reader.GetString(5),
+                        MiddleName = reader.GetString(6),
+                        Email = reader.GetString(7)
+                    };
 
                     productReceiptList.Add(productReceipt);
                 }
@@ -1522,14 +1536,15 @@ namespace Ferdin_TB_Hub.Classes
 
                 while (reader.Read())
                 {
-                    ProductReceipt productReceipt = new ProductReceipt();
-
-                    productReceipt.PRODUCTRECEIPT_ID = reader.GetInt32(0);
-                    productReceipt.Buyer_ID = reader.GetInt32(1);
-                    productReceipt.Seller_ID = reader.GetInt32(2);
-                    productReceipt.OrderNumber = reader.GetInt64(3);
-                    productReceipt.AddressLine1 = reader.GetString(4);
-                    productReceipt.AddressLine2 = reader.GetString(5);
+                    ProductReceipt productReceipt = new ProductReceipt
+                    {
+                        PRODUCTRECEIPT_ID = reader.GetInt32(0),
+                        Buyer_ID = reader.GetInt32(1),
+                        Seller_ID = reader.GetInt32(2),
+                        OrderNumber = reader.GetInt64(3),
+                        AddressLine1 = reader.GetString(4),
+                        AddressLine2 = reader.GetString(5)
+                    };
 
 
                     productReceiptList.Add(productReceipt);
@@ -1559,14 +1574,15 @@ namespace Ferdin_TB_Hub.Classes
 
                 while (reader.Read())
                 {
-                    ProductReceipt productReceipt = new ProductReceipt();
-
-                    productReceipt.PRODUCTRECEIPT_ID = reader.GetInt32(0);
-                    productReceipt.Buyer_ID = reader.GetInt32(1);
-                    productReceipt.Seller_ID = reader.GetInt32(2);
-                    productReceipt.OrderNumber = reader.GetInt64(3);
-                    productReceipt.PaymentMethod = reader.GetString(4);
-                    productReceipt.DatePurchased = reader.GetDateTime(5);
+                    ProductReceipt productReceipt = new ProductReceipt
+                    {
+                        PRODUCTRECEIPT_ID = reader.GetInt32(0),
+                        Buyer_ID = reader.GetInt32(1),
+                        Seller_ID = reader.GetInt32(2),
+                        OrderNumber = reader.GetInt64(3),
+                        PaymentMethod = reader.GetString(4),
+                        DatePurchased = reader.GetDateTime(5)
+                    };
 
                     productReceiptList.Add(productReceipt);
                 }
@@ -1592,28 +1608,30 @@ namespace Ferdin_TB_Hub.Classes
                 string selectCMD = "SELECT * FROM ProductReceipts WHERE Buyer_ID = @BuyerId";
 
                 SqliteCommand cmdSelectRecords = new SqliteCommand(selectCMD, con);
-                cmdSelectRecords.Parameters.AddWithValue("@BuyerId", buyerId);
+                _ = cmdSelectRecords.Parameters.AddWithValue("@BuyerId", buyerId);
 
                 SqliteDataReader reader = cmdSelectRecords.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    ProductReceipt productReceipt = new ProductReceipt();
-                    productReceipt.PRODUCTRECEIPT_ID = reader.GetInt32(0);
-                    productReceipt.OrderNumber = reader.GetInt64(1);
-                    productReceipt.ProductName = reader.GetString(2);
-                    productReceipt.ProductCategory = reader.GetString(3);
-                    productReceipt.ProductPrice = reader.GetDouble(4);
-                    productReceipt.ProductQuantity = reader.GetInt32(5);
-                    productReceipt.LastName = reader.GetString(6);
-                    productReceipt.FirstName = reader.GetString(7);
-                    productReceipt.MiddleName = reader.GetString(8);
-                    productReceipt.PhoneNumber = reader.GetString(9);
-                    productReceipt.AddressLine1 = reader.GetString(10);
-                    productReceipt.AddressLine2 = reader.GetString(11);
-                    productReceipt.PaymentMethod = reader.GetString(12);
-                    productReceipt.Email = reader.GetString(13);
-                    productReceipt.DatePurchased = reader.GetDateTime(14);
+                    ProductReceipt productReceipt = new ProductReceipt
+                    {
+                        PRODUCTRECEIPT_ID = reader.GetInt32(0),
+                        OrderNumber = reader.GetInt64(1),
+                        ProductName = reader.GetString(2),
+                        ProductCategory = reader.GetString(3),
+                        ProductPrice = reader.GetDouble(4),
+                        ProductQuantity = reader.GetInt32(5),
+                        LastName = reader.GetString(6),
+                        FirstName = reader.GetString(7),
+                        MiddleName = reader.GetString(8),
+                        PhoneNumber = reader.GetString(9),
+                        AddressLine1 = reader.GetString(10),
+                        AddressLine2 = reader.GetString(11),
+                        PaymentMethod = reader.GetString(12),
+                        Email = reader.GetString(13),
+                        DatePurchased = reader.GetDateTime(14)
+                    };
 
                     buyerProductReceipts.Add(productReceipt);
                 }

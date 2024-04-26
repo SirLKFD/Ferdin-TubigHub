@@ -1,22 +1,9 @@
 ﻿using Ferdin_TB_Hub.BuyerAccountPage;
 using Ferdin_TB_Hub.Classes;
-using Ferdin_TB_Hub.Seller;
-using Ferdin_TB_Hub.UserControls;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.System.Profile;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using static Ferdin_TB_Hub.Classes.Database;
@@ -33,7 +20,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
         private BuyerDetails _buyer;
         public BuyerDetails Buyer
         {
-            get { return _buyer; }
+            get => _buyer;
             set
             {
                 if (_buyer != value)
@@ -45,8 +32,8 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
         }
         public AccountBuyer()
         {
-            this.InitializeComponent();
-            this.DataContext = this; // Set the DataContext of the page to itself
+            InitializeComponent();
+            DataContext = this; // Set the DataContext of the page to itself
 
         }
 
@@ -58,7 +45,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
 
         private void NavigateToHome(string buyerEmail)
         {
-            Frame.Navigate(typeof(Home), buyerEmail);
+            _ = Frame.Navigate(typeof(Home), buyerEmail);
         }
 
 
@@ -81,7 +68,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             {
                 // Navigate directly to MainPage without adding to back stack
                 Frame rootFrame = Window.Current.Content as Frame;
-                rootFrame.Navigate(typeof(MainPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromLeft });
+                _ = rootFrame.Navigate(typeof(MainPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromLeft });
             }
             else
             {
@@ -102,14 +89,14 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
                 OnPropertyChanged(nameof(Buyer));
 
                 // Pass the BuyerDetails object to the rest of the page
-                Frame.Navigate(typeof(Cart), Buyer);
-                Frame.Navigate(typeof(Home), Buyer);
-                Frame.Navigate(typeof(Locate), Buyer);
-                Frame.Navigate(typeof(OrderHistory), Buyer);         
+                _ = Frame.Navigate(typeof(Cart), Buyer);
+                _ = Frame.Navigate(typeof(Home), Buyer);
+                _ = Frame.Navigate(typeof(Locate), Buyer);
+                _ = Frame.Navigate(typeof(OrderHistory), Buyer);
             }
         }
 
-      
+
 
         private async void DeleteBuyerAccount_Click(object sender, RoutedEventArgs e)
         {
@@ -132,7 +119,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
 
                 // Navigate back to the main page or log out
                 Frame rootFrame = Window.Current.Content as Frame;
-                rootFrame.Navigate(typeof(MainPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromLeft }); 
+                _ = rootFrame.Navigate(typeof(MainPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromLeft });
             }
         }
 
@@ -161,8 +148,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             string addressLine2 = tbxAddressLine2.Text;
 
             // Retrieve the buyer's Id from the text box
-            int buyer_id;
-            if (!int.TryParse(tbxID.Text, out buyer_id))
+            if (!int.TryParse(tbxID.Text, out int buyer_id))
             {
                 // Handle invalid input (e.g., display an error message)
                 Buttons.ShowPrompt("Invalid buyer ID.");
@@ -225,8 +211,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             btnDeleteBuyerAccount.IsEnabled = isToggleOn;
         }
 
-      
+
     }
-    
+
 }
- 

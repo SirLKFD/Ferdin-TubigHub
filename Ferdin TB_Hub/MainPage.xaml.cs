@@ -1,25 +1,14 @@
 ﻿using Ferdin_TB_Hub.Classes;
-using Ferdin_TB_Hub.HomePage_NavigationView;
 using Ferdin_TB_Hub.NewAccount;
 using Ferdin_TB_Hub.Seller;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 using static Ferdin_TB_Hub.Classes.Database;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -31,19 +20,21 @@ namespace Ferdin_TB_Hub
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private DispatcherTimer timer;
+        private readonly DispatcherTimer timer;
         private int colorIndex = 0;
-        private SolidColorBrush[] colors = { new SolidColorBrush(Windows.UI.Colors.PowderBlue), new SolidColorBrush(Windows.UI.Colors.CornflowerBlue), new SolidColorBrush(Windows.UI.Colors.SkyBlue), new SolidColorBrush(Windows.UI.Colors.Aquamarine), new SolidColorBrush(Windows.UI.Colors.BlueViolet) };
+        private readonly SolidColorBrush[] colors = { new SolidColorBrush(Windows.UI.Colors.PowderBlue), new SolidColorBrush(Windows.UI.Colors.CornflowerBlue), new SolidColorBrush(Windows.UI.Colors.SkyBlue), new SolidColorBrush(Windows.UI.Colors.Aquamarine), new SolidColorBrush(Windows.UI.Colors.BlueViolet) };
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             LoadMainPageImages();
             ImageAnimation1.Begin();
             ImageAnimation2.Begin();
 
             // Initialize and start the timer
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(1); // Change the interval as needed
+            timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(1) // Change the interval as needed
+            };
             timer.Tick += Timer_Tick;
             timer.Start();
         }
@@ -64,20 +55,13 @@ namespace Ferdin_TB_Hub
         {
             try
             {
-                if (RevealPassCheck.IsChecked == true)
-                {
-                    RevealPassMode.PasswordRevealMode = PasswordRevealMode.Visible;
-                }
-                else
-                {
-                    RevealPassMode.PasswordRevealMode = PasswordRevealMode.Hidden;
-                }
+                RevealPassMode.PasswordRevealMode = RevealPassCheck.IsChecked == true ? PasswordRevealMode.Visible : PasswordRevealMode.Hidden;
             }
             catch (Exception ex)
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-          
+
         }
 
         private void GoToHomePage(object sender, RoutedEventArgs e)
@@ -102,7 +86,7 @@ namespace Ferdin_TB_Hub
                         BuyerDetails buyer = Database.GetBuyerByUsernameOrEmail(usernameOrEmail);
                         if (buyer != null)
                         {
-                            Frame.Navigate(typeof(HomePage), buyer, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+                            _ = Frame.Navigate(typeof(HomePage), buyer, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
 
                         }
                         else
@@ -129,7 +113,7 @@ namespace Ferdin_TB_Hub
                         if (seller != null)
                         {
                             // Navigate to SellerAccount page and pass seller information as parameter
-                            Frame.Navigate(typeof(SellerAccount), seller, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+                            _ = Frame.Navigate(typeof(SellerAccount), seller, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
                         }
                         else
                         {
@@ -153,16 +137,16 @@ namespace Ferdin_TB_Hub
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-      
-            }
-        
+
+        }
+
 
 
         private void GoToCreateAccount(object sender, RoutedEventArgs e)
         {
             try
             {
-                Frame.Navigate(typeof(CreateAccountPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+                _ = Frame.Navigate(typeof(CreateAccountPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
 
             }
             catch (Exception ex)
@@ -187,13 +171,15 @@ namespace Ferdin_TB_Hub
                 foreach (StorageFile file in imageFiles)
                 {
                     BitmapImage bitmapImage = new BitmapImage();
-                    using (var stream = await file.OpenAsync(FileAccessMode.Read))
+                    using (Windows.Storage.Streams.IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read))
                     {
                         await bitmapImage.SetSourceAsync(stream);
                     }
 
-                    Image image = new Image();
-                    image.Source = bitmapImage;
+                    Image image = new Image
+                    {
+                        Source = bitmapImage
+                    };
                     MainPage_FlipView.Items.Add(image);
                 }
             }
@@ -201,8 +187,8 @@ namespace Ferdin_TB_Hub
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-            }
-                  
+        }
+
     }
 }
 

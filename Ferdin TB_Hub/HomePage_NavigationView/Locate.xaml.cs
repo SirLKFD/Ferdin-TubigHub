@@ -1,22 +1,10 @@
-﻿using System;
+﻿using Ferdin_TB_Hub.Classes;
+using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Devices.Geolocation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using Windows.UI.Xaml.Controls.Maps;
-using static Ferdin_TB_Hub.Classes.Database;
 using System.Collections.ObjectModel;
-using Ferdin_TB_Hub.Classes;
+using System.Linq;
+using Windows.UI.Xaml.Controls;
+using static Ferdin_TB_Hub.Classes.Database;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -30,11 +18,11 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
         public ObservableCollection<SellerDetails> Sellers { get; set; } = new ObservableCollection<SellerDetails>();
         public ObservableCollection<ProductDetails> Products { get; set; } = new ObservableCollection<ProductDetails>();
 
-     
+
 
         public Locate()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             PopulateSellers(); // Call method to populate SellersListView
 
         }
@@ -48,7 +36,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             Sellers.Clear();
 
             // Add retrieved sellers to the Sellers collection
-            foreach (var seller in sellers)
+            foreach (SellerDetails seller in sellers)
             {
                 Sellers.Add(seller);
             }
@@ -57,9 +45,8 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
         private void SellersListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // Get the selected seller from the SellersListView
-            SellerDetails selectedSeller = SellersListView.SelectedItem as SellerDetails;
 
-            if (selectedSeller != null)
+            if (SellersListView.SelectedItem is SellerDetails selectedSeller)
             {
                 // Retrieve products associated with the selected seller from the database
                 List<ProductDetails> products = Database.GetProductDetails(selectedSeller.SELLER_ID);
@@ -68,7 +55,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
                 Products.Clear();
 
                 // Add retrieved products to the Products collection
-                foreach (var product in products)
+                foreach (ProductDetails product in products)
                 {
                     Products.Add(product);
                 }
@@ -93,7 +80,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
                 else
                 {
                     // Filter sellers based on the search term
-                    var filteredSellers = Sellers.Where(seller =>
+                    List<SellerDetails> filteredSellers = Sellers.Where(seller =>
                         seller.BusinessName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
                         seller.Email.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
                         seller.Username.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
@@ -101,7 +88,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
                         seller.AddressLine1.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
                         seller.AddressLine2.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)
 
-                  
+
                     ).ToList();
 
                     // Update the ListView with filtered sellers

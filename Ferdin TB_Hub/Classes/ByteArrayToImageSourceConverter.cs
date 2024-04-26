@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -18,7 +14,7 @@ namespace Ferdin_TB_Hub.Classes
                 using (MemoryStream stream = new MemoryStream(byteArray))
                 {
                     BitmapImage bitmapImage = new BitmapImage();
-                    bitmapImage.SetSourceAsync(stream.AsRandomAccessStream());
+                    _ = bitmapImage.SetSourceAsync(stream.AsRandomAccessStream());
                     return bitmapImage;
                 }
             }

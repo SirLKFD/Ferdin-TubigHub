@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Popups;
@@ -24,8 +19,8 @@ namespace Ferdin_TB_Hub.Classes
                 {
                     await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                     {
-                        var dialog = new MessageDialog(message);
-                        await dialog.ShowAsync();
+                        MessageDialog dialog = new MessageDialog(message);
+                        _ = await dialog.ShowAsync();
                     });
                 }
             }
@@ -42,14 +37,7 @@ namespace Ferdin_TB_Hub.Classes
         {
             try
             {
-                if (revealCheckbox.IsChecked == true)
-                {
-                    passwordBox.PasswordRevealMode = PasswordRevealMode.Visible;
-                }
-                else
-                {
-                    passwordBox.PasswordRevealMode = PasswordRevealMode.Hidden;
-                }
+                passwordBox.PasswordRevealMode = revealCheckbox.IsChecked == true ? PasswordRevealMode.Visible : PasswordRevealMode.Hidden;
             }
             catch (Exception ex)
             {
@@ -89,7 +77,7 @@ namespace Ferdin_TB_Hub.Classes
                     PrimaryButtonText = "OK"
                 };
 
-                await promptDialog.ShowAsync();
+                _ = await promptDialog.ShowAsync();
             }
             catch (Exception ex)
             {

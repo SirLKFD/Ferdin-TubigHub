@@ -1,6 +1,5 @@
 ﻿
 using Microsoft.Data.Sqlite;
-using System;
 using System.IO;
 using Windows.Storage;
 
@@ -30,7 +29,7 @@ namespace Ferdin_TB_Hub.Classes
                 using (SqliteCommand command = new SqliteCommand(query, con))
                 {
                     // Add parameter for username
-                    command.Parameters.AddWithValue("@Username", username);
+                    _ = command.Parameters.AddWithValue("@Username", username);
 
                     // Execute the command to retrieve the buyer's ID
                     object result = command.ExecuteScalar();
@@ -70,7 +69,7 @@ namespace Ferdin_TB_Hub.Classes
                 using (SqliteCommand command = new SqliteCommand(query, con))
                 {
                     // Add parameter for username
-                    command.Parameters.AddWithValue("@Username", username);
+                    _ = command.Parameters.AddWithValue("@Username", username);
 
                     // Execute the command to retrieve the seller's ID
                     object result = command.ExecuteScalar();

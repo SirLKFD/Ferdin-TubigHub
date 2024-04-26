@@ -1,27 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Storage.Pickers;
+﻿using Ferdin_TB_Hub.Classes;
+using System;
+using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Pickers;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-using Ferdin_TB_Hub.Classes;
 using static Ferdin_TB_Hub.Classes.Database;
-using Windows.Graphics.Imaging;
-using Windows.Storage.Streams;
-using System.Threading.Tasks;
-using Windows.Storage.Provider;
-using Microsoft.Data.Sqlite;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -33,20 +20,18 @@ namespace Ferdin_TB_Hub.Seller
     public sealed partial class AddProduct : Page
     {
         private StorageFile selectedFile;
-        private int currentSellerID;
-        private ProductDetails _productdetails;
         public AddProduct()
         {
             try
             {
-                this.InitializeComponent();
+                InitializeComponent();
 
             }
             catch (Exception ex)
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-         
+
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -66,7 +51,7 @@ namespace Ferdin_TB_Hub.Seller
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-          
+
         }
 
         private async void InsertPicture_Click(object sender, RoutedEventArgs e)
@@ -74,9 +59,11 @@ namespace Ferdin_TB_Hub.Seller
             try
             {
                 // Create file picker
-                var picker = new FileOpenPicker();
-                picker.ViewMode = PickerViewMode.Thumbnail;
-                picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+                FileOpenPicker picker = new FileOpenPicker
+                {
+                    ViewMode = PickerViewMode.Thumbnail,
+                    SuggestedStartLocation = PickerLocationId.PicturesLibrary
+                };
                 picker.FileTypeFilter.Add(".jpg");
                 picker.FileTypeFilter.Add(".jpeg");
                 picker.FileTypeFilter.Add(".png");
@@ -86,7 +73,7 @@ namespace Ferdin_TB_Hub.Seller
                 if (selectedFile != null)
                 {
                     // Open a stream for the selected file
-                    using (var stream = await selectedFile.OpenAsync(FileAccessMode.Read))
+                    using (IRandomAccessStream stream = await selectedFile.OpenAsync(FileAccessMode.Read))
                     {
                         // Set the image source to the selected bitmap
                         BitmapImage bitmapImage = new BitmapImage();
@@ -99,7 +86,7 @@ namespace Ferdin_TB_Hub.Seller
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-          
+
         }
 
         private async Task<byte[]> ConvertImageToByteArray(StorageFile file)
@@ -108,7 +95,7 @@ namespace Ferdin_TB_Hub.Seller
             {
                 using (DataReader reader = new DataReader(stream))
                 {
-                    await reader.LoadAsync((uint)stream.Size);
+                    _ = await reader.LoadAsync((uint)stream.Size);
                     byte[] bytes = new byte[stream.Size];
                     reader.ReadBytes(bytes);
                     return bytes;
@@ -119,16 +106,14 @@ namespace Ferdin_TB_Hub.Seller
         // Method to check if RichEditBox content is empty
         private bool IsRichEditBoxEmpty(RichEditBox richEditBox)
         {
-            string text;
-            richEditBox.Document.GetText(Windows.UI.Text.TextGetOptions.None, out text);
+            richEditBox.Document.GetText(Windows.UI.Text.TextGetOptions.None, out string text);
             return string.IsNullOrWhiteSpace(text);
         }
 
         // Method to get the text from RichEditBox
         private string GetRichEditBoxText(RichEditBox richEditBox)
         {
-            string text;
-            richEditBox.Document.GetText(Windows.UI.Text.TextGetOptions.None, out text);
+            richEditBox.Document.GetText(Windows.UI.Text.TextGetOptions.None, out string text);
             return text;
         }
 
@@ -191,15 +176,14 @@ namespace Ferdin_TB_Hub.Seller
                 ContentDialogResult result = await confirmDialog.ShowAsync();
                 if (result == ContentDialogResult.Primary)
                 {
-                    var seller = DataContext as SellerDetails;
+                    SellerDetails seller = DataContext as SellerDetails;
 
                     // If the user confirms, proceed to add the product
                     string productName = tbxProductName.Text;
                     string productCategory = (cbxProductCategory.SelectedItem as ComboBoxItem)?.Content.ToString();
                     string productDescription = GetRichEditBoxText(tbxProductDescription);
                     string sellerIDText = tbxSellerID.Text; // Get the text from the TextBox
-                    int ADDsellerID;
-                    int.TryParse(sellerIDText, out ADDsellerID); // Convert the text to an integer
+                    _ = int.TryParse(sellerIDText, out int ADDsellerID); // Convert the text to an integer
 
                     byte[] productPicture = await ConvertImageToByteArray(selectedFile);
 
@@ -218,7 +202,7 @@ namespace Ferdin_TB_Hub.Seller
                     ProductImage.Source = null;
 
 
-                   // Optionally, display a success message or navigate to another page
+                    // Optionally, display a success message or navigate to another page
                 }
                 else
                 {
@@ -230,7 +214,7 @@ namespace Ferdin_TB_Hub.Seller
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-         
+
         }
 
 

@@ -185,35 +185,8 @@
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
-    <NestedTypes>
-      <Class Name="Ferdin_TB_Hub.Classes.Database.BuyerDetails">
-        <TypeIdentifier>
-          <NewMemberFileName>Classes\Database.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Class>
-      <Class Name="Ferdin_TB_Hub.Classes.Database.SellerDetails">
-        <TypeIdentifier>
-          <NewMemberFileName>Classes\Database.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Class>
-      <Class Name="Ferdin_TB_Hub.Classes.Database.ProductDetails">
-        <TypeIdentifier>
-          <NewMemberFileName>Classes\Database.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Class>
-      <Class Name="Ferdin_TB_Hub.Classes.Database.ProductCart">
-        <TypeIdentifier>
-          <NewMemberFileName>Classes\Database.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Class>
-      <Class Name="Ferdin_TB_Hub.Classes.Database.ProductReceipt">
-        <TypeIdentifier>
-          <NewMemberFileName>Classes\Database.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Class>
-    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>QAAUAAAQEAABAGCQAMACYgAECAgBRAMMAlAUEGAAQAg=</HashCode>
+      <HashCode>QAAUAAAQEAABAGCAAMACYgAECAgBRAMMAlAUEGAAQAg=</HashCode>
       <FileName>Classes\Database.cs</FileName>
     </TypeIdentifier>
   </Class>

@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -25,17 +13,17 @@ namespace Ferdin_TB_Hub.NewAccount
     {
         public CreateAccountPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void GoBackToMainPage(NavigationView sender, NavigationViewBackRequestedEventArgs args)
         {
-           Frame.Navigate(typeof(MainPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromLeft });
+            _ = Frame.Navigate(typeof(MainPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromLeft });
         }
 
         private void NavigationView_Loaded(object sender, RoutedEventArgs e)
         {
-            contentFrame.Navigate(typeof(CreateBuyer));
+            _ = contentFrame.Navigate(typeof(CreateBuyer));
         }
 
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -45,11 +33,11 @@ namespace Ferdin_TB_Hub.NewAccount
             switch (item.Tag.ToString())
             {
                 case "CreateBuyer":
-                    contentFrame.Navigate(typeof(CreateBuyer));
+                    _ = contentFrame.Navigate(typeof(CreateBuyer));
                     break;
 
                 case "CreateSeller":
-                    contentFrame.Navigate(typeof(CreateSeller));
+                    _ = contentFrame.Navigate(typeof(CreateSeller));
                     break;
 
             }

@@ -1,24 +1,15 @@
 ﻿using Ferdin_TB_Hub.Classes;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using static Ferdin_TB_Hub.Classes.Database;
-using Windows.Storage.Pickers;
-using OfficeOpenXml;
-using Windows.Storage;
-using Windows.Storage.Provider;
-using System.Threading.Tasks;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -36,7 +27,7 @@ namespace Ferdin_TB_Hub.Seller
         {
             try
             {
-                this.InitializeComponent();
+                InitializeComponent();
                 LoadProductReceipts();
                 SetTextValues();
 
@@ -57,7 +48,7 @@ namespace Ferdin_TB_Hub.Seller
                 receiptDataGrid.Columns["DatePurchased"].ColumnName = "Date Purchased";
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
 
@@ -93,7 +84,7 @@ namespace Ferdin_TB_Hub.Seller
             double totalSales = ProductReceipts.Sum(r => r.ProductPrice);
             double salesTax = totalSales * 0.12; // Assuming 12% sales tax
             double totalSalesWithTax = totalSales + salesTax;
-            tbxTotalSales.Text = $"₱{totalSalesWithTax.ToString("N2")}"; // Display as PHP currency with two decimal places
+            tbxTotalSales.Text = $"₱{totalSalesWithTax:N2}"; // Display as PHP currency with two decimal places
         }
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -101,7 +92,7 @@ namespace Ferdin_TB_Hub.Seller
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
                 // Filter the ProductReceipts based on user input
-                var filteredReceipts = ProductReceipts.Where(receipt =>
+                List<ProductReceipt> filteredReceipts = ProductReceipts.Where(receipt =>
                     receipt.OrderNumber.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
                     receipt.ProductName.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
                     receipt.ProductCategory.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
@@ -113,7 +104,7 @@ namespace Ferdin_TB_Hub.Seller
                     receipt.AddressLine2.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
                     receipt.PaymentMethod.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
                     receipt.PhoneNumber.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
-                    receipt.DatePurchased.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) 
+                    receipt.DatePurchased.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase)
                 // Add more properties to search as needed
                 ).ToList();
 
@@ -125,8 +116,7 @@ namespace Ferdin_TB_Hub.Seller
         private void cbxShowA_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // Get the selected item from the ComboBox
-            ComboBoxItem selectedItem = cbxShowA.SelectedItem as ComboBoxItem;
-            if (selectedItem != null)
+            if (cbxShowA.SelectedItem is ComboBoxItem selectedItem)
             {
                 // Get the content of the selected item
                 string selectedItemContent = selectedItem.Content.ToString();
@@ -162,7 +152,7 @@ namespace Ferdin_TB_Hub.Seller
                     case "Buyer ID":
                     case "Seller ID":
                         // Sort ProductReceipts based on Buyer_ID or Seller_ID
-                        var sortedReceipts = selectedItemContent == "Buyer ID" ?
+                        IOrderedEnumerable<ProductReceipt> sortedReceipts = selectedItemContent == "Buyer ID" ?
                             ProductReceipts.OrderBy(r => r.Buyer_ID) :
                             ProductReceipts.OrderBy(r => r.Seller_ID);
 
@@ -195,14 +185,13 @@ namespace Ferdin_TB_Hub.Seller
             try
             {
                 // Get the selected item from the ComboBox
-                ComboBoxItem selectedItem = cbxTable.SelectedItem as ComboBoxItem;
-                if (selectedItem != null)
+                if (cbxTable.SelectedItem is ComboBoxItem selectedItem)
                 {
                     // Get the content of the selected item
                     string selectedItemContent = selectedItem.Content.ToString();
 
                     // Hide all columns initially
-                    foreach (var column in receiptDataGrid.Columns)
+                    foreach (C1.Xaml.FlexGrid.Column column in receiptDataGrid.Columns)
                     {
                         column.Visible = false;
                     }
@@ -215,7 +204,7 @@ namespace Ferdin_TB_Hub.Seller
                     {
                         case "All":
                             // Show all columns
-                            foreach (var column in receiptDataGrid.Columns)
+                            foreach (C1.Xaml.FlexGrid.Column column in receiptDataGrid.Columns)
                             {
                                 column.Visible = true;
                             }
@@ -255,7 +244,7 @@ namespace Ferdin_TB_Hub.Seller
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -274,7 +263,7 @@ namespace Ferdin_TB_Hub.Seller
             }
 
             // Filter the ProductReceipts based on buyerID and sellerID
-            var filteredReceipts = ProductReceipts.Where(receipt =>
+            List<ProductReceipt> filteredReceipts = ProductReceipts.Where(receipt =>
             {
                 string buyerIDAsString = receipt.Buyer_ID.ToString();
                 string sellerIDAsString = receipt.Seller_ID.ToString();
@@ -304,7 +293,7 @@ namespace Ferdin_TB_Hub.Seller
             double totalSales = ProductReceipts.Sum(r => r.ProductPrice);
             double salesTax = totalSales * 0.12; // Assuming 12% sales tax
             double totalSalesWithTax = totalSales + salesTax;
-            tbxTotalSales.Text = $"₱{totalSalesWithTax.ToString("N2")}"; // Display as PHP currency with two decimal places
+            tbxTotalSales.Text = $"₱{totalSalesWithTax:N2}"; // Display as PHP currency with two decimal places
         }
 
         private void LoadAndSetReceiptData()
@@ -382,7 +371,7 @@ namespace Ferdin_TB_Hub.Seller
                     await ExportFilteredToExcel();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Handle any exceptions
                 Buttons.ShowPrompt("Error occurred while exporting data to Excel.");
@@ -392,8 +381,10 @@ namespace Ferdin_TB_Hub.Seller
         private async Task ExportAllToExcel()
         {
             // Create a FileSavePicker
-            FileSavePicker savePicker = new FileSavePicker();
-            savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+            FileSavePicker savePicker = new FileSavePicker
+            {
+                SuggestedStartLocation = PickerLocationId.DocumentsLibrary
+            };
             savePicker.FileTypeChoices.Add("Excel Workbook", new List<string>() { ".xlsx" });
             savePicker.SuggestedFileName = "Sales Report";
 
@@ -438,7 +429,7 @@ namespace Ferdin_TB_Hub.Seller
 
                         // Data
                         int row = 13;
-                        foreach (var receipt in ProductReceipts)
+                        foreach (ProductReceipt receipt in ProductReceipts)
                         {
                             worksheet.Cells[row, 1].Value = receipt.OrderNumber;
                             worksheet.Cells[row, 2].Value = receipt.ProductName;
@@ -479,7 +470,7 @@ namespace Ferdin_TB_Hub.Seller
             string sellerID = tbxSortSellerID.Text.Trim();
 
             // Filter the ProductReceipts based on buyerID and sellerID
-            var filteredReceipts = ProductReceipts.Where(receipt =>
+            List<ProductReceipt> filteredReceipts = ProductReceipts.Where(receipt =>
             {
                 string buyerIDAsString = receipt.Buyer_ID.ToString();
                 string sellerIDAsString = receipt.Seller_ID.ToString();
@@ -493,8 +484,10 @@ namespace Ferdin_TB_Hub.Seller
             if (filteredReceipts.Any())
             {
                 // Create a FileSavePicker
-                FileSavePicker savePicker = new FileSavePicker();
-                savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+                FileSavePicker savePicker = new FileSavePicker
+                {
+                    SuggestedStartLocation = PickerLocationId.DocumentsLibrary
+                };
                 savePicker.FileTypeChoices.Add("Excel Workbook", new List<string>() { ".xlsx" });
                 savePicker.SuggestedFileName = "Sales Report";
 
@@ -539,7 +532,7 @@ namespace Ferdin_TB_Hub.Seller
 
                             // Data
                             int row = 13;
-                            foreach (var receipt in filteredReceipts)
+                            foreach (ProductReceipt receipt in filteredReceipts)
                             {
                                 worksheet.Cells[row, 1].Value = receipt.OrderNumber;
                                 worksheet.Cells[row, 2].Value = receipt.ProductName;
@@ -605,7 +598,7 @@ namespace Ferdin_TB_Hub.Seller
 
                 // Data
                 int row = 2;
-                foreach (var receipt in receipts)
+                foreach (ProductReceipt receipt in receipts)
                 {
                     worksheet.Cells[row, 1].Value = receipt.OrderNumber;
                     worksheet.Cells[row, 2].Value = receipt.ProductName;

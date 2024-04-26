@@ -1,24 +1,11 @@
 ﻿using Ferdin_TB_Hub.Classes;
-using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.ComponentModel;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Storage.Pickers;
-using Windows.Storage;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using static Ferdin_TB_Hub.Classes.Database;
-using System.ComponentModel;
-using Windows.UI.Popups;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -35,7 +22,7 @@ namespace Ferdin_TB_Hub.BuyerAccountPage
         private BuyerDetails _buyer;
         public BuyerDetails Buyer
         {
-            get { return _buyer; }
+            get => _buyer;
             set
             {
                 if (_buyer != value)
@@ -58,9 +45,9 @@ namespace Ferdin_TB_Hub.BuyerAccountPage
         {
             try
             {
-                this.InitializeComponent();
+                InitializeComponent();
                 LoadProductReceipts();
-                this.DataContext = this; // Set the DataContext of the page to itself
+                DataContext = this; // Set the DataContext of the page to itself
 
                 receiptDataGrid.Columns["ProductQuantity"].Visible = false;
                 receiptDataGrid.Columns["Buyer_ID"].Visible = false;
@@ -71,13 +58,13 @@ namespace Ferdin_TB_Hub.BuyerAccountPage
                 // Initialize Buyer object before accessing its properties
                 Buyer = new BuyerDetails();
 
-  
+
                 // Check if Buyer object is not null before accessing its properties
                 if (Buyer != null)
                 {
 
                     // Set the initial buyer ID to the one entered in the TextBox
-                    int.TryParse(tbxBuyerID.Text, out int initialBuyerID);
+                    _ = int.TryParse(tbxBuyerID.Text, out int initialBuyerID);
                     BuyerID = initialBuyerID;
 
 
@@ -85,18 +72,18 @@ namespace Ferdin_TB_Hub.BuyerAccountPage
                     receiptDataGrid.ItemsSource = GetBuyerProductReceipts(BuyerID + 1);
                 }
 
-           
+
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-               
+
             }
         }
 
         private void LoadProductReceipts()
         {
             // Fetch product receipts from the database
-            ProductReceipts = Database.GetProductReceipts();        
+            ProductReceipts = Database.GetProductReceipts();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -124,10 +111,10 @@ namespace Ferdin_TB_Hub.BuyerAccountPage
                 if (ProductReceipts != null) // Ensure ProductReceipts is not null
                 {
                     // Parse the buyer ID from the text box
-                    int.TryParse(tbxBuyerID.Text, out int buyerID);
+                    _ = int.TryParse(tbxBuyerID.Text, out int buyerID);
 
                     // Filter the ProductReceipts based on user input and the parsed BuyerID
-                    var filteredReceipts = ProductReceipts.Where(receipt =>
+                    List<ProductReceipt> filteredReceipts = ProductReceipts.Where(receipt =>
                         receipt.Buyer_ID == buyerID &&
                         (receipt.OrderNumber.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
                         receipt.ProductName.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
@@ -153,11 +140,11 @@ namespace Ferdin_TB_Hub.BuyerAccountPage
         private void tbxBuyerID_TextChanged(object sender, TextChangedEventArgs e)
         {
             // Update the buyer ID whenever the text in the TextBox changes
-            int.TryParse(tbxBuyerID.Text, out int newBuyerID);
+            _ = int.TryParse(tbxBuyerID.Text, out int newBuyerID);
             BuyerID = newBuyerID;
 
             // Call GetBuyerProductReceipts with the new buyer ID and update the data grid
             receiptDataGrid.ItemsSource = GetBuyerProductReceipts(BuyerID);
         }
-    } 
     }
+}

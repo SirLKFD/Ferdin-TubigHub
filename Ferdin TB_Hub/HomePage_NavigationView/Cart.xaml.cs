@@ -1,29 +1,20 @@
 ﻿using Ferdin_TB_Hub.Classes;
 using Microsoft.Toolkit.Uwp.Notifications;
+using PdfSharpCore.Drawing;
+using PdfSharpCore.Pdf;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Networking;
+using Windows.Storage;
+using Windows.Storage.Provider;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.Data.Xml.Dom; 
 using Windows.UI.Xaml.Navigation;
 using static Ferdin_TB_Hub.Classes.Database;
-using Windows.Storage.Provider;
-using Windows.Storage;
-using PdfSharpCore.Drawing;
-using PdfSharpCore.Pdf;
 
 
 
@@ -40,7 +31,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
         public List<ProductCart> ProductCartList { get; set; }
         public BuyerDetails Buyer
         {
-            get { return _buyer; }
+            get => _buyer;
             set
             {
                 if (_buyer != value)
@@ -62,8 +53,8 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
         {
             try
             {
-                this.InitializeComponent();
-                this.DataContext = this; // Set the DataContext of the page to itself
+                InitializeComponent();
+                DataContext = this; // Set the DataContext of the page to itself
                 LoadCartItems();
 
                 // Subscribe to TextChanged events
@@ -75,10 +66,10 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
             catch (Exception ex)
             {
-               Buttons.ShowPrompt(ex.Message);
+                Buttons.ShowPrompt(ex.Message);
             }
-           
-           
+
+
 
         }
 
@@ -92,7 +83,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
 
                 // Calculate total price
                 double totalPrice = 0;
-                foreach (var product in ProductCartList)
+                foreach (ProductCart product in ProductCartList)
                 {
                     totalPrice += product.ProductPrice;
                 }
@@ -119,10 +110,10 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
 
 
-          
+
         }
 
-      
+
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -143,7 +134,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
                 if (e.Parameter != null && e.Parameter is ProductDetails)
                 {
                     // Retrieve the selected product
-                    var selectedProduct = e.Parameter as ProductDetails;
+                    ProductDetails selectedProduct = e.Parameter as ProductDetails;
 
                     // Add the selected product to the cart's list view
                     ListViewCart.Items.Add(selectedProduct);
@@ -153,7 +144,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-         
+
         }
 
         private void cbxBuyerPayment_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -196,7 +187,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-           
+
         }
 
 
@@ -208,11 +199,11 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
                 // Check if the pressed key is a numeric key (0-9) or a control key
                 Buttons.HandleNumericInput(e);
             }
-           catch (Exception ex)
+            catch (Exception ex)
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-       
+
         }
 
         private void card_NUMERIC(object sender, KeyRoutedEventArgs e)
@@ -226,7 +217,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-         
+
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -243,7 +234,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-          
+
         }
 
 
@@ -261,9 +252,8 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
                 string addressLine2 = tbxAddressLine2.Text;
                 string email = tbxEmail.Text;
                 string passbuyerID = tbxBuyerID.Text;
-                int buyerID;
 
-                if (int.TryParse(passbuyerID, out buyerID))
+                if (int.TryParse(passbuyerID, out int buyerID))
                 {
                     // Conversion successful, 'buyerID' contains the integer value
                     // Now you can use 'buyerID' as an integer
@@ -299,11 +289,11 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
 
                 // Retrieve the buyer's ID using the DatabaseAccess class
                 DatabaseAccess dbAccess = new DatabaseAccess();
-                var product = DataContext as ProductDetails;
-                var seller = DataContext as SellerDetails;
+                ProductDetails product = DataContext as ProductDetails;
+                SellerDetails seller = DataContext as SellerDetails;
 
 
-                dbAccess.RetrieveBuyerIDFromDatabase(passbuyerID);
+                _ = dbAccess.RetrieveBuyerIDFromDatabase(passbuyerID);
                 // dbAccess.RetrieveSellerIDFromDatabase(firstName); 
 
                 // Get the retrieved buyer ID from the BuyerAndSellerID class
@@ -313,16 +303,16 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
                 // Prepare to pass the order summary and buyer's information to the receipt
 
                 // Loop through the items in the cart and pass each item to the receipt
-                foreach (var productCart in ProductCartList)
+                foreach (ProductCart productCart in ProductCartList)
                 {
                     // Retrieve the corresponding product details from the database based on the product name
-                    var productDetails = Database.GetAllProductDetails().FirstOrDefault(p => p.ProductName == productCart.ProductName);
+                    ProductDetails productDetails = Database.GetAllProductDetails().FirstOrDefault(p => p.ProductName == productCart.ProductName);
 
                     // Check if the product details are not null
                     if (productDetails != null)
                     {
                         // Pass each item to the receipt with correct product category and buyer ID
-                        PassProductToReceipt(productCart, lastName, firstName, middleName, phoneNumber, productDetails.ProductCategory, addressLine1, addressLine2, email, paymentMethod, datePurchased,  Buyer.BUYER_ID, productDetails.Seller_ID);
+                        PassProductToReceipt(productCart, lastName, firstName, middleName, phoneNumber, productDetails.ProductCategory, addressLine1, addressLine2, email, paymentMethod, datePurchased, Buyer.BUYER_ID, productDetails.Seller_ID);
                     }
                 }
 
@@ -338,7 +328,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-         
+
         }
 
 
@@ -347,14 +337,14 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             try
             {
                 // Construct the toast content
-                var content = new ToastContentBuilder()
+                ToastContent content = new ToastContentBuilder()
                     .AddText("Order Placed")
                     .AddText("Your order has been successfully placed!")
                     .AddText("Thank you for shopping with us!\n A receipt will be generated shortly.")
                     .GetToastContent();
 
                 // Create the toast notification
-                var toast = new ToastNotification(content.GetXml());
+                ToastNotification toast = new ToastNotification(content.GetXml());
 
                 // Show the toast notification
                 ToastNotificationManager.CreateToastNotifier().Show(toast);
@@ -363,7 +353,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-        
+
         }
 
 
@@ -379,7 +369,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
 
                 // Retrieve the product name and quantity of the selected product
                 string productName = selectedProduct.ProductName;
-              //  long productSKU = selectedProduct.ProductSKU;
+                //  long productSKU = selectedProduct.ProductSKU;
                 int quantity = selectedProduct.ProductQuantity;
 
                 // Delete the product from the cart
@@ -398,14 +388,14 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-          
+
         }
 
         private string GenerateReceiptContent()
-        {           
+        {
             // Calculate total price
             double totalPrice = 0;
-            foreach (var product in ProductCartList)
+            foreach (ProductCart product in ProductCartList)
             {
                 totalPrice += product.ProductPrice;
             }
@@ -416,24 +406,20 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
 
             // Add shipping fee
             double shippingFee = 50;
-
             // Prepare receipt content
-            string receiptContent = "";
-
-         
-            receiptContent = "ORDER RECEIPT\n";
+            string receiptContent = "ORDER RECEIPT\n";
 
             // Add buyer information to the receipt
             receiptContent += $"\n\n\nVAT REG. TIN #. 032-143-323 469\n";
             receiptContent += $"Serial # DF43J1232Z\n";
             receiptContent += $"Permit # 0234-458-76436-123\n";
-            receiptContent += $"\nDate Generated: {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}\n\n";
+            receiptContent += $"\nDate Generated: {DateTime.Now:yyyy-MM-dd HH:mm:ss}\n\n";
 
 
 
 
             // Loop through the items in the cart and add them to the receipt
-            foreach (var productCart in ProductCartList)
+            foreach (ProductCart productCart in ProductCartList)
             {
                 receiptContent += $"{productCart.ProductName}: ₱{productCart.ProductPrice:n2}\n";
             }
@@ -451,7 +437,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             receiptContent += $"TOTAL QUANTITY: {ProductCartList.Count}\n";
             receiptContent += $"VAT: ₱{tax:n2}\n";
             receiptContent += $"SHIPPING FEE: ₱{shippingFee:n2}\n";
-            receiptContent += $"\nTOTAL PRICE: ₱{totalPriceWithTax + shippingFee:n2}\n";    
+            receiptContent += $"\nTOTAL PRICE: ₱{totalPriceWithTax + shippingFee:n2}\n";
 
             // Return the generated receipt content
             return receiptContent;
@@ -471,13 +457,13 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
                 };
 
                 // Show the dialog
-                await errorDialog.ShowAsync();
+                _ = await errorDialog.ShowAsync();
             }
             catch (Exception ex)
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-           
+
         }
 
 
@@ -519,7 +505,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-         
+
         }
 
 
@@ -590,14 +576,16 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
 
                 // Save the PDF document to a file
                 StorageFile pdfFile = await ApplicationData.Current.LocalFolder.CreateFileAsync("Receipt.pdf", CreationCollisionOption.ReplaceExisting);
-                using (var fileStream = await pdfFile.OpenStreamForWriteAsync())
+                using (Stream fileStream = await pdfFile.OpenStreamForWriteAsync())
                 {
                     document.Save(fileStream, false);
                 }
 
                 // Show file picker for the user to save the PDF file
-                var savePicker = new Windows.Storage.Pickers.FileSavePicker();
-                savePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
+                Windows.Storage.Pickers.FileSavePicker savePicker = new Windows.Storage.Pickers.FileSavePicker
+                {
+                    SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary
+                };
                 savePicker.FileTypeChoices.Add("Adobe PDF Document", new List<string>() { ".pdf" });
                 savePicker.SuggestedFileName = "Receipt";
 
@@ -629,7 +617,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-         
+
         }
 
 
@@ -645,7 +633,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
                     string userInput = sender.Text.ToLower(); // Get the user input and convert it to lowercase
 
                     // Filter the ProductCartList based on the user input
-                    var filteredList = ProductCartList.Where(item => item.ProductName.ToLower().Contains(userInput)).ToList();
+                    List<ProductCart> filteredList = ProductCartList.Where(item => item.ProductName.ToLower().Contains(userInput)).ToList();
 
                     // Assign the filtered list to the ItemsSource of the ListView
                     ListViewCart.ItemsSource = filteredList;
@@ -661,7 +649,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-        
+
         }
 
         private void tbxGcash_TextChanged(object sender, TextChangedEventArgs e)
@@ -670,7 +658,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             {
                 UpdatePayButtonState();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Buttons.ShowPrompt(ex.Message);
             }
@@ -704,9 +692,9 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-         
+
         }
-       
+
 
         private void tbxPhoneNumber_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {

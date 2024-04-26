@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,19 +17,19 @@ namespace Ferdin_TB_Hub.Classes
 
                 var requestData = new
                 {
-                    prompt = prompt,
+                    prompt,
                     model = "text-davinci-002" // Adjust model as needed
                 };
 
-                var jsonRequest = Newtonsoft.Json.JsonConvert.SerializeObject(requestData);
+                string jsonRequest = Newtonsoft.Json.JsonConvert.SerializeObject(requestData);
 
-                var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
+                StringContent content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync(ApiUrl, content);
+                HttpResponseMessage response = await client.PostAsync(ApiUrl, content);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var jsonResponse = await response.Content.ReadAsStringAsync();
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
                     // Parse jsonResponse to extract the generated text
                     return jsonResponse;
                 }

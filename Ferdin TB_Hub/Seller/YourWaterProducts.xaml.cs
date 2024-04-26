@@ -2,23 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
-using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 using static Ferdin_TB_Hub.Classes.Database;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -33,12 +24,11 @@ namespace Ferdin_TB_Hub.Seller
     public sealed partial class YourWaterProducts : Page, INotifyPropertyChanged
     {
         private StorageFile selectedFile;
-        private int currentSellerID;
         public int SellerID { get; set; }
         private ProductDetails _product;
         public ProductDetails Product
         {
-            get { return _product; }
+            get => _product;
             set
             {
                 if (_product != value)
@@ -52,7 +42,7 @@ namespace Ferdin_TB_Hub.Seller
         private SellerDetails _seller;
         public SellerDetails Seller
         {
-            get { return _seller; }
+            get => _seller;
             set
             {
                 if (_seller != value)
@@ -76,7 +66,7 @@ namespace Ferdin_TB_Hub.Seller
         {
             try
             {
-                this.InitializeComponent();
+                InitializeComponent();
 
                 // Initialize Seller object before accessing its properties
                 Seller = new SellerDetails();
@@ -88,7 +78,7 @@ namespace Ferdin_TB_Hub.Seller
                 if (Seller != null)
                 {
                     // Set the initial seller ID to the one entered in the TextBox
-                    int.TryParse(tbxSellerID.Text, out int initialSellerID);
+                    _ = int.TryParse(tbxSellerID.Text, out int initialSellerID);
                     SellerID = initialSellerID;
 
                     // Automatically invoke the refresh button based on the initial value of tbxSellerID
@@ -99,7 +89,7 @@ namespace Ferdin_TB_Hub.Seller
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-          
+
         }
 
 
@@ -107,7 +97,7 @@ namespace Ferdin_TB_Hub.Seller
         {
             try
             {
-                int.TryParse(tbxSellerID.Text, out int newSellerID);
+                _ = int.TryParse(tbxSellerID.Text, out int newSellerID);
                 SellerID = newSellerID;
 
                 // Get the list of products for the initial SellerID
@@ -117,12 +107,12 @@ namespace Ferdin_TB_Hub.Seller
                 ListProducts.ItemsSource = null; // Set the ItemsSource to null
                 ListProducts.ItemsSource = productDetailsList; // Set the ItemsSource to the updated list
             }
-           catch (Exception ex)
+            catch (Exception ex)
             {
                 Buttons.ShowPrompt(ex.Message);
             }
 
-          
+
         }
 
         private async void ChangePicture_Click(object sender, RoutedEventArgs e)
@@ -130,9 +120,11 @@ namespace Ferdin_TB_Hub.Seller
             try
             {
                 // Create file picker
-                var picker = new FileOpenPicker();
-                picker.ViewMode = PickerViewMode.Thumbnail;
-                picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+                FileOpenPicker picker = new FileOpenPicker
+                {
+                    ViewMode = PickerViewMode.Thumbnail,
+                    SuggestedStartLocation = PickerLocationId.PicturesLibrary
+                };
                 picker.FileTypeFilter.Add(".jpg");
                 picker.FileTypeFilter.Add(".jpeg");
                 picker.FileTypeFilter.Add(".png");
@@ -142,7 +134,7 @@ namespace Ferdin_TB_Hub.Seller
                 if (selectedFile != null)
                 {
                     // Open a stream for the selected file
-                    using (var stream = await selectedFile.OpenAsync(FileAccessMode.Read))
+                    using (IRandomAccessStream stream = await selectedFile.OpenAsync(FileAccessMode.Read))
                     {
                         // Set the image source to the selected bitmap
                         BitmapImage bitmapImage = new BitmapImage();
@@ -155,14 +147,13 @@ namespace Ferdin_TB_Hub.Seller
             {
                 Buttons.ShowPrompt("An error occurred while changing the picture.");
             }
-          
+
         }
 
         // Method to check if RichEditBox content is empty
         private string GetRichEditBoxText(RichEditBox richEditBox)
         {
-            string text;
-            richEditBox.Document.GetText(Windows.UI.Text.TextGetOptions.None, out text);
+            richEditBox.Document.GetText(Windows.UI.Text.TextGetOptions.None, out string text);
             return text;
         }
         private async void UpdateProduct_Click(object sender, RoutedEventArgs e)
@@ -189,23 +180,21 @@ namespace Ferdin_TB_Hub.Seller
                     if (string.IsNullOrWhiteSpace(tbxProductName.Text) ||
                      string.IsNullOrWhiteSpace(tbxProductPrice.Text) ||
                      string.IsNullOrWhiteSpace(tbxProductQuantity.Text) ||
-                     (tbxProductDescription.Document == null || string.IsNullOrWhiteSpace(GetRichEditBoxText(tbxProductDescription))))
+                     tbxProductDescription.Document == null || string.IsNullOrWhiteSpace(GetRichEditBoxText(tbxProductDescription)))
                     {
                         // Invalid input, ask the user to re-input
                         ShowMessageDialog("Please provide valid values for all fields.");
                         return;
                     }
 
-                    double price;
-                    if (!double.TryParse(tbxProductPrice.Text, out price) || price < 0)
+                    if (!double.TryParse(tbxProductPrice.Text, out double price) || price < 0)
                     {
                         // Invalid or negative price input, ask the user to re-input
                         ShowMessageDialog("Please provide a valid non-negative price.");
                         return;
                     }
 
-                    int quantity;
-                    if (!int.TryParse(tbxProductQuantity.Text, out quantity) || quantity < 0)
+                    if (!int.TryParse(tbxProductQuantity.Text, out int quantity) || quantity < 0)
                     {
                         // Invalid or negative quantity input, ask the user to re-input
                         ShowMessageDialog("Please provide a valid non-negative quantity.");
@@ -224,11 +213,11 @@ namespace Ferdin_TB_Hub.Seller
                     if (selectedFile != null)
                     {
                         // Open a stream for the selected file
-                        using (var stream = await selectedFile.OpenAsync(FileAccessMode.Read))
+                        using (IRandomAccessStream stream = await selectedFile.OpenAsync(FileAccessMode.Read))
                         {
                             // Convert the selected image file to a byte array
-                            var reader = new DataReader(stream.GetInputStreamAt(0));
-                            await reader.LoadAsync((uint)stream.Size);
+                            DataReader reader = new DataReader(stream.GetInputStreamAt(0));
+                            _ = await reader.LoadAsync((uint)stream.Size);
                             byte[] imageBytes = new byte[stream.Size];
                             reader.ReadBytes(imageBytes);
 
@@ -288,13 +277,13 @@ namespace Ferdin_TB_Hub.Seller
                     Content = message,
                     CloseButtonText = "OK"
                 };
-                await dialog.ShowAsync();
+                _ = await dialog.ShowAsync();
             }
             catch
             {
 
             }
-           
+
         }
 
         private async void DeleteProduct_Click(object sender, RoutedEventArgs e)
@@ -356,7 +345,7 @@ namespace Ferdin_TB_Hub.Seller
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-         
+
         }
 
 
@@ -373,7 +362,7 @@ namespace Ferdin_TB_Hub.Seller
                         // Search based on the initial value of tbxSellerID
                         List<ProductDetails> sellerProductDetails = Database.GetProductDetails(SellerID);
                         // Filter the products based on user input
-                        var filteredProducts = sellerProductDetails.Where(product =>
+                        List<ProductDetails> filteredProducts = sellerProductDetails.Where(product =>
                             product.ProductName.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
                             product.ProductCategory.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
                             product.ProductPrice.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
@@ -389,7 +378,7 @@ namespace Ferdin_TB_Hub.Seller
                         {
                             List<ProductDetails> sellerProductDetails = Database.GetProductDetails(sellerID);
                             // Filter the products based on user input
-                            var filteredProducts = sellerProductDetails.Where(product =>
+                            List<ProductDetails> filteredProducts = sellerProductDetails.Where(product =>
                                 product.ProductName.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
                                 product.ProductCategory.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
                                 product.ProductPrice.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
@@ -406,7 +395,7 @@ namespace Ferdin_TB_Hub.Seller
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-          
+
         }
 
         // Method to set text for RichEditBox
@@ -457,7 +446,7 @@ namespace Ferdin_TB_Hub.Seller
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-          
+
         }
 
 
@@ -471,7 +460,7 @@ namespace Ferdin_TB_Hub.Seller
                     BitmapImage bitmapImage = new BitmapImage();
                     using (InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream())
                     {
-                        await stream.WriteAsync(imageBytes.AsBuffer());
+                        _ = await stream.WriteAsync(imageBytes.AsBuffer());
                         stream.Seek(0);
                         await bitmapImage.SetSourceAsync(stream);
                     }
@@ -491,7 +480,7 @@ namespace Ferdin_TB_Hub.Seller
                 Buttons.ShowPrompt(ex.Message);
             }
 
-          
+
         }
 
         private void tbxSellerID_TextChanged(object sender, TextChangedEventArgs e)
@@ -512,21 +501,21 @@ namespace Ferdin_TB_Hub.Seller
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-       
+
         }
 
         private void UpdateListViewData(int sellerID)
         {
             try
             {
-                var products = GetProductDetails(sellerID);
+                List<ProductDetails> products = GetProductDetails(sellerID);
                 ListProducts.ItemsSource = products;
             }
             catch (Exception ex)
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-         
+
         }
 
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
@@ -568,7 +557,7 @@ namespace Ferdin_TB_Hub.Seller
             {
                 Buttons.ShowPrompt(ex.Message);
             }
-          
+
         }
 
     }

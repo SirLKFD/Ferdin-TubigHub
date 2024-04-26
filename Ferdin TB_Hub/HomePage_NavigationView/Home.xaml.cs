@@ -1,26 +1,14 @@
 ﻿using Ferdin_TB_Hub.Classes;
-using Ferdin_TB_Hub.ItemDetail;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using static Ferdin_TB_Hub.Classes.Database;
@@ -38,7 +26,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
         private BuyerDetails _buyer;
         public BuyerDetails Buyer
         {
-            get { return _buyer; }
+            get => _buyer;
             set
             {
                 if (_buyer != value)
@@ -49,15 +37,14 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             }
         }
 
-        private StorageFile selectedFile;
 
         // Fetch all product details from the database
-        List<ProductDetails> allProductDetails = Database.GetAllProductDetails();
+        private readonly List<ProductDetails> allProductDetails = Database.GetAllProductDetails();
 
         public Home()
         {
-            this.InitializeComponent();
-            this.DataContext = this; // Set the DataContext of the page to itself
+            InitializeComponent();
+            DataContext = this; // Set the DataContext of the page to itself
             PopulateViewProducts();
             InitializePriceSlider();
         }
@@ -119,7 +106,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
                 // Filter the products based on user input
-                var filteredProducts = allProductDetails.Where(product =>
+                List<ProductDetails> filteredProducts = allProductDetails.Where(product =>
                     product.ProductName.Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
                     product.ProductDescription.ToString().Contains(sender.Text, StringComparison.OrdinalIgnoreCase) ||
                     product.ProductCategory.Contains(sender.Text, StringComparison.OrdinalIgnoreCase)
@@ -143,7 +130,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             else
             {
                 // Filter the products to show only those with a price equal to or within 0.01 of the slider value
-                var filteredProducts = allProductDetails.Where(product =>
+                List<ProductDetails> filteredProducts = allProductDetails.Where(product =>
                     Math.Abs(product.ProductPrice - sliderValue) <= 0.01
                 ).ToList();
 
@@ -166,8 +153,8 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             else if (cbxCategories.SelectedItem != null)
             {
                 // Filter the products based on the selected category
-                var selectedCategory = ((ComboBoxItem)cbxCategories.SelectedItem).Content.ToString();
-                var filteredProducts = allProductDetails.Where(product => product.ProductCategory == selectedCategory).ToList();
+                string selectedCategory = ((ComboBoxItem)cbxCategories.SelectedItem).Content.ToString();
+                List<ProductDetails> filteredProducts = allProductDetails.Where(product => product.ProductCategory == selectedCategory).ToList();
 
                 // Update the GridView with filtered items
                 ViewProducts.ItemsSource = filteredProducts;
@@ -185,12 +172,11 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             try
             {
                 // Get the clicked button and its DataContext (which should be the ProductDetails object)
-                var button = sender as Button;
-                var product = button?.DataContext as ProductDetails;
-                var seller = DataContext as SellerDetails;
+                Button button = sender as Button;
+                SellerDetails seller = DataContext as SellerDetails;
 
                 // Check if the product is not null
-                if (product != null)
+                if (button?.DataContext is ProductDetails product)
                 {
                     // Retrieve the buyer's ID using the DatabaseAccess class
                     DatabaseAccess dbAccess = new DatabaseAccess();
@@ -223,10 +209,9 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
 
         private void AddToCart_Loaded(object sender, RoutedEventArgs e)
         {
-            var button = sender as Button;
-            var product = button.DataContext as ProductDetails;
+            Button button = sender as Button;
 
-            if (product != null)
+            if (button.DataContext is ProductDetails product)
             {
                 // Check if the product quantity is zero or less, then disable the button
                 if (Database.GetProductQuantity(product.ProductSKU) <= 0)
@@ -280,10 +265,9 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             if (ViewProducts.SelectedItem != null)
             {
                 // Extract the product details from the selected item
-                var selectedProduct = ViewProducts.SelectedItem as ProductDetails;
 
                 // Display the description outside of the GridView
-                if (selectedProduct != null)
+                if (ViewProducts.SelectedItem is ProductDetails selectedProduct)
                 {
                     lblProductName.Text = selectedProduct.ProductName;
                     lblDescription.Text = selectedProduct.ProductDescription;
@@ -297,7 +281,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
             else
             {
                 // Clear the description if no item is selected
-              //  lblDescription.Text = string.Empty;
+                //  lblDescription.Text = string.Empty;
             }
 
         }
@@ -310,7 +294,7 @@ namespace Ferdin_TB_Hub.HomePage_NavigationView
                 BitmapImage bitmapImage = new BitmapImage();
                 using (InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream())
                 {
-                    await stream.WriteAsync(imageBytes.AsBuffer());
+                    _ = await stream.WriteAsync(imageBytes.AsBuffer());
                     stream.Seek(0);
                     await bitmapImage.SetSourceAsync(stream);
                 }
